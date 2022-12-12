@@ -1,0 +1,54 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ action }} un compte utilisateur{% endblock %}
+
+{% block body %}
+    <div class="header header-push-small">
+        <h2>{{ action }} un compte utilisateur</h2>
+    </div>
+    <div class="content">
+        {{ form_start(form) }}
+            <p>
+                {{ form_label(form.firstName) }}
+                {{ form_widget(form.firstName) }}
+            </p>
+            <p>
+                {{ form_label(form.lastName) }}
+                {{ form_widget(form.lastName) }}
+            </p>
+            <p>
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email) }}
+            </p>
+            <p>
+                {{ form_label(form.password) }}
+                {{ form_widget(form.password) }}
+            </p>
+            <p>
+                {{ form_label(form.role) }}
+                {{ form_widget(form.role) }}
+            </p>
+            <p>
+                {{ form_label(form.address) }}
+                {{ form_widget(form.address) }}
+            </p>
+            <p>
+                {{ form_label(form.postalCode) }}
+                {{ form_widget(form.postalCode) }}
+            </p>
+            <p>
+                {{ form_label(form.city) }}
+                {{ form_widget(form.city) }}
+            </p>
+            <p>
+                {{ form_label(form.country) }}
+                {{ form_widget(form.country) }}
+            </p>
+            <p>
+                {{ form_label(form.phone) }}
+                {{ form_widget(form.phone) }}
+            </p>
+            <button type="submit" class="button">{{ action }}</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

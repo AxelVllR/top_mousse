@@ -1,0 +1,74 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des emballages{% endblock %}
+
+{% block body %}
+    <style>
+        label,
+        label.required {
+            display: flex !important;
+            color: #000;
+            font-weight: bold;
+            margin: 0px !important;
+            text-align: left !important;
+        }
+    </style>
+    <div class="header">
+        <h2>Gestion des emballages - création du fichier CSV </h2>
+    </div>
+    <div class="">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <hr/>
+        {{ form(order_form) }}
+        {{ form(reseller_form) }}
+
+        <div>
+            <h2>
+                <span> Tableau de gestion des emballages triées </span>
+            </h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Modifier</th>
+                    <th>Supprimer</th>
+                    <th>Code Prod</th>
+                    <th>Commande</th>
+                    <th>Nom</th>
+                    <th>Livraison</th>
+                    <th>Nombre de colis</th>
+                    <th>Poids</th>
+                    <th>Nombre de colis max</th>
+                    <th>Longueur max</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in wraps|reverse %}
+                    <tr>
+                        <td><a href="{{ path('admin_wrap_edit',{id: item.id}) }}">Modifier</a></td>
+                        <td><a href="{{ path('admin_wrap_delete',{id: item.id}) }}">Supprimer</a></td>
+                        <td>{{ item.code }}</td>
+                        <td>{{ item.number }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.shipping }}</td>
+                        <td>{{ item.packageNumbers }}</td>
+                        <td>{{ item.weight }}</td>
+                        <td>{{ item.packageMaxNumbers }}</td>
+                        <td>{{ item.lengthMax }}</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            <div>
+                <a class="button" href="{{ path('admin_wrap', {state: "delete"}) }}">Supprimer tous les
+                    lignes du tableau</a>
+            </div>
+            <div>
+                <a class="button" href="{{ path('admin_wrap',{state : "csv"}) }}">Générer le fichier
+                    CSV</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

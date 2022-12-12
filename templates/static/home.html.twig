@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="sliderPicture">
+                            <img src="{{ asset('images/carousel/carrousel1.jpg') }}" alt="Envie de restaurer le canapé ?">
+                        </div>
+                        <div class="sliderTitle">
+                            Envie de restaurer le canapé ?
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="sliderPicture">
+                            <img src="{{ asset('images/carousel/carrousel2.jpg') }}" alt="Envie refaire le berceau de son enfance ?">
+                        </div>
+                        <div class="sliderTitle">
+                            Envie refaire le berceau de son enfance ?
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="sliderPicture">
+                            <img src="{{ asset('images/carousel/carrousel3.jpg') }}" alt="Envie de changer les mousses de sa caravane ?">
+                        </div>
+                        <div class="sliderTitle">
+                            Envie de changer les mousses de sa caravane ?
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="sliderPicture">
+                            <img src="{{ asset('images/carousel/carrousel4.jpg') }}" alt="Envie de changer les mousses de son bateau ?">
+                        </div>
+                        <div class="sliderTitle">
+                            Envie de changer les mousses de son bateau ?
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+            <div class="row">
+                <div class="col-6-desktop presentation" style="display: flex;align-items: flex-start;">
+                    {{ content | raw }}
+                    <div class="action">
+                        <a href="#" class="choose">
+                            <span class="icon-triangle-left"></span>Choisissez votre mousse sur mesure
+                        </a>
+                    </div>
+                </div>
+                <div class="col-6-desktop services">
+                    <h2>Services TopMousse</h2>
+                    <ul>
+                        <li><span class="icon-qualite"></span> Rapport <b>qualité/prix</b> de nos mousses est <b>exceptionnel</b></li>
+                        <li><span class="icon-delais"></span> Délai de fabrication <b>(8 a 10 jours ouvres)</b></li>
+                        <li>
+                            <span class="icon-localisation"></span>
+                            Livraison à 9 € seulement <b>en point Relais</b> (2 à 3 jours ouvrables)
+                            <a href="https://www.mondialrelay.fr/trouver-le-point-relais-le-plus-proche-de-chez-moi/" target="_blank" class="block txt-black">
+                                <strong><span class="icon-triangle-left"></span> Consultez les Points Relais</strong>
+                            </a>
+                        </li>
+                        <li><span class="icon-livraison"></span> Livraison à domicile (1 à 2 jours ouvrables) : 19&nbsp;€</li>
+                        <li><span class="icon-offert"></span> <b>Livraison offerte</b> pour toute commande à partir de 160.00&nbsp;€</li>
+                        <li><span class="icon-paiement"></span> Paiement <b>sécurisé</b></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row store">
+                <div class="col-12 title">
+                    <h2>TopMousse boutique</h2>
+                </div>
+                <div class="col-12">
+                    <ul class="productList">
+                        {% for product in products %}
+                            <li class="productItem">
+                                <a href="{{ path('single_product', { id: product.id, slug: product.slug }) }}">
+                                    <div class="productImage">
+                                        <img src="{{ asset('uploads/') }}{{ product.thumbnail }}" alt="{{ product.title }}">
+                                    </div>
+                                    <p class="productName">
+                                        {{ product.title }}
+                                    </p>
+                                    <div class="productPrice">
+                                        <span class="productValue">{{ product.priceTtc | number_format(2) }}</span><sup class="productUnity">€</sup>
+                                        <span class="productTaxInclusion">ttc</span>
+                                    </div>
+                                    <form method="post" action="{{ path('create_cart_item') }}">
+                                        <button type="submit" class="productAddToCart button">
+                                            <span class="icon-panier"></span>
+                                            AJOUTER AU PANIER
+                                        </button>
+                                        <input type="hidden" name="productId" value="{{ product.id }}"/>
+                                        <input type="hidden" name="title" value="{{ product.title }}"/>
+                                        <input type="hidden" name="volume" value="{{ product.volume | number_format(6) }}"/>
+                                        <input type="hidden" name="quantity" value="1"/>
+                                        <input type="hidden" name="price" value="{{ product.priceTtc }}"/>
+                                        <input type="hidden" name="shape" value="cube"/>
+                                        <input type="hidden" name="token" value="{{ csrf_token('create-cart-item') }}"/>
+                                    </form>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="col-12 storeSeeAll">
+                    <a class="button" href="{{ path('shop') }}">
+                        <span class="icon-triangle-left"></span>
+                        Voir tous les produits
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - {{ plate.title }}{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                <div class="row">
+                    <div class="col-6-desktop" style="display: flex;align-items: center;justify-content: center;">
+                        <img src="{{ asset('uploads/') }}{{ plate.thumbnail }}" alt="{{ plate.title }}"/>
+                    </div>
+                    <div class="col-6-desktop" style="align-items: flex-start;">
+                        <h1 class="product-title">{{ plate.title }}</h1>
+                        {{ plate.content | raw }}
+                        <div class="product-price-ttc">
+                            <b>{{ plate.priceTtc | number_format(2) }} €</b>
+                            <small>ttc</small>
+                        </div>
+                        <div class="product-references">
+                            <div class="product-references-left">
+                                <ul>
+                                    <li>Référence produit : {{ plate.reference }}</li>
+                                    <li>Nombre d'articles en stock : {{ plate.stock }}</li>
+                                    <li>Volume : {{ plate.volume | number_format(6) }} m<sup>3</sup></li>
+                                </ul>
+                            </div>
+                            <div class="product-references-right">
+                                <b>{{ plate.priceHt | number_format(2) }} €</b>
+                                <small>ht</small>
+                            </div>
+                        </div>
+                        <div class="product-button">
+                            {% if plate.stock >= 1 %}
+                                <form method="post" action="{{ path('create_cart_item') }}">
+                                    <button type="submit" class="productAddToCart button">
+                                        <span class="icon-panier"></span>
+                                        AJOUTER AU PANIER
+                                    </button>
+                                    <input type="hidden" name="plateId" value="{{ plate.id }}"/>
+                                    <input type="hidden" name="title" value="{{ plate.type }} - {{ plate.density }} kg - {{ plate.thickness }}x{{ plate.width }}x{{ plate.length }}"/>
+                                    <input type="hidden" name="thickness" value="{{ plate.thickness }}"/>
+                                    <input type="hidden" name="width" value="{{ plate.width }}"/>
+                                    <input type="hidden" name="length" value="{{ plate.length }}"/>
+                                    <input type="hidden" name="volume" value="{{ plate.volume | number_format(6) }}"/>
+                                    <input type="hidden" name="quantity" value="1"/>
+                                    <input type="hidden" name="price" value="{{ plate.priceTtc }}"/>
+                                    <input type="hidden" name="shape" value="cube"/>
+                                    <input type="hidden" name="token" value="{{ csrf_token('create-cart-item') }}"/>
+                                </form>
+                            {% else %}
+                                <p style="margin-top: 15px;color: red;">Nous sommes désolés, ce produit est en rupture de stock.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <h1>
+                    NOS PLAQUES DE MOUSSE PRÉDÉCOUPÉES
+                </h1>
+                <div class="row">
+                    <div class="col-8-desktop">
+                        <div class="col-12 predecoupe">
+                            <div class="flex fCenter fLeftDesktop predecoupeImageContainer">
+                                <img src="{{ asset('images/products/plaques.jpg') }}" alt="Plaques sur-mesure">
+                            </div>
+                            <form id="plateForm" method="get" class="predecoupeForm">
+                                <label>
+                                    <span>Choisissez la plaque :</span>
+                                    <select name="plaque" id="plate">
+                                        {% for plate in plates %}
+                                            <option value="{{ plate.id }}-{{ plate.slug }}">{{ plate.type }} - {{ plate.density }} kg - {{ plate.thickness }}x{{ plate.width }}x{{ plate.length }} - PRIX : {{ plate.priceTtc }} €</option>
+                                        {% endfor %}
+                                    </select>
+                                </label>
+                                <div class="actions">
+                                    <button class="button">
+                                        <span class="icon-triangle-left"></span> Valider mon choix
+                                    </button>
+                                    <a href="choisir-sa-mousse.html" class="underline" target="_blank">Comment choisir sa mousse ?</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-4-desktop surMesureContainer">
+                        <div class="col-12 surMesure">
+                            <h2>
+                                COUPE SUR MESURE
+                            </h2>
+                            <p>
+                                Cube, rectangle, cylindre ou autres découpes.
+                                Choisissez la coupe selon votre utilisation.
+                            </p>
+                            <a href="devis.html" class="button">
+                                <span class="icon-triangle-left"></span> Choisissez votre mousse sur mesure
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row store">
+                    <div class="col-12 title">
+                        <h2>NOS MEILLEURES VENTES</h2>
+                    </div>
+                    <div class="col-12">
+                        <ul class="productList">
+                            {% for product in promoted_products %}
+                                <li class="productItem">
+                                    <a href="{{ path('single_product', { id: product.id, slug: product.slug }) }}" target="_self">
+                                        <div class="productImage">
+                                            <img src="{{ asset('uploads/') }}{{ product.thumbnail }}" alt="{{ product.title }}">
+                                        </div>
+                                        <p class="productName">
+                                            {{ product.title }}
+                                        </p>
+                                        <div class="productPrice">
+                                            <span class="productValue">{{ product.priceTtc }}</span><sup class="productUnity">€</sup>
+                                            <span class="productTaxInclusion">ttc</span>
+                                        </div>
+                                        <button class="productAddToCart button">
+                                            <span class="icon-panier"></span>
+                                            VOIR LES DÉTAILS
+                                        </button>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="row store">
+                    <div class="col-12 title">
+                        <h2>NOS AUTRES PRODUITS</h2>
+                    </div>
+                    <div class="col-12">
+                        <ul class="productList">
+                            {% for product in products %}
+                                <li class="productItem">
+                                    <a href="{{ path('single_product', { id: product.id, slug: product.slug }) }}" target="_self">
+                                        <div class="productImage">
+                                            <img src="{{ asset('uploads/') }}{{ product.thumbnail }}" alt="{{ product.title }}">
+                                        </div>
+                                        <p class="productName">
+                                            {{ product.title }}
+                                        </p>
+                                        <div class="productPrice">
+                                            <span class="productValue">{{ product.priceTtc }}</span><sup class="productUnity">€</sup>
+                                            <span class="productTaxInclusion">ttc</span>
+                                        </div>
+                                        <button class="productAddToCart button">
+                                            <span class="icon-panier"></span>
+                                            VOIR LES DÉTAILS
+                                        </button>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

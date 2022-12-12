@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Nous{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage" id="nousPage">
+                <h1>
+                    Pour venir nous voir
+                </h1>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d2580339.926914976!2d1.3458253141285983!3d50.833697606631446!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xdfcc629baa30e531!2sTopmousse!5e0!3m2!1sfr!2sfr!4v1492418095464" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                <div class="row center">
+                    <a href="https://www.google.fr/maps/place/Topmousse/@50.7844504,3.0051041,11z/data=!4m5!3m4!1s0x0:0xdfcc629baa30e531!8m2!3d50.7864128!4d3.1426824?hl=fr" target="_blank" class="button">
+                        <span class="icon-triangle-left"></span> Agrandir la carte
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

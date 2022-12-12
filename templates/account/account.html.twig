@@ -1,0 +1,171 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Mon compte client{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                <h1>
+                    VOTRE ESPACE CLIENT
+                </h1>
+                <div class="myAccount">
+                    <div class="myAccountcontactDetails">
+                        <h2>
+                            VOS COORDONN&Eacute;ES
+                        </h2>
+                        <span>{{ current_user.firstName }} {{ current_user.lastName }}</span><br/>
+                        <span>{{ current_user.email }}</span><br/>
+                        <span>{{ current_user.address }}</span><br/>
+                        <span>{{ current_user.postalCode }} {{ current_user.city }}</span><br/>
+                        <br/>
+                        <span>Tel: {{ current_user.phone }}</span><br/><br/>
+                        <button class="button">Modifier mes coordonnées personnelles</button>
+                    </div>
+                    <div class="myAccountShippingAdress">
+                        <h2>
+                            VOTRE ADRESSE DE LIVRAISON A DOMICILE :
+                        </h2>
+                        <span>{{ current_user.firstName }} {{ current_user.lastName }}</span><br/>
+                        <span>{{ current_user.email }}</span><br/>
+                        <span>{{ current_user.address }}</span><br/>
+                        <span>{{ current_user.postalCode }} {{ current_user.city }}</span>
+                    </div>
+                    <div class="myAccountRelayAdress">
+                        <h2>
+                            VOTRE ADRESSE DE LIVRAISON EN POINT RELAIS :
+                        </h2>
+                        {% if current_user.shippingAddress %}
+                            <span>{{ current_user.shippingAddress }}</span><br/>
+                            <span>{{ current_user.shippingPostalCode }} {{ current_user.shippingCity }}</span>
+                        {% else %}
+                            <span>Aucune adresse de livraison en point relai n'a été sélectionnée.</span>
+                        {% endif %}
+                    </div>
+                    <div class="myAccountCurrentBasket">
+                        <h2>
+                            VOTRE PANIER :
+                        </h2>
+                        {% if items | length > 0 %}
+                            <span>Il y a actuellement % article(s) dans votre panier.</span><br/>
+                            <a href="{{ path('cart') }}">
+                                Je poursuis ma commande pour ce panier.
+                            </a>
+                        {% else %}
+                            <span>Il n'y a actuellement aucun article dans votre panier.</span>
+                        {% endif %}
+                    </div>
+                    <div class="myAccountInvoice">
+                        <h2>
+                            HISTORIQUE DE VOS FACTURES TOPMOUSSE :
+                        </h2>
+                        <span>{{ orders | length }} commande(s) sur topmousse.net</span><br/>
+                        <span>Commande(s) en attente de paiement : {{ pending_orders | length }}</span><br/>
+                        <span>Commande(s) payées : {{ paid_orders | length }}</span><br/>
+                        <span>Commande(s) en préparation : {{ processing_orders | length }}</span><br/>
+                        <span>Commande(s) découpées : {{ cutted_orders | length }}</span><br/>
+                        <span>Commande(s) emballées : {{ packaged_orders | length }}</span><br/>
+                        <span>Commande(s) expédiées : {{ sent_orders | length }}</span><br/>
+                        <span>Commande(s) soldées : {{ sold_orders | length }}</span>
+                    </div>
+                    <div class="myAccountAdvance">
+                        <h2>
+                            Tableau d'avancement de la production de vos produits :
+                        </h2>
+                        <table style="width: 100%;border: 1px solid #333;">
+                            <tr class="historique">
+                                <td style="border: 1px solid #333;">
+                                    <strong>Télécharger le PDF</strong>
+                                </td>
+                                <td style="border: 1px solid #333;">
+                                    <strong>En attente de paiement</strong>
+                                </td>
+                                <td style="border: 1px solid #333;">
+                                    <strong>Commande réglée</strong>
+                                </td>
+                                <td style="border: 1px solid #333;">
+                                    <strong>Commande en préparation</strong>
+                                </td>
+                                <td style="border: 1px solid #333;">
+                                    <strong>Commande découpée</strong>
+                                </td>
+                                <td style="border: 1px solid #333;">
+                                    <strong>Commande emballée</strong>
+                                </td>
+                                <td style="border: 1px solid #333;">
+                                    <strong>Commande expédiée</strong>
+                                </td>
+                                <td style="border: 1px solid #333;">
+                                    <strong>Commande soldée</strong>
+                                </td>
+                            </tr>
+                            {% for order in orders %}
+                                <tr>
+                                    <td style="border: 1px solid #333;">
+                                        {% if order.status > 2 %}
+                                            <a href="#">PDF</a>
+                                        {% endif %}
+                                    </td>
+                                    <td style="border: 1px solid #333;">
+                                        {% if order.status == 1 or order.status == 2 %}
+                                            Votre commande : {{ order.id }} est en attente de paiement.
+                                            {% if order.status == 1 %}
+                                                <a href="{{ path('set_order_shipping', { id: order.id }) }}" class="button">
+                                                    <span class="icon-panier"></span> Je paie en ligne
+                                                </a>
+                                            {% else %}
+                                                Nous prendrons votre commande en charge à réception de votre chèque de banque.
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td style="border: 1px solid #333;">
+                                        {% if order.status == 3 %}
+                                            x
+                                        {% endif %}
+                                    </td>
+                                    <td style="border: 1px solid #333;">
+                                        {% if order.status == 4 %}
+                                            x
+                                        {% endif %}
+                                    </td>
+                                    <td style="border: 1px solid #333;">
+                                        {% if order.status == 5 %}
+                                            x
+                                        {% endif %}
+                                    </td>
+                                    <td style="border: 1px solid #333;">
+                                        {% if order.status == 6 %}
+                                            x
+                                        {% endif %}
+                                    </td>
+                                    <td style="border: 1px solid #333;">
+                                        {% if order.status == 7 %}
+                                            x
+                                        {% endif %}
+                                    </td>
+                                    <td style="border: 1px solid #333;">
+                                        {% if order.status == 8 %}
+                                            x
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </div>
+                <a href="{{ path('signout') }}" class="myAccountDisconnect">
+                    <span class="icon-panier"></span> DÉCONNEXION
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

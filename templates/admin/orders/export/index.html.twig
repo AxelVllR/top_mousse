@@ -1,0 +1,125 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Export des commandes{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Internet et revendeurs
+            pour export comptabilité</h2>
+    </div>
+    <div class="content-table">
+        {{ form(form) }}
+        <table style="margin-top: 10px">
+            <thead>
+            <tr>
+                <th>Facture</th>
+                <th>Numéro d'ordre</th>
+                <th>Email client</th>
+                <th>Statut</th>
+                <th>Forme</th>
+                <th>Référence</th>
+                <th>Quantité</th>
+                <th>Hauteur</th>
+                <th>Largeur</th>
+                <th>Longueur</th>
+                <th>Diamètre</th>
+                <th>Volume</th>
+                <th>Prix TTC</th>
+                <th>Prix HT</th>
+                <th>Frais de port</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders|reverse %}
+                <tr style="background-color: {{ order.findColor }}">
+                    <td>
+                        {% if order.status > 2 %}
+                            <a href="{{ path('admin_orders_pdf', {id : order.id}) }}">PDF</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ (order.orderNumber) ? order.orderNumber : '-' }}
+                    </td>
+                    <td style="text-align: center;">
+                        <a class="button" href="{{ path('admin_single_user', { id: order.user.id }) }}" style="margin: 0;">
+                            {{ order.user.email }}
+                        </a>
+                    </td>
+                    <td>{{ order.findStatus }}</td>
+                    <td>
+                        {% for item in order.orderItems %}
+                            {{ (item.shape) ? item.shape : '-' }}<br/>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in order.orderItems %}
+                            {% if item.product %}
+                                {{ item.product.reference }}<br/>
+                            {% elseif item.plate %}
+                                {{ item.plate.reference }}<br/>
+                            {% else %}
+                                Divers<br/>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in order.orderItems %}
+                            {{ item.quantity }}<br/>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in order.orderItems %}
+                            {% if (item.thickness) %}
+                                {{ item.thickness }} cm<br/>
+                            {% else %}
+                                -<br/>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in order.orderItems %}
+                            {% if (item.width) %}
+                                {{ item.width }} cm<br/>
+                            {% else %}
+                                -<br/>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in order.orderItems %}
+                            {% if (item.length) %}
+                                {{ item.length }} cm<br/>
+                            {% else %}
+                                -<br/>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in order.orderItems %}
+                            {% if (item.diameter) %}
+                                {{ item.diameter }} cm<br/>
+                            {% else %}
+                                -<br/>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for item in order.orderItems %}
+                            {{ item.volume |number_format(6) }} m<sup>3</sup><br/>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {{ order.totalPrice | number_format(2) }} €
+                    </td>
+                    <td>
+                        {{ (order.totalPrice - (order.totalPrice * 0.20)) | number_format(2) }} €
+                    </td>
+                    <td>{{ order.findShippingMethod }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

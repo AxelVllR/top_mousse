@@ -1,0 +1,131 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des découpes{% endblock %}
+
+{% block body %}
+    <style>
+        label,
+        label.required {
+            display: flex !important;
+            color: #000;
+            font-weight: bold;
+            margin: 0px !important;
+            text-align: left !important;
+        }
+    </style>
+    <div class="header">
+        <h2>Gestion des découpes - création du fichier CSV </h2>
+    </div>
+    <div class="">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <hr/>
+        {{ form(order_form) }}
+        {{ form(reseller_form) }}
+
+        <div>
+            <h2>
+                <span> Tableau de gestion des découpes triées </span>
+            </h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Modifier</th>
+                    <th>Supprimer</th>
+                    <th>Cprod</th>
+                    <th>FACT</th>
+                    <th>nom</th>
+                    <th>qualite</th>
+                    <th>qte</th>
+                    <th>haut</th>
+                    <th>larg</th>
+                    <th>long</th>
+                    <th>diam</th>
+                    <th>m3</th>
+                    <th>livr</th>
+                    <th>date</th>
+                    <th>ht</th>
+                    <th>trans</th>
+                    <th>ttc</th>
+                    <th>dens</th>
+                    <th>poids</th>
+                    <th>relais</th>
+                    <th>tel</th>
+                    <th>mail</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in cuttings|reverse %}
+
+                    <tr>
+                        <td><a href="{{ path('admin_cutout_management_edit',{id: item.id}) }}">Modifier</a></td>
+                        <td><a href="{{ path('admin_cutout_management_delete',{id: item.id}) }}">Supprimer</a></td>
+                        <td>{{ item.cProd }}</td>
+                        <td><a href="{{ path('admin_orders_pdf',{id: item.orderId, email : item.email}) }}">Facture</a></td>
+                        <td>{{ item.firstName }} {{ item.lastName }}</td>
+                        <td>{% for item in item.orderItems %}
+                                {{ item.quality }}<br/>
+                            {% endfor %}</td>
+                        <td>
+                            {% for item in item.orderItems %}
+                                {{ item.quantity }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in item.orderItems %}
+                                {{ item.thickness }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in item.orderItems %}
+                                {{ item.width }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in item.orderItems %}
+                                {{ item.length }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in item.orderItems %}
+                                {{ item.diameter }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in item.orderItems %}
+                                {{ item.volume |number_format(6) }} m<sup>3</sup><br/>
+                            {% endfor %}
+                        </td>
+                        <td>livr</td>
+                        <td>{{ item.createdAt|date('d/m/Y H:i') }}</td>
+                        <td>
+                            {{ (item.totalPrice - (item.totalPrice * 0.20)) | number_format(2) }} €
+                        </td>
+                        <td>trans</td>
+                        <td>
+                            {{ (item.totalPrice | number_format(2)) }} €
+                        </td>
+                        <td>
+                            {{ item.density }}
+                        </td>
+                        <td>{{ item.height }}</td>
+                        <td>{{ item.findShippingMethod }}</td>
+                        <td>{{ item.phone }}</td>
+                        <td>{{ item.email }}</td>
+                    </tr>
+
+                {% endfor %}
+                </tbody>
+            </table>
+            <div>
+                <a class="button" href="{{ path('admin_cutout_management', {state: "delete"}) }}">Supprimer tous les
+                    lignes du tableau</a>
+            </div>
+            <div>
+                <a class="button" href="{{ path('admin_cutout_management',{state : "csv"}) }}">Générer le fichier
+                    CSV</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

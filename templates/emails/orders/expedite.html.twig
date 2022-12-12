@@ -1,0 +1,9 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+    <h1 style="margin: 0;">Commande expédiée</h1>
+    <p>Bonjour,</p>
+    <p>Nous vous informons que votre commande {{ order.id }} a été expédiée. Celle-ci a été expédiée à l'adresse suivante <b>{{ order.shippingAddress }}, {{ order.shippingPostalCode }} {{ order.shippingCity }}</b>.</p>
+    <p>Nous l'avons confié au transporteur <b>{{ carrier }}</b>, et vous pouvez suivre votre livraison dès maintenant avec le numéro de suivi <b>{{ order.shippingNumber }}</b>.</p>
+    <p><b>Votre équipe Top Mousse</b></p>
+{% endblock %}

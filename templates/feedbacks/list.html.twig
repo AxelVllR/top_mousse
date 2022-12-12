@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Vos réactions{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                {% if current_user %}
+                    <h1>
+                        NOUVELLE RÉACTION
+                    </h1>
+                    {{ form_start(form) }}
+                        <p>
+                            {{ form_label(form.content) }}
+                            {{ form_widget(form.content) }}
+                        </p>
+                        <button type="submit" class="button" style="max-width: 100%;">Ajouter ma réaction</button>
+                    {{ form_end(form) }}
+                {% endif %}
+                <h1>
+                    VOS RÉACTIONS ET TÉMOIGNAGES
+                </h1>
+                <div class="row reactions">
+                    <div class="col-12">
+                        {% if current_user is null %}
+                            <div class="highlight reactionsLogin">
+                                Vous devez être <a href="{{ path('signin') }}" target="_self">identifié(e)</a> pour pouvoir poster une réaction sur cette page.
+                            </div>
+                        {% endif %}
+                        <div class="reactionList">
+                            <ul>
+                                {% for feedback in feedbacks %}
+                                    <li>
+                                        <div class="reactionName">
+                                            <span>
+                                                {{ feedback.user.firstName }} {{ feedback.user.lastName }}
+                                                <small>({{ feedback.createdAt | date('d-m-Y') }})</small>
+                                            </span>
+                                        </div>
+                                        <div class="reactionText">
+                                            {{ feedback.content | raw }}
+                                            {% for answer in feedback.answers %}
+                                                <div class="highlight reactionAnswer">
+                                                    <span class="reactionName">
+                                                        R&Eacute;PONSE DE TOPMOUSSE
+                                                    </span>
+                                                    <div class="reactionText">
+                                                        {{ answer.content | raw }}
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

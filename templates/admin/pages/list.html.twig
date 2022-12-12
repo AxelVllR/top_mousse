@@ -1,0 +1,30 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des pages{% endblock %}
+
+{% block body %}
+    <div class="header header-push-small">
+        <h2>Pages</h2>
+        <p><a href="{{ path('admin_create_page') }}">Ajouter une page</a></p>
+    </div>
+    <div class="content">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        {% for page in pages %}
+            <div class="item">
+                {% if page.draft == 0 %}
+                    <a href="{{ path('single_page', { id: page.id, slug: page.slug }) }}" target="_blank">{{ page.title }}</a>
+                {% else %}
+                    {{ page.title }} <b>(brouillon)</b>
+                {% endif %}
+                <a class="button" href="{{ path('admin_update_page', { id: page.id }) }}">Modifier</a>
+                <form method="post" action="{{ path('admin_delete_page', { id: page.id }) }}">
+                    <button type="submit">Supprimer</button>
+                    <input type="hidden" name="token" value="{{ csrf_token('delete-page') }}"/>
+                </form>
+            </div>
+            <hr/>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Fiches clients{% endblock %}
+
+{% block body %}
+    <div class="header header-push-small">
+        <h2>Fiches clients</h2>
+        <p><a href="{{ path('admin_list_users') }}">Gérer les fiches clients</a></p>
+    </div>
+    <div class="content">
+        <a href="{{ path('admin_update_user_shipping_address', { id: user.id }) }}" style="text-decoration: none;display: inline-block;">
+            <button class="button">Modifier l'adresse de livraison</button>
+        </a>
+        <form method="post" action="{{ path('admin_delete_user', { id: user.id }) }}" style="display: inline-block;">
+            <button type="submit" style="margin-top: 0;">Supprimer</button>
+            <input type="hidden" name="token" value="{{ csrf_token('delete-user') }}"/>
+        </form>
+        <h3>{{ user.firstName }} {{ user.lastName }}</h3>
+        <hr/>
+        <p style="margin-bottom: 0;"><b>Adresse mail :</b> <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+        <p style="margin-bottom: 0;"><b>Adresse :</b> {{ user.address }}</p>
+        <p style="margin-bottom: 0;"><b>Code postal :</b> {{ user.postalCode }}</p>
+        <p style="margin-bottom: 0;"><b>Ville :</b> {{ user.city }}</p>
+        <p style="margin-bottom: 0;"><b>Pays :</b> {{ user.country }}</p>
+        <p style="margin-bottom: 0;"><b>Tél. :</b> {{ user.phone }}</p>
+        <hr/>
+        <p><b>Adresse de livraison :</b></p>
+        <p style="margin-bottom: 0;"><b>Adresse :</b> {{ user.shippingAddress }}</p>
+        <p style="margin-bottom: 0;"><b>Code postal :</b> {{ user.shippingPostalCode }}</p>
+        <p style="margin-bottom: 0;"><b>Ville :</b> {{ user.shippingCity }}</p>
+        <hr/>
+        <p><b>Factures :</b></p>
+        {% for order in user.orders %}
+            {% if order.status > 2 %}
+                <p style="margin-bottom: 0;">
+                    {{ order.id }} <a href="#">PDF</a>
+                </p>
+            {% endif %}
+        {% endfor %}
+        <hr/>
+        <p><b>Connexions :</b></p>
+        {% for log in user.logs %}
+            <p style="margin-bottom: 0;">{{ log.createdAt | date('d/m/Y H:i:s') }} : {{ log.title }}</p>
+        {% endfor %}
+        <hr/>
+        <p><b>Boutique :</b></p>
+        {% for order in user.orders %}
+            <p style="margin-bottom: 0;">{{ order.id }}</p>
+        {% endfor %}
+    </div>
+{% endblock %}

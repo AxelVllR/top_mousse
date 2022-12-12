@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <!-- PAGE -->
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- CSS -->
+
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/admin.css') }}"/>
+        <!-- SEO -->
+        <meta name="google-site-verification" content="uRzFkPUyS7whq4kpuJlIvIiI_Jr_GaNjWws1HOAhfAM"/>
+        <meta name="description" lang="fr" content="Spécialiste de la mousse d’ameublement polyéther, haute résilience et Bultex, Topmousse découpe pour vous et sur mesure (coupe droite, cylindrique ou en  profil) – Devis, commande et paiement en ligne. Port gratuit sous certaines conditions. Mousse à prix d’usine."/>
+        <meta name="keywords" lang="fr" content="découpe de mousse, decoupe de mousse, mousse sur mesure, découpe mousse, decoupe mousse, mousse de polyuréthane, mousse polyurethane, mousse polyuréthane, plaque mousse, vente mousse, achat mousse, bloc de mousse, mousse bultex, mousse de latex, mousse de polyurethane, mousse de protection, mousse isolante, mousse latex, mousse pour matelas, plaque de mousse, vente de mousse, decoupe de mousse sur mesure, decouper de la mousse, decoupage de mousse, découpage de mousse, magasin de decoupe mousse, mousse matelas, polyuréthane mousse, matelas mousse sur mesure, fauteuil mousse, découpe, decoupe, caravane, camping, bateau, couchage, appoint, matelas, pas cher, literie, économique, confection, rénover un fauteuil, renover un fauteuil, retaper un fauteuil, innovation, rénovation, renovation, aménagement, amenagement, tapis de sport, fauteuil pour enfant, fauteuil enfant, patron tissu, mousse bricolage, canapé, canape, mousse hr, mousse haute résilience, mousse haute resilience, mousse haute densité, mousse haute densite, bungalow, bingalo, Mousse sur mesure pour canapé, Mousse sur mesure pas cher, Mousse sur mesure pour matelas, Decoupe de mousse pour matelas, decoupe de mousse discount, comfort bultex, comfortbultex, confort bultex, confortbultex"/>
+        <meta name="y_key" content="26051d278fcf5978"/>
+
+
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        <!-- JS -->
+        {% if current_menu != 'relai' %}
+            <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+        {% else %}
+            <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+            <script type="text/javascript" src="https://widget.mondialrelay.com/parcelshop-picker/v3_2_1/scripts/jquery.plugin.mondialrelay.parcelshoppicker.min.js"></script>
+        {% endif %}
+        <script src="https://cdn.tiny.cloud/1/sn6fjwdp6qw5xl4kevkhsh8whnxssh423cipwflsby38euu9/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+        <script src="{{ asset('js/admin.js') }}"></script>
+    </body>
+</html>

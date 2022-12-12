@@ -1,0 +1,25 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Importer un fichier CSV{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Importer un fichier CSV</h2>
+    </div>
+    <div class="content">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        {{ form_start(form) }}
+            <p>
+                {{ form_label(form.file) }}
+                {{ form_widget(form.file) }}
+            </p>
+            <p>
+                {{ form_label(form.user) }}
+                {{ form_widget(form.user) }}
+            </p>
+            <button type="submit">Importer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

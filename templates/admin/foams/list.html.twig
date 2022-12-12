@@ -1,0 +1,69 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des mousses à la découpe{% endblock %}
+
+{% block body %}
+    <div class="header header-push-small">
+        <h2>Mousses à la découpe</h2>
+        <p><a href="{{ path('admin_create_foam') }}">Ajouter une mousse à la découpe</a></p>
+    </div>
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Gamme</th>
+                    <th>Confort</th>
+                    <th>Densité</th>
+                    <th>Divers</th>
+                    <th>Matelas</th>
+                    <th>Galette</th>
+                    <th>Assise</th>
+                    <th>Dos</th>
+                    <th>Manchette</th>
+                    <th>Coussins</th>
+                    <th>Calotte</th>
+                    <th>Calage</th>
+                    <th>Pouf</th>
+                    <th>Prix cube</th>
+                    <th>Prix cylindre</th>
+                    <th>Promo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for foam in foams %}
+                    <tr>
+                        <td>{{ foam.reference }}</td>
+                        <td>{{ foam.findLine }}</td>
+                        <td>{{ foam.findComfort }}</td>
+                        <td>{{ foam.findDensity }}</td>
+                        <td>{{ (foam.various == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.mattress == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.cake == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.sitting == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.back == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.cuff == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.pillow == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.cap == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.wedging == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (foam.footstool == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ foam.priceCube | number_format(2) }}€</td>
+                        <td>{{ foam.priceCylinder | number_format(2) }}€</td>
+                        <td>{{ (foam.promo == true) ? 'OUI' : 'NON' }}</td>
+                        <td style="text-align: center;">
+                            <a class="button" href="{{ path('admin_update_foam', { id: foam.id }) }}" style="margin-top: 0;margin-bottom: 3px;">Modifier</a>
+                            <form method="post" action="{{ path('admin_delete_foam', { id: foam.id }) }}">
+                                <button type="submit" style="margin-top: 0;">Supprimer</button>
+                                <input type="hidden" name="token" value="{{ csrf_token('delete-foam') }}"/>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

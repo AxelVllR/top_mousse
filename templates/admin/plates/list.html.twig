@@ -1,0 +1,63 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des produits plaques{% endblock %}
+
+{% block body %}
+    <div class="header header-push-small">
+        <h2>Produits plaques</h2>
+        <p><a href="{{ path('admin_create_plate') }}">Ajouter un produit plaque</a></p>
+    </div>
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Référence</th>
+                    <th>Image</th>
+                    <th>Titre</th>
+                    <th>Contenu</th>
+                    <th>Prix TTC</th>
+                    <th>Prix HT</th>
+                    <th>Promo</th>
+                    <th>Livraison</th>
+                    <th>Stock</th>
+                    <th>Devanture</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for plate in plates %}
+                    <tr>
+                        <td>
+                            {% if plate.draft == 0 %}
+                                <a href="{{ path('single_plate', { id: plate.id, slug: plate.slug }) }}">{{ plate.reference }}</a>
+                            {% else %}
+                                {{ plate.reference }} <b>(brouillon)</b>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <img src="{{ asset('uploads/') }}{{ plate.thumbnail }}" alt="{{ plate.title }}" style="width: 50px;"/>
+                        </td>
+                        <td>{{ plate.title }}</td>
+                        <td>{{ plate.content | raw }}</td>
+                        <td>{{ plate.priceTtc }}€</td>
+                        <td>{{ plate.priceHt }}€</td>
+                        <td>{{ (plate.promo == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ (plate.delivery == true) ? 'OUI' : 'NON' }}</td>
+                        <td>{{ plate.stock }}</td>
+                        <td>{{ (plate.bestSeller == true) ? 'OUI' : 'NON' }}</td>
+                        <td style="text-align: center;">
+                            <a class="button" href="{{ path('admin_update_plate', { id: plate.id }) }}" style="margin-bottom: 3px;">Modifier</a>
+                            <form method="post" action="{{ path('admin_delete_plate', { id: plate.id }) }}">
+                                <button type="submit">Supprimer</button>
+                                <input type="hidden" name="token" value="{{ csrf_token('delete-plate') }}"/>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

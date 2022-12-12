@@ -1,0 +1,52 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+    <h1 style="margin: 0;">Votre devis Top Mousse</h1>
+    <p>Bonjour,</p>
+    <p>Vous trouverez ci-dessous votre devis Top Mousse :</p>
+    <h2>Destinataire</h2>
+    {% if firstName or lastName %}
+        <p>{{ firstName }} {{ lastName }}</p>
+    {% endif %}
+    {% if company %}
+        <p>{{ company }}</p>
+    {% endif %}
+    <p>{{ address }}</p>
+    <p>{{ postalCode }} {{ city }}</p>
+    <h2>Détail</h2>
+    <table style="width: 100%;border: 1px solid #000;border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="border: 1px solid #000;padding: 5px;">Quantité</th>
+                {% if thickness and length and width %}
+                    <th style="border: 1px solid #000;padding: 5px;">Hauteur</th>
+                    <th style="border: 1px solid #000;padding: 5px;">Longueur</th>
+                    <th style="border: 1px solid #000;padding: 5px;">Largeur</th>
+                {% else %}
+                    <th style="border: 1px solid #000;padding: 5px;">Hauteur</th>
+                    <th style="border: 1px solid #000;padding: 5px;">Diamètre</th>
+                {% endif %}
+                <th style="border: 1px solid #000;padding: 5px;">Volume</th>
+                <th style="border: 1px solid #000;padding: 5px;">Prix HT</th>
+                <th style="border: 1px solid #000;padding: 5px;">Prix TTC</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ quantity }}</td>
+                {% if thickness and length and width %}
+                    <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ thickness }} cm</td>
+                    <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ length }} cm</td>
+                    <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ width }} cm</td>
+                {% else %}
+                    <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ height }} cm</td>
+                    <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ diameter }} cm</td>
+                {% endif %}
+                <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ volume | number_format(6) }} m<sup>3</sup></td>
+                <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ (price - (price * 0.20)) | number_format(2) }} €</td>
+                <td style="border: 1px solid #000;padding: 5px;text-align: center;">{{ (price * 0.20) | number_format(2) }} €</td>
+            </tr>
+        </tbody>
+    </table>
+    <p><b>Votre équipe Top Mousse</b></p>
+{% endblock %}

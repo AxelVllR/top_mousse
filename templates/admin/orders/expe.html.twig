@@ -1,0 +1,65 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Table des commandes{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Table des commandes expédiés</h2>
+    </div>
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <p>
+        <table>
+            <thead>
+            <tr>
+                <th>Numéro</th>
+                <th>Facture</th>
+                <th>Numéro d'ordre</th>
+                <th>Email client</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                {% if order.status == 7 %}
+                <tr>
+                    <td>
+                        {{ (order.id) }}
+                    </td>
+                    <td>
+                        {% if order.status > 2 %}
+                            <a href="{{ path('admin_orders_pdf', {id : order.id, email : order.email}) }}">PDF</a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ (order.orderNumber) ? order.orderNumber : '-' }}
+                    </td>
+                    <td style="text-align: center;">
+                        <a class="button" href="{{ path('admin_single_user', { id: order.user.id }) }}" style="margin: 0;">
+                            {{ order.user.email }}
+                        </a>
+                    </td>
+                    <td style="text-align: center;">
+                        {{ order.user.lastName }}
+                    </td>
+                    <td style="text-align: center;">
+                        {{ order.user.firstName }}
+                    </td>
+                    <td>{{ order.findStatus }}</td>
+                    <td style="text-align: center;">
+                            <a href="{{ path('admin_orders_exp_id', { id: order.id }) }}" class="button" style="margin: 0;">Arrivée à destination</a>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

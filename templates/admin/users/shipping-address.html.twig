@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Fiches clients{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Fiches clients</h2>
+    </div>
+    <div class="content-table">
+        <input type="hidden" name="volume" id="volume" value="24L"/>
+        <input type="hidden" name="postalCode" id="postalCode" value="59000"/>
+        <div id="relaiWidget"></div>
+        <div style="padding:8px; overflow:auto;width: 693px;">
+            <div style="background:#edffb2; border:solid 1px #a5f913; padding:5px;font-size:10px;">
+                <em>Affichage au clic sur le widget Mondial relay</em>
+                <br/><br/>
+                <div style="display:inline-block;border:solid 2px #a5f913;padding:5px;font-size:20px;" >
+                    <span style="text-decoration:underline;">Vous avez sélectionné : </span><br/>
+                    Identifiant :
+                    <span id="relaiWidgetId"></span><br/>
+                    <span id="relaiWidgetName"></span><br/>
+                    <span id="relaiWidgetAddress"></span><br/>
+                    <span id="relaiWidgetPostalCode"></span>
+                    <span id="relaiWidgetCity"></span><br/>
+                    <span id="relaiWidgetCountry"></span><br/>
+                </div>
+            </div>
+        </div>
+        {{ form_start(form) }}
+            {{ form_widget(form.shippingAddress) }}
+            {{ form_widget(form.shippingPostalCode) }}
+            {{ form_widget(form.shippingCity) }}
+            {{ form_widget(form.shippingCode) }}
+            <button type="submit" class="button" style="display: inline-block;">
+                Mettre à jour
+            </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

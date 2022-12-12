@@ -1,0 +1,72 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des emballages{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h2>Gestion des emballages</h2>
+        <p>
+            <a href="{{ path('admin_list_cutouts') }}">Gestion des découpes</a>
+        </p>
+        <p>
+            <a href="{{ path('admin_list_packagings') }}">Gestion des emballages</a>
+        </p>
+        <p>
+            <a href="#">Volumes à commander</a>
+        </p>
+    </div>
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Code production</th>
+                    <th>Commande</th>
+                    <th>Nom</th>
+                    <th>Livraison</th>
+                    <th>Nombre de colis</th>
+                    <th>Poids</th>
+                    <th>Nombre colis max</th>
+                    <th>Longueur max</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr style="background-color: #F6D8CE;">
+                        <td>{{ order.orderNumber }}</td>
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.firstName }} {{ order.lastName }}</td>
+                        <td>
+                            {% if order.shippingMethod == 1 %}
+                                Domicile
+                            {% elseif order.shippingMethod == 2 %}
+                                Point relai
+                            {% else %}
+                                Magasin
+                            {% endif %}
+                        </td>
+                        <td>
+                            <form method="post" action="{{ path('admin_set_order_packages', { id: order.id }) }}">
+                                <input type="number" name="packages" style="display: inline-block;width: 80%;" value="{{ order.packages }}"/>
+                                <button type="submit" class="button" style="margin: 0;">Ok</button>
+                                <input type="hidden" name="token" value="{{ csrf_token('set-order-packages') }}"/>
+                            </form>
+                        </td>
+                        <td>% kg</td>
+                        <td>?</td>
+                        <td>?</td>
+                        <td>
+                            <form method="post" action="{{ path('admin_packaged_order', { id: order.id }) }}">
+                                <button type="submit" class="button" style="margin: 0;">Signaler comme emballée</button>
+                                <input type="hidden" name="token" value="{{ csrf_token('packaged-order') }}"/>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

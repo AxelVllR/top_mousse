@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Mon compte client{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                <h1>
+                    MODIFICATION DE VOTRE ADRESSE
+                </h1>
+                {{ form_start(form) }}
+                    <p>
+                        {{ form_label(form.address) }}
+                        {{ form_widget(form.address) }}
+                    </p>
+                    <p>
+                        {{ form_label(form.postalCode) }}
+                        {{ form_widget(form.postalCode) }}
+                    </p>
+                    <p>
+                        {{ form_label(form.city) }}
+                        {{ form_widget(form.city) }}
+                    </p>
+                    <p>
+                        {{ form_label(form.country) }}
+                        {{ form_widget(form.country) }}
+                    </p>
+                    <button type="submit" class="button" style="display: inline-block;">
+                        Mettre à jour
+                    </button>
+                    <a href="{{ path('set_order_shipping', { id: order_id }) }}" class="button" style="display: inline-block;margin-left: 10px;">
+                        <span class="icon-panier"></span> Retour
+                    </a>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

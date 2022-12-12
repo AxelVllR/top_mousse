@@ -1,0 +1,282 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Devis en ligne{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                <h1>
+                    VOTRE MOUSSE SUR MESURE - DEVIS
+                </h1>
+                <form method="post" action="{{ path('list_quotes') }}" class="devis" id="quoteForm">
+                    <div class="devisBody">
+                        <div class="step1">
+                            <h2><span>1</span> Choisissez la forme</h2>
+                            <div class="flex">
+                                {% if shape == 'doublemarteau' %}
+                                    <label>
+                                        <img src="{{ asset('images/devis/doublemarteau.jpg') }}" alt="Assise double marteau" style="max-height: 100%;"/>
+                                    </label>
+                                    <input type="hidden" name="shape" value="doublemarteau" id="shape"/>
+                                {% elseif shape == 'simplemarteau' %}
+                                    <label>
+                                        <img src="{{ asset('images/devis/simplemarteau.jpg') }}" alt="Assise simple marteau" style="max-height: 100%;"/>
+                                    </label>
+                                    <input type="hidden" name="shape" value="simplemarteau" id="shape"/>
+                                {% elseif shape == 'assisetrapeze' %}
+                                    <label>
+                                        <img src="{{ asset('images/devis/assisetrapeze.jpg') }}" alt="Assise Trapèze" style="max-height: 100%;"/>
+                                    </label>
+                                    <input type="hidden" name="shape" value="assisetrapeze" id="shape"/>
+                                {% elseif shape == 'planincline' %}
+                                    <label>
+                                        <img src="{{ asset('images/devis/planincline.jpg') }}" alt="Plan incliné" style="max-height: 100%;"/>
+                                    </label>
+                                    <input type="hidden" name="shape" value="planincline" id="shape"/>
+                                {% elseif shape == 'pupitre' %}
+                                    <label>
+                                        <img src="{{ asset('images/devis/pupitre.jpg') }}" alt="Pupitre" style="max-height: 100%;"/>
+                                    </label>
+                                    <input type="hidden" name="shape" value="pupitre" id="shape"/>
+                                {% elseif shape == 'assisepupitre' %}
+                                    <label>
+                                        <img src="{{ asset('images/devis/assisepupitre.jpg') }}" alt="Assise pupitre" style="max-height: 100%;"/>
+                                    </label>
+                                    <input type="hidden" name="shape" value="assisepupitre" id="shape"/>
+                                {% elseif shape == 'ellipse' %}
+                                    <label>
+                                        <img src="{{ asset('images/devis/ellipse.jpg') }}" alt="Ellipse" style="max-height: 100%;"/>
+                                    </label>
+                                    <input type="hidden" name="shape" value="ellipse" id="shape"/>
+                                {% else %}
+                                    <label>
+                                        <img src="{{ asset('images/devis/rectangle.svg') }}" alt="Rectangle" style="max-height: 100%;"/>
+                                        <span>
+                                            Cube ou rectangle
+                                        </span>
+                                        <input type="radio" name="shape" id="square" value="carre" checked="checked" id="shape"/>
+                                        <span class="radio"></span>
+                                    </label>
+                                    <label>
+                                        <img src="{{ asset('images/devis/cylindre.svg')}}" alt=""/>
+                                        <span>
+                                            Cylindre
+                                        </span>
+                                        <input type="radio" name="shape" id="cylinder" value="cylindre" id="shape"/>
+                                        <span class="radio"></span>
+                                    </label>
+                                {% endif %}
+                            </div>
+                            {% if shape %}
+                                <h2><span>NB</span></h2>
+                                <h3 style="color: #807e7b;">
+                                    {% if shape == 'doublemarteau' %}
+                                        La taille des marteaux (à gauche et à droite)est calculée par proportionnalité :<br/>
+                                        - différence entre la grande largeur A et la petite largeur B<br/>
+                                        - et différence entre la grande longueur C et la petite longueur D<br/><br/>
+                                        Le coût de l'article est calculé en fonction de la grande longueur C et de la grande largeur A
+                                    {% elseif shape == 'simplemarteau' %}
+                                        La taille du marteau (gauche ou droite puisque la mousse est réversible) est calculée par proportionnalité :<br/>
+                                        - différence entre la grande largeur A et la petite largeur B<br/>
+                                        - et différence entre la grande longueur C et la petite longueur D<br/><br/>
+                                        Le coût de l'article est calculé en fonction de la grande longueur C et de la grande largeur A
+                                    {% elseif shape == 'assisetrapeze' %}
+                                        Le coût de l'article est calculé en fonction des dimensions A et C
+                                    {% elseif shape == 'planincline' %}
+                                        La dimension de A est de 1 cm minimum<br/>
+                                        Le coût de l'article est calculé en fonction des dimensions A et C
+                                    {% elseif shape == 'pupitre' %}La dimension de B est de 1 cm minimum
+                                        Le coût de l'article est calculé en fonction des dimensions A et C
+                                    {% elseif shape == 'assisepupitre' %}
+                                        La dimension de B est de 1 cm minimum<br/>
+                                        Le coût de l'article est calculé en fonction des dimensions A et C
+                                    {% elseif shape == 'ellipse' %}
+                                        L'épaisseur est de 1 cm minimum<br/>
+                                        Le coût de l'article est calculé en fonction des dimensions A et B
+                                    {% endif %}
+                                </h3>
+                                <h2><span>A</span> Choisissez une forme spéciale</h2>
+                            {% else %}
+                                <h2><span>1b</span> Choisissez une forme spéciale</h2>
+                            {% endif %}
+                            <div class="flex" style="align-items: flex-end;">
+                                <label>
+                                    <a title="Assise double marteau" href="{{ path('create_specific_quote', { shape: 'doublemarteau' }) }}">
+                                        <img src="{{ asset('images/devis/doublemarteau100.jpg') }}" alt="Assise double marteau" width="50" style="margin-top: 0;margin-bottom: 0;"/>
+                                    </a>
+                                </label>
+                                <label>
+                                    <a title="Assise simple marteau" href="{{ path('create_specific_quote', { shape: 'simplemarteau' }) }}">
+                                        <img src="{{ asset('images/devis/simplemarteau100.jpg') }}" alt="Assise simple marteau" width="50" style="margin-top: 0;margin-bottom: 0;"/>
+                                    </a>
+                                </label>
+                                <label>
+                                    <a title="Assise Trapèze" href="{{ path('create_specific_quote', { shape: 'assisetrapeze' }) }}">
+                                        <img src="{{ asset('images/devis/assisetrapeze100.jpg') }}" alt="Assise Trapèze" width="50" style="margin-top: 0;margin-bottom: 0;"/>
+                                    </a>
+                                </label>
+                                <label>
+                                    <a title="Plan incliné" href="{{ path('create_specific_quote', { shape: 'planincline' }) }}">
+                                        <img src="{{ asset('images/devis/planincline100.jpg') }}" alt="Plan incliné" width="50" style="margin-top: 0;margin-bottom: 0;"/>
+                                    </a>
+                                </label>
+                                <label>
+                                    <a title="Pupitre " href="{{ path('create_specific_quote', { shape: 'pupitre' }) }}">
+                                        <img src="{{ asset('images/devis/pupitre100.jpg') }}" alt="Pupitre" width="50" style="margin-top: 0;margin-bottom: 0;"/>
+                                    </a>
+                                </label>
+                                <label>
+                                    <a title="Assise pupitre" href="{{ path('create_specific_quote', { shape: 'assisepupitre' }) }}">
+                                        <img src="{{ asset('images/devis/assisepupitre100.jpg') }}" alt="Assise pupitre" width="50" style="margin-top: 0;margin-bottom: 0;"/>
+                                    </a>
+                                </label>
+                                <label>
+                                    <a title="Ellipse" href="{{ path('create_specific_quote', { shape: 'ellipse' }) }}">
+                                        <img src="{{ asset('images/devis/ellipse100.jpg') }}" alt="Ellipse" width="50" style="margin-top: 0;margin-bottom: 0;"/>
+                                    </a>
+                                </label>
+                            </div>
+                            <a href="{{ path('contact') }}" class="specificShape">
+                                Besoin d’une forme particulière ?
+                            </a>
+                        </div>
+                        <div class="step2">
+                            <h2><span>2</span> Choisissez l’utilisation</h2>
+                            <div class="flex wrap">
+                                <label>
+                                    <input type="radio" name="type" value="various" checked="checked">
+                                    <span class="radio"></span> Divers
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="mattress">
+                                    <span class="radio"></span> Manchette
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="cake">
+                                    <span class="radio"></span> Matelas
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="sitting">
+                                    <span class="radio"></span> Coussin
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="back">
+                                    <span class="radio"></span> Galette
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="cuff">
+                                    <span class="radio"></span> Calotte
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="pillow">
+                                    <span class="radio"></span> Assise
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="cap">
+                                    <span class="radio"></span> Calage
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="wedging">
+                                    <span class="radio"></span> Dos
+                                </label>
+                                <label>
+                                    <input type="radio" name="type" value="footstool">
+                                    <span class="radio"></span> Pouf
+                                </label>
+                            </div>
+                        </div>
+                        <div class="step3">
+                            <h2><span>3</span> Choisissez la taille &amp; quantité</h2>
+                            <div class="flex">
+                                <label>
+                                    <img src="{{ asset('images/devis/multi.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                    <span class="text">Quantité d'article(s)</span>
+                                    <input type="number" value="1" name="quantity" id="quantite" min="1" step="1" required="">
+                                </label>
+                            </div>
+                            {% if shape == 'classic' %}
+                                <div class="flex" id="dimensionsCarre">
+                                    <label>
+                                        <img src="{{ asset('images/devis/epaisseur.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                        <span class="text">Épaisseur / Hauteur (cm)</span>
+                                        <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="thickness" id="hauteur" required="">
+                                    </label>
+                                    <label>
+                                        <img src="{{ asset('images/devis/largeur.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                        <span class="text">Largeur (cm)</span>
+                                        <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="width" id="largeur" required="">
+                                    </label>
+                                    <label>
+                                        <img src="{{ asset('images/devis/longueur.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                        <span class="text">Longueur (cm)</span>
+                                        <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="length" id="longueur" required="">
+                                    </label>
+                                </div>
+                                <div class="flex" id="dimensionsCylindre" style="display: none;">
+                                    <label>
+                                        <img src="{{ asset('images/devis/cylindrehauteur.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                        <span class="text">Épaisseur / Hauteur (cm)</span>
+                                        <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="height" id="hauteurCylindre">
+                                    </label>
+                                    <label>
+                                        <img src="{{ asset('images/devis/cylindrediametre.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                        <span class="text">Diametre (cm)</span>
+                                        <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="diameter" id="diametreCylindre">
+                                    </label>
+                                </div>
+                            {% elseif shape == 'doublemarteau' or shape == 'simplemarteau' or shape == 'assisetrapeze' or shape == 'planincline' or shape == 'pupitre' or shape == 'assisepupitre' or shape == 'ellipse' %}
+                                <div class="flex">
+                                    <label>
+                                        <img src="{{ asset('images/devis/dimensionspeciale.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                        <span class="text">Épaisseur / Hauteur (cm)</span>
+                                        <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="thickness" id="hauteur" required="">
+                                    </label>
+                                    <label>
+                                        <img src="{{ asset('images/devis/dimensionspeciale.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                        <span class="text">Dimension A (cm)</span>
+                                        <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="dimensionA" required="">
+                                    </label>
+                                    <label>
+                                        <img src="{{ asset('images/devis/dimensionspeciale.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                        <span class="text">Dimension B (cm)</span>
+                                        <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="dimensionB" required="">
+                                    </label>
+                                    {% if shape != 'planincline' and shape != 'ellipse' %}
+                                        <label>
+                                            <img src="{{ asset('images/devis/dimensionspeciale.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                            <span class="text">Dimension C (cm)</span>
+                                            <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="dimensionC" required="">
+                                        </label>
+                                    {% endif %}
+                                    {% if shape != 'assisetrapeze' and shape != 'planincline' and shape != 'pupitre' and shape != 'assisepupitre' and shape != 'ellipse' %}
+                                        <label>
+                                            <img src="{{ asset('images/devis/dimensionspeciale.png') }}" alt="Ellipse" width="32" style="margin-top: 0;margin-bottom: 0;"/>
+                                            <span class="text">Dimension D (cm)</span>
+                                            <input type="number" value="" maxlength="3" size="4" min="2" max="200" step="1" name="dimensionD" required="">
+                                        </label>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="devisFooter">
+                        <button type="submit" class="button button-orange button-big button-icon margin-bottom-40px" id="submitQuote">
+                            <span class="icon-triangle-left"></span> Voir les propositions
+                        </button>
+                        <input type="hidden" name="token" value="{{ csrf_token('list-quotes') }}"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

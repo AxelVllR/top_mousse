@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Téléchargement Factures / Bons de commande via numéro d'ordre{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Téléchargement Factures / Bons de commande via numéro d'ordre</h2>
+    </div>
+    <div class="content">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        {{ form(form) }}
+    </div>
+
+    <div class="container " style="margin-top: 15px">
+        <table>
+            <thead>
+            <tr>
+                <th style="text-align: center">Fichiers</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in invoices %}
+                <tr style="background-color: {{ order.findColor }}">
+                    <td style="justify-content: center;justify-items: center;text-align: center">
+                        {{ order.createdAt|date('Y.m.d-') }}{{ (order.id) }}
+                        <br>
+                        {{ (order.orderNumber) }}
+                        <br>
+                        <a class="button" href="{{ path('admin_orders_pdf_top', {id : order.id, email : order.email}) }}">PDF</a>
+                        <a class="button" href="{{ path('admin_orders_pdf_bon', {id : order.id, email : order.email}) }}">BON</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

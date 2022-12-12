@@ -1,0 +1,122 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Facturer un revendeur{% endblock %}
+
+{% block body %}
+    <div class="header header-push-small">
+        <h2>Facturer un revendeur</h2>
+    </div>
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        {{ form(form) }}
+        {% if printTab %}
+            <h2>Facture du revendeur pour la période séléctionnée</h2>
+            <table style="margin-top: 10px">
+                <thead>
+                <tr>
+                    <th>Facture</th>
+                    <th>Client</th>
+                    <th>Statut</th>
+                    <th>Forme</th>
+                    <th>Ref</th>
+                    <th>Quantité</th>
+                    <th>Hauteur</th>
+                    <th>Largeur</th>
+                    <th>Longueur</th>
+                    <th>Diamètre</th>
+                    <th>Volume</th>
+                    <th>Prix ttc</th>
+                    <th>Prix ht</th>
+                    <th>Port</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    {% for ordersItem in order.resellerOrderItems %}
+                        <tr>
+                            <td>
+                                {{ order.createdAt|date('d.m.Y') }}-{{ order.id }}-R
+                            </td>
+                            <td style="text-align: center;">
+                                <a class="button" href="{{ path('admin_single_user', { id: order.user.id }) }}"
+                                   style="margin: 0;">
+                                    {{ order.user.email }}
+                                </a>
+                            </td>
+                            <td>{{ order.findStatus }}</td>
+                            <td>{{ ordersItem.shape }}</td>
+                            <td>{{ ordersItem.title }}</td>
+                            <td>
+                                {{ ordersItem.quantity }}<br/>
+                            </td>
+                            <td>
+
+                                {% if (ordersItem.thickness) %}
+                                    {{ ordersItem.thickness }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            </td>
+                            <td>
+
+                                {% if (ordersItem.width) %}
+                                    {{ ordersItem.width }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+
+                            </td>
+                            <td>
+
+                                {% if (ordersItem.length) %}
+                                    {{ ordersItem.length }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+
+                            </td>
+                            <td>
+
+                                {% if (ordersItem.diameter) %}
+                                    {{ ordersItem.diameter }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            </td>
+                            <td>
+
+                                {{ ordersItem.volume |number_format(6) }} m<sup>3</sup><br/>
+
+                            </td>
+                            <td>
+                                {{ ordersItem.totalPrice | number_format(2) }} €
+                            </td>
+                            <td>
+                                {{ (ordersItem.totalPrice - (ordersItem.totalPrice * 0.20)) | number_format(2) }} €
+                            </td>
+                            <td>
+                                revendeur
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+                </tbody>
+            </table>
+            <button>
+                <a class="button" target="_blank" style="text-align: center;"
+                   href="{{ path('admin_invoice_reseller',
+                       {
+                           PDF : true,
+                           dateAt: form.dateAt.vars.value,
+                           dateAEnd: form.dateEnd.vars.value,
+                           state: form.state.vars.value,
+                           resellers: form.resellers.vars.value,
+                           choices: form.resellers.vars.choices,
+                       }) }}"
+                >Générer le pdf</a>
+            </button>
+        {% endif %}
+    </div>
+{% endblock %}

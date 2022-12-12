@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Mon compte client{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                <h1>
+                    MODIFICATION DE VOTRE ADRESSE DE LIVRAISON
+                </h1>
+                <input type="hidden" name="volume" id="volume" value="{{ volume }}"/>
+                <input type="hidden" name="postalCode" id="postalCode" value="59000"/>
+                <div id="relaiWidget"></div>
+                <div style="padding:8px; overflow:auto;width: 693px;">
+                    <div style="background:#edffb2; border:solid 1px #a5f913; padding:5px;font-size:10px;">
+                        <em>Affichage au clic sur le widget Mondial relay</em>
+                        <br/><br/>
+                        <div style="display:inline-block;border:solid 2px #a5f913;padding:5px;font-size:20px;" >
+                            <span style="text-decoration:underline;">Vous avez sélectionné : </span><br/>
+                            Identifiant :
+                            <span id="relaiWidgetId"></span><br/>
+                            <span id="relaiWidgetName"></span><br/>
+                            <span id="relaiWidgetAddress"></span><br/>
+                            <span id="relaiWidgetPostalCode"></span>
+                            <span id="relaiWidgetCity"></span><br/>
+                            <span id="relaiWidgetCountry"></span><br/>
+                        </div>
+                    </div>
+                </div>
+                {{ form_start(form) }}
+                    {{ form_widget(form.shippingAddress) }}
+                    {{ form_widget(form.shippingPostalCode) }}
+                    {{ form_widget(form.shippingCity) }}
+                    {{ form_widget(form.shippingCode) }}
+                    <button type="submit" class="button" style="display: inline-block;">
+                        Mettre à jour
+                    </button>
+                    <a href="{{ path('set_order_shipping', { id: order_id }) }}" class="button" style="display: inline-block;margin-left: 10px;">
+                        <span class="icon-panier"></span> Retour
+                    </a>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

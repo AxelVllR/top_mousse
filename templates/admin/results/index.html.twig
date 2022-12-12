@@ -1,0 +1,98 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Table des commandes{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Bilan graphique {{ current_year }}</h2>
+    </div>
+
+    <a href="{{ path('admin_results', {number: current_year-1}) }}">
+        Bilan {{ current_year-1 }}
+    </a>
+    <a style="margin-left: 10px;" href="{{ path('admin_results', {number: current_year+1}) }}">
+       Bilan {{ current_year+1 }}
+    </a>
+
+    <br>
+    <br>
+    <br>
+
+
+
+    Bilan Topmousse
+    pour l'année 2021
+    <br><br>
+    Chiffre total annuel :
+{{ total_amount| number_format(2) }} € HT
+    <br><br>
+    Moyenne mensuelle :
+{{mean_amount| number_format(2)}} € HT
+    <br><br>
+    Nombre de commandes
+    Total annuel : {{ total_orders }}
+    <br><br>
+    Nombre de commandes
+    Moyenne mensuelle : {{ mean_orders_per_month }}
+    <br><br>
+    Montant moyen pour
+    une commande : {{ mean_orders| number_format(2) }} € HT
+    <br><br>
+    Volume total
+    expédié : {{ total_volume| number_format(2) }} m3
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.min.js" integrity="sha512-GMGzUEevhWh8Tc/njS0bDpwgxdCJLQBWG3Z2Ct+JGOpVnEmjvNx6ts4v6A2XJf1HOrtOsfhv3hBKpK9kE5z8AQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <canvas id="myChart" width="400" height="100"></canvas>
+
+    <script>
+
+        //12 randoms rgba
+
+
+        const ctx = document.getElementById('myChart');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [{{ january }}, {{ february }}, {{ march }}, {{ april }}, {{ may }}, {{ june }}, {{ july }}, {{ august }}, {{ september }}, {{ october }}, {{ november }}, {{ december }}],
+                    backgroundColor: [
+                        '#1ABC9C33',
+                        '#2ecc71',
+                        '#3498db',
+                        '#9b59b6',
+                        '#34495e',
+                        '#f1c40f',
+                        '#e67e22',
+                        '#e74c3c',
+                        '#95a5a6',
+                        '#686de0',
+                        '#FF9F4033'
+
+                    ],
+                    borderColor: [
+                        '#1ABC9C33',
+                        '#2ecc71',
+                        '#3498db',
+                        '#9b59b6',
+                        '#34495e',
+                        '#f1c40f',
+                        '#e67e22',
+                        '#e74c3c',
+                        '#95a5a6',
+                        '#686de0',
+                        '#FF9F4033'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

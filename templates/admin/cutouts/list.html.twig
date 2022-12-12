@@ -1,0 +1,112 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des découpes atelier{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h2>Gestion des découpes atelier</h2>
+        <p>
+            <a href="{{ path('admin_list_cutouts') }}">Gestion des découpes</a>
+        </p>
+        <p>
+            <a href="{{ path('admin_list_packagings') }}">Gestion des emballages</a>
+        </p>
+        <p>
+            <a href="#">Volumes à commander</a>
+        </p>
+    </div>
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <p><b>Code couleur du processus de découpage :</b></p>
+        <table>
+            <tbody>
+            <tr>
+                <td style="background-color: #f6d8ce;width: 50%;">Mousse en attente de découpage</td>
+                <td style="background-color: #58acfa;width: 50%;">Mousse découpée</td>
+            </tr>
+            </tbody>
+        </table>
+        <hr/>
+        <div style="margin-top: 10px; margin-bottom: 10px">
+            <form method="get" action="{{ path('admin_list_cutouts') }}">
+                <input type="text" name="num" value="{{ app.request.get('num') }}" />
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Trier par numéro d'ordre</button>
+            </form>
+        </div>
+        <div style="padding-bottom: 20px;">
+            <a class="button" href="{{ path('admin_list_cutouts', {order: "ASC"}) }}">Tri Croissant</a>
+            <a class="button" href="{{ path('admin_list_cutouts', {order: "DESC"}) }}">Tri Décroissant</a>
+        </div>
+        <table>
+            <thead>
+            <tr>
+                <th>Code production</th>
+                <th>Nombre</th>
+                <th>Rep</th>
+                <th>Qualité</th>
+                <th>Quantité</th>
+                <th>Hauteur</th>
+                <th>Largeur</th>
+                <th>Longueur</th>
+                <th>Diamètre</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for cutout in cutouts %}
+                <tr style="background-color: {{ cutout.findColor }};">
+                    <td>{{ cutout.order.orderNumber }}</td>
+                    <td>?</td>
+                    <td>?</td>
+                    <td>
+                        {% if cutout.product %}
+                            {{ cutout.product.title }}
+                        {% elseif cutout.plate %}
+                            {{ cutout.plate.title }}
+                        {% else %}
+                            {{ cutout.title }}
+                        {% endif %}
+                    </td>
+                    <td>{{ cutout.quantity }}</td>
+                    <td>
+                        {% if (cutout.thickness) %}
+                            {{ cutout.thickness }} cm
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if (cutout.width) %}
+                            {{ cutout.width }} cm
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if (cutout.length) %}
+                            {{ cutout.length }} cm
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if (cutout.diameter) %}
+                            {{ cutout.diameter }} cm
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="post" action="{{ path('admin_cut_order_item', { id: cutout.id }) }}">
+                            <button type="submit" class="button" style="margin: 0;">Signaler comme découpée</button>
+                            <input type="hidden" name="token" value="{{ csrf_token('cut-order-item') }}"/>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

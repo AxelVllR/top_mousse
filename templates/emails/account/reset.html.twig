@@ -1,0 +1,9 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+    <h1 style="margin: 0;">Récupération de votre mot de passe</h1>
+    <p>Bonjour,</p>
+    <p>Pour récupérer votre mot de passe, veuillez cliquer sur le lien suivant : <a href="{{ url('forgot_password_reset', { token: token.token }) }}">{{ url('forgot_password_reset', { token: token.token }) }}</a></p>
+    <p>Ce lien expirera dans  {{ token.expirationMessageKey | trans(token.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+    <p><b>Votre équipe Top Mousse</b></p>
+{% endblock %}

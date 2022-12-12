@@ -1,0 +1,8 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+    <h1 style="margin: 0;">Commande non payée</h1>
+    <p>Bonjour,</p>
+    <p>Nous vous informons que votre commande {{ order.id }} est toujours en attente de paiement, veuillez cliquer sur <a href="{{ url('checkout_order', { id: order.id }) }}">ce lien</a> pour effectuer le paiement correspondant.</p>
+    <p><b>Votre équipe Top Mousse</b></p>
+{% endblock %}

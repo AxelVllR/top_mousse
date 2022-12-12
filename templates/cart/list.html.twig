@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Panier{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="cartBreadcrumb">
+                <ul class="cartBreadcrumbList">
+                    <li class="cartBreadcrumbItem active">
+                        <div class="step">1</div>
+                        <span>Panier</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">2</div>
+                        <span>Identification</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">3</div>
+                        <span>Livraison</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">4</div>
+                        <span>Paiement</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">5</div>
+                        <span>Confirmation</span>
+                    </li>
+                </ul>
+            </div>
+            {% for flash in app.flashes('response') %}
+                <p class="reponse">{{ flash }}</p>
+            {% endfor %}
+            <div class="row cart">
+                <div class="col-8-desktop cartProductList">
+                    <ul>
+                        {% for item in items %}
+                            <li class="cartProductListItem">
+                                <div class="cartProductImage">
+                                    {% if item.product %}
+                                        <img src="{{ asset('uploads/') }}{{ item.product.thumbnail }}" alt="{{ item.product.title }}" style="width: 113px;"/>
+                                    {% else %}
+                                        <img src="{{ asset('images/products/plaques.jpg') }}" alt="" style="width: 113px;"/>
+                                    {% endif %}
+                                </div>
+                                <div class="cartProductInfos">
+                                    <h2 class="cartProductName">{{ item.title }}</h2>
+                                    <div class="cartProductResume">
+                                        <ul class="cartProductSpecs">
+                                            <li class="cartProductSpec">
+                                                Volume : <strong>{{ item.volume | number_format(6) }} m<sup>3</sup></strong>
+                                            </li>
+                                            <li>
+                                                Quantité:
+                                                <form method="post" action="{{ path('update_cart_item', { id: item.id }) }}">
+                                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="100" style="width: 80px;margin-left: 15px;"/>
+                                                    <button type="submit" style="display: none;"></button>
+                                                    <input type="hidden" name="token" value="{{ csrf_token('update-cart-item') }}"/>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                        <div class="cartProductTotal">
+                                            <span>Sous total : </span>
+                                            <span class="cartProductTotalPrice">{{ (item.quantity * item.price) | number_format(2) }} €</span>
+                                            <span>ttc</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="cartProductActions">
+                                    <form method="post" action="{{ path('delete_cart_item', { id: item.id }) }}">
+                                        <button type="submit" class="delete"></button>
+                                        <input type="hidden" name="token" value="{{ csrf_token('delete-cart-item') }}"/>
+                                    </form>
+                                </div>
+                            </li>
+                        {% endfor %}
+                        {% if items | length == 0 %}
+                            <li>Aucun élément trouvé dans votre panier.</li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div class="col-4-desktop cartResume">
+                    <h3>Volume total de votre commande :</h3>
+                    <div class="cartFinalVolume">
+                        <strong>{{ total_volume | number_format(6) }}</strong> m³
+                    </div>
+                    <h3>Prix total pour ces {{ total }} articles :</h3>
+                    <div class="cartFinalPrice">
+                        <strong>{{ total_price | number_format(2) }} €</strong> ttc
+                    </div>
+                    <div class="flex fCenter">
+                        {% if total_price > 10 %}
+                            {% if current_user %}
+                                <form method="post" action="{{ path('create_order') }}">
+                                    <button type="submit" class="button cartValidate">
+                                        <span class="icon-triangle-left"></span>VALIDER MON PANIER
+                                    </button>
+                                    <input type="hidden" name="token" value="{{ csrf_token('create-order') }}"/>
+                                </form>
+                            {% else %}
+                                <a href="{{ path('signin') }}" type="submit" class="button cartValidate">
+                                    <span class="icon-triangle-left"></span>VALIDER MON PANIER
+                                </a>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

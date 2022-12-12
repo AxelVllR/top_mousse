@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                <h1>
+                    ESPACE D'ADMINISTRATION TOPMOUSSE
+                </h1>
+                <div class="row">
+                    <div class="col-12 fLeftDesktop">
+                        <a href="{{ path('admin_create_quote') }}" target="_blank">DEVIS - Créer un devis en ligne</a>
+                        <a href="{{ path('admin_invoice_generate') }}" target="_blank">LES COMMANDES - Générer une facture</a>
+                        <hr/>
+                        <a href="{{ path('admin_list_orders') }}" target="_blank" class="underline">COMMANDES - Table des commandes</a>
+                        <a href="{{ path('admin_order_prep_page') }}" target="_blank" class="underline">LES COMMANDES - Statut en préparation et attribuer un numéro d'ordre</a>
+                        <a href="{{ path('admin_list_prints') }}" target="_blank" class="underline">COMMANDES - Impression pour mise en production</a>
+                        <a href="{{ path('admin_export_order') }}" target="_blank" class="underline">COMMANDES - Export comptabilité</a>
+                        <hr/>
+                        <a href="{{ path('admin_cutout_management') }}" target="_blank" class="underline">COMMANDES - Gestion des découpes</a>
+                        <a href="{{ path('admin_list_cutouts') }}" target="_blank" class="underline">COMMANDES - Gestion des découpes (interface atelier)</a>
+                        <a href="{{ path('admin_wrap') }}" target="_blank" class="underline">COMMANDES - Gestion des emballages</a>
+                        <a href="{{ path('admin_list_packagings') }}" target="_blank" class="underline">COMMANDES - Gestion des emballages (interface atelier)</a>
+                        <hr/>
+                        <a href="{{ path('admin_orders_exp') }}" target="_blank" class="underline">COMMANDES - Signaler les commandes arrivées à destination</a>
+                        <a href="{{ path('admin_orders_expedition_lots') }}" target="_blank" class="underline">COMMANDES - CSV d'export par lots</a>
+                        <a  href="{{ path('admin_upload_monidal_relay_csv') }}" target="_blank" class="underline">COMMANDES - Avertir les clients Mondial Relay à partir du CSV Back</a>
+                        <a  href="{{ path('admin_order_ends') }}" target="_blank" class="underline">COMMANDES - Solder plusieurs commandes</a>
+                        <hr/>
+                        <a href="{{ path('admin_orders_pay') }}" target="_blank" class="underline">COMMANDES - Archives des commandes soldées</a>
+                        <a href="{{ path('admin_orders_ended_lots') }}" target="_blank" class="underline">COMMANDES - Solder les commandes</a>
+                        <a href="{{ path('admin_orders_period') }}" target="_blank" class="underline">COMMANDES - Bilans par période</a>
+                        <a href="{{ path('admin_results', {'number': 2021}) }}" target="_blank" class="underline">COMMANDES - Bilans graphiques par périodes</a>
+                        <a href="{{ path('admin_orders_search') }}" target="_blank" class="underline">COMMANDES - Rechercher une facture</a>
+                        <a href="{{ path('admin_upload_orders_all') }}" target="_blank" class="underline">COMMANDES - Importer via un CSV</a>
+                        <a href="{{ path('admin_order_invoices') }}" target="_blank" class="underline">COMMANDES - Télécharger Factures / Bons de commande via numéro d'ordre</a>
+                        <hr/>
+                        <a href="{{ path('admin_list_foams') }}" target="_blank" class="underline">MOUSSES À LA DÉCOUPE - Gérer les mousses à la découpe</a>
+                        <a href="{{ path('admin_list_products') }}" target="_blank" class="underline">PRODUITS FINIS - Gérer les produits finis</a>
+                        <a href="{{ path('admin_list_plates') }}" target="_blank" class="underline">PRODUITS PLAQUES - Gérer les produits plaques</a>
+                        <hr/>
+                        <a href="https://analytics.google.com/analytics/web/?authuser=1#/p285933674/reports/reportinghub?params=_u..nav%3Dmaui" target="_blank" target="_blank" class="underline">CLIENTS - Consulter les statistiques des clients</a>
+                        <a href="{{ path('admin_list_users') }}" target="_blank" class="underline">CLIENTS - Gérer les fiches clients</a>
+                        <a href="{{ path('admin_search_relai') }}" target="_blank" class="underline">CLIENTS - Trouver un point relais en fonction du code postal et du volume</a>
+                        <a href="{{ path('admin_list_logs') }}" target="_blank" class="underline">CLIENTS - Consulter le journal des connexions</a>
+                        <hr/>
+                        <a href="{{ path('admin_price_foam') }}" target="_blank" class="underline">REVENDEURS - Prix des mousses destinées aux revendeurs</a>
+                        <a href="{{ path('admin_list_resellers_orders') }}" target="_blank" class="underline">REVENDEURS - Table des commandes</a>
+                        <a href="{{ path('admin_invoices_resellers') }}" target="_blank" class="underline">REVENDEURS - Solder plusieurs factures</a>
+                        <a href="{{ path('admin_invoice_reseller') }}" target="_blank" class="underline">REVENDEURS - Facturer un revendeur</a>
+                        <a href="{{ path('admin_resellers') }}" target="_blank" class="underline">REVENDEURS - Liste des revendeurs</a>
+                        <a href="{{ path('admin_new_reseller') }}" target="_blank" class="underline">REVENDEURS - Creer un revendeur</a>
+                        <a href="{{ path('admin_upload_orders_csv') }}" target="_blank" class="underline">REVENDEURS - Importer un fichier CSV</a>
+                        <hr/>
+                        <a href="{{ path('admin_list_configurations') }}" target="_blank" class="underline">PARAMÈTRES GÉNÉRAUX - Gérer les paramètres généraux</a>
+                        <a href="{{ path('admin_list_pages') }}" target="_blank" class="underline">PAGES - Gérer les pages</a>
+                        <a href="{{ path('admin_list_questions') }}" target="_blank" class="underline">QUESTIONS FAQ - Gérer les questions de la FAQ</a>
+                        <a href="{{ path('admin_list_feedbacks') }}" target="_blank" class="underline">RÉACTIONS - Supprimer une réaction ou ajouter une réponse</a>
+                        <hr/>
+                        <a style="color: red;" href="#" target="_blank" class="underline">BILAN QUALITE - Consulter le bilan qualité</a>
+                        <hr/>
+                        <a href="{{ path('signout') }}" class="button">
+                            <input name="deconnect" type="hidden" value="ok">
+                            <span class="icon-triangle-left"></span> DÉCONNEXION
+                        </a>
+                        <hr/>
+                        <span><strong>Code couleur</strong> de process de production</span>
+                        <table width="100%" border="1" cellspacing="0" cellpadding="0">
+                            <tbody>
+                                <tr>
+                                    <td class="statutpanier">Panier</td>
+                                    <td class="statutcommande">En attente de paiement</td>
+                                    <td class="statutregle">Réglée</td>
+                                    <td class="statutpreparatio">En préparation</td>
+                                    <td class="statutdecoupe">Découpée</td>
+                                    <td class="statutemballe">Emballée</td>
+                                    <td class="statutexpedie">Expédiée</td>
+                                    <td class="statutsolde">Soldée</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

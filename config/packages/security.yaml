@@ -1,0 +1,23 @@
+security:
+    enable_authenticator_manager: true
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+    providers:
+        database:
+            entity:
+                class: App\Entity\User
+                property: email
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            lazy: true
+            provider: database
+            custom_authenticator: App\Security\Authenticator
+            logout:
+                path: signout
+    access_control:
+        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/profile, roles: ROLE_USER }

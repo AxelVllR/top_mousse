@@ -1,0 +1,41 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Journal des connexions{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Journal des connexions</h2>
+    </div>
+    <div class="content-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Événement sur le site</th>
+                    <th>IP du visiteur</th>
+                    <th>Visiteur identifié</th>
+                    <th>Nom</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>{{ log.createdAt | date ('d.m.Y') }}</td>
+                        <td>{{ log.createdAt | date ('H:i:s') }}</td>
+                        <td>{{ log.title }}</td>
+                        <td>{{ log.ip }}</td>
+                        <td>
+                            <a href="mailto:{{ log.user.email }}">{{ log.user.email }}</a>
+                        </td>
+                        <td style="text-align: center;">
+                            <a href="{{ path('admin_single_user', { id: log.user.id }) }}">
+                                <button type="submit" style="margin-top: 0;">{{ log.user.firstName }} {{ log.user.lastName }}</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

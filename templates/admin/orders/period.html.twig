@@ -1,0 +1,135 @@
+{% block body %}
+    <title>Bilans par périodes</title>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css"/>
+
+    <style>
+        body {
+            background: url(/images/admin.gif) no-repeat;
+            padding: 40px;
+        }
+
+        .header {
+            margin-left: 300px;
+            margin-bottom: 60px;
+        }
+
+        .header-push {
+            margin-bottom: 135px;
+        }
+
+        .content-table {
+            width: 100%;
+        }
+
+
+        table {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        table td,
+        table th {
+            margin: 0;
+            padding: 3px;
+        }
+
+    </style>
+
+
+    <div class="header header-push">
+        <h2>Bilans par periodes</h2>
+    </div>
+    <div class="content-table">
+        {{ form(form) }}
+        <table id="table_id" class="display">
+            <thead>
+            <tr>
+                <th>Numéro</th>
+                <th>Facture</th>
+                <th>Numéro d'ordre</th>
+                <th>Email client</th>
+                <th>Statut</th>
+                <th>Forme</th>
+                <th>Référence</th>
+                <th>Quantité</th>
+                <th>Prix TTC</th>
+                <th>Prix HT</th>
+                <th>Frais de port</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for order in orders %}
+                {% if order.status > 2 %}
+                    <tr style="background-color: {{ order.findColor }}">
+                        <td>
+                            {{ (order.id) }}
+                        </td>
+                        <td>
+                            <a href="{{ path('admin_orders_pdf', {id : order.id}) }}">PDF</a>
+                        </td>
+                        <td>
+                            {{ (order.orderNumber) ? order.orderNumber : '-' }}
+                        </td>
+                        <td style="text-align: center;">
+                            <a class="button" href="{{ path('admin_single_user', { id: order.user.id }) }}"
+                               style="margin: 0;">
+                                {{ order.user.email }}
+                            </a>
+                        </td>
+                        <td>{{ order.findStatus }}</td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {{ (item.shape) ? item.shape : '-' }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {% if item.product %}
+                                    {{ item.product.reference }}<br/>
+                                {% elseif item.plate %}
+                                    {{ item.plate.reference }}<br/>
+                                {% else %}
+                                    Divers<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {{ item.quantity }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {{ order.totalPrice | number_format(2) }} €
+                        </td>
+                        <td>
+                            {{ (order.totalPrice - (order.totalPrice * 0.20)) | number_format(2) }} €
+                        </td>
+                        <td>{{ order.findShippingMethod }}</td>
+                    </tr>
+                {%  endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#table_id').DataTable(
+                {
+                    "order": [[ 0, "desc" ]],
+                    "lengthMenu": [[-1], ["All"]]
+                }
+            );
+        });
+    </script>
+
+{% endblock %}

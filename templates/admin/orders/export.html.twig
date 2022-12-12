@@ -1,0 +1,59 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Export Lots{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Expédition par lots - création du fichier CSV</h2>
+    </div>
+    <div class="content-table"> 
+        <table>
+            <tbody>
+                <tr>
+                    <td style="background-color: #D3D3D3">Panier</td>
+                    <td style="background-color: #D1A5A5">En attente de paiement</td>
+                    <td style="background-color: #D553FF">Réglée</td>
+                    <td style="background-color: #CC3300">En préparation</td>
+                    <td style="background-color: #58ACFA">Découpée</td>
+                    <td style="background-color: #FB0606E6">Emballée</td>
+                    <td style="background-color: #47A619">Expédiée</td>
+                    <td style="background-color: #D3D3D3">Soldée</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr>
+        <form method="get" class="export_title">
+            <div>Liste des commandes autres que panier et soldes, limités à</div>
+            <input type="number" style="display:block; width:auto; margin-left:5px;" name="limit" value="{{ orders|length }}">
+            <button type="submit" style="margin:0; margin-left: 5px;">Lignes</button>
+        </form>
+        <form method="post" action="">
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" id="checkAll">
+                            Séléction
+                        </th>
+                        <th colspan="">id</th>
+                        <th colspan="">utilisateur</th>
+                        <th colspan="">Numéro de commande</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr style="background-color: {{ order.findColor }}">
+                        <td>
+                            <input type="checkbox" name="orders[]" value="{{order.id}}">
+                        </td>
+                        <td>{{order.id}}</td>
+                        <td>{{order.lastname}} {{ order.firstname }}</td>
+                        <td>{{ order.orderNumber }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <button type="submit">Exporter le fichier CSV</button>
+        </form>
+    </div>
+{% endblock %}

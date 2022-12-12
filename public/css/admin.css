@@ -1,0 +1,139 @@
+body {
+    background: url(/images/admin.gif) no-repeat;
+    padding: 40px;
+}
+
+.export_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.header {
+    margin-left: 300px;
+    margin-bottom: 60px;
+}
+
+.header-push {
+    margin-bottom: 135px;
+}
+
+.header-push-small {
+    margin-bottom: 91px;
+}
+
+h2 {
+    color: #000;
+    text-align: center;
+    font-weight: bold;
+    text-transform: none;
+}
+
+label,
+label.required {
+    display: block;
+    color: #000;
+    font-weight: bold;
+    margin-bottom: 5px !important;
+    text-align: left !important;
+}
+
+p.small {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+p.small label {
+    width: 100% !important;
+}
+
+input,
+select,
+textarea {
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #cccccc;
+    width: 100%
+}
+
+textarea {
+    height: 250px;
+}
+
+.content {
+    width: 685px;
+    margin: 0 auto;
+}
+
+.content-table {
+    width: 100%;
+}
+
+button[type=submit],
+.button {
+    background-color: #f2f2f2 !important;
+    border: 1px solid #cccccc !important;
+    padding: 10px !important;
+    border-radius: 5px !important;
+    -webkit-border-radius: 5px !important;
+    -moz-border-radius: 5px !important;
+    cursor: pointer;
+    font-weight: bold;
+    color: #000000 !important;
+    text-transform: none !important;
+    font-size: 100% !important;
+    line-height: 1 !important;
+    width: max-content !important;
+    display: inline-block !important;
+}
+
+button[type=submit]:hover,
+button[type=submit]:focus,
+.button:hover,
+.button:focus {
+    background-color: #cccccc !important;
+}
+
+.item,
+.item form {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.item form {
+    margin-left: 10px;
+}
+
+.item button[type=submit],
+.item .button {
+    margin-left: 10px;
+}
+
+input[type=checkbox] {
+    width: auto !important;
+    cursor: pointer;
+}
+
+table {
+    margin: 0;
+    padding: 0;
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table td,
+table th {
+    margin: 0;
+    padding: 3px;
+    border: 1px solid black;
+}
+
+h3 {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: blue;
+}

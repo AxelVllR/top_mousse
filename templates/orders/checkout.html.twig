@@ -1,0 +1,235 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Paiement en ligne{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="cartBreadcrumb">
+                <ul class="cartBreadcrumbList">
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">1</div>
+                        <span>Panier</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">2</div>
+                        <span>Identification</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">3</div>
+                        <span>Livraison</span>
+                    </li>
+                    <li class="cartBreadcrumbItem active">
+                        <div class="step">4</div>
+                        <span>Paiement</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">5</div>
+                        <span>Confirmation</span>
+                    </li>
+                </ul>
+            </div>
+            <h1>Paiement</h1>
+            <div class="row cart">
+                <div class="col-12">
+                    <div class="summary">
+                        <div class="row">
+                            <div class="col-6-desktop">
+                                <div class="summaryGreyBg">
+                                    {% for flash in app.flashes('response') %}
+                                        <p class="reponse">{{ flash }}</p>
+                                    {% endfor %}
+                                    <h3>Récapitulatif de votre commande</h3>
+                                    Identifiant email : {{ current_user.email }}<br/>
+                                    Expédition :
+                                    {% if order.shippingMethod == 1 %}
+                                        Expédition à domicile
+                                    {% elseif order.shippingMethod == 2 %}
+                                        Expédition en point relai
+                                    {% else %}
+                                        Aucune
+                                    {% endif %}<br/>
+                                    Moyen de paiement :
+                                    {% if order.paymentMethod == 1 %}
+                                        Stripe
+                                    {% elseif order.paymentMethod == 2 %}
+                                        PayPal
+                                    {% else %}
+                                        Chèque de banque
+                                    {% endif %}
+                                    <br/><br/>
+                                    Adresse de facturation :<br/>
+                                    {{ order.billingAddress }}<br/>
+                                    {{ order.billingPostalCode }}<br/>
+                                    {{ order.billingCity }}
+                                    <br/><br/>
+                                    {% if order.shippingMethod != 3 %}
+                                        Adresse de livraison :<br/>
+                                        {{ order.shippingAddress }}<br/>
+                                        {{ order.shippingPostalCode }}<br/>
+                                        {{ order.shippingCity }}
+                                        <br/><br/>
+                                    {% endif %}
+                                    <strong>Articles</strong><br/>
+                                    {% for item in order.orderItems %}
+                                        {{ item.title }} - Quantité : {{ item.quantity }} - Prix ttc : {{ (item.price * item.quantity) | number_format(2) }}€<br/>
+                                    {% endfor %}
+                                    <br/>
+                                    <strong>Totaux</strong><br/>
+                                    Volume total : <strong>{{ total_volume | number_format(6) }} m<sup>3</sup></strong><br/>
+                                    Prix ttc pour ces {{ total }} article(s) : <strong>{{ total_price | number_format(2) }} €</strong><br/>
+                                    Frais de port :
+                                    <strong>
+                                        {% if order.shippingMethod == 1 %}
+                                            19 €
+                                        {% elseif order.shippingMethod == 2 %}
+                                            9 €
+                                        {% else %}
+                                            0 €
+                                        {% endif %}<br/>
+                                    </strong>
+                                    {% if total_price > 10 %}
+                                        <br/>
+                                        Total à régler :
+                                        <strong class="cOrange">
+                                            {{ total_order | number_format(2) }} €<br/>
+                                        </strong>
+                                        Votre référence de facturation : <strong>{{ order.id }}</strong>
+                                        <br/><br/>
+                                        {% if order.paymentMethod == 1 %}
+                                            En cliquant sur le bouton "Payer", vous effectuerez votre paiement par le biais de Stripe.
+                                        {% elseif order.paymentMethod == 2 %}
+                                            En cliquant sur le bouton "PayPal", vous serez dirigé vers le site sécurisé de paiement en ligne PayPal.
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-6-desktop">
+                                <div class="summaryPaybutton">
+                                    <h3>Paiement</h3>
+                                    {% if total_price > 10 %}
+                                        {% if order.paymentMethod == 1 %}
+                                            <form method="post" action="{{ path('pay_order_card', { id: order.id }) }}" id="form-checkout">
+                                                <p style="text-align: center;">
+                                                    <img src="{{ asset('images/checkout/stripe.png') }}" alt="Stripe" style="max-width: 250px;max-height: 80px;margin: 0 auto;"/>
+                                                </p>
+                                                <p>
+                                                    <label for="card-element">Carte bancaire :</label>
+                                                    <div id="card-element" class="form-control" style="height: 40px;background-color: #f2eeeb;border: 1px solid #cbcbcb;padding: 10px;"></div>
+                                                    <div id="card-errors" class="help-block" role="alert"></div>
+                                                </p>
+                                                <input type="hidden" name="token" value="{{ csrf_token('pay-order-card') }}"/>
+                                                <input type="hidden" name="stripe" id="stripe-token"/>
+                                                <button type="submit" class="button">Payer</button>
+                                            </form>
+                                        {% elseif order.paymentMethod == 2 %}
+                                            <div id="paypalButton"></div>
+                                            <form method="post" action="{{ path('pay_order_paypal', { id: order.id }) }}" id="paypalForm">
+                                                <input type="hidden" name="paypalId" value="" id="paypalId"/>
+                                                <input type="hidden" name="token" value="{{ csrf_token('pay-order-paypal') }}"/>
+                                            </form>
+                                        {% else %}
+                                            <p>En choisissant cette option, vous devrez envoyer un chèque de banque à la société Top Mousse, correspondant à votre commande. Nous confirmerons votre commande à sa réception.</p>
+                                            <form method="post" action="{{ path('pay_order_bank', { id: order.id }) }}">
+                                                <input type="hidden" name="token" value="{{ csrf_token('pay-order-bank') }}"/>
+                                                <button type="submit" class="button">Payer</button>
+                                            </form>
+                                        {% endif %}
+                                    {% else %}
+                                        Le total de votre panier ne s'élève qu'à 10,00 €. Mais le prix minimal de commande est de 15 €.
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {% if order.paymentMethod == 1 %}
+        <script type="text/javascript">
+            // Stripe
+            const form = document.getElementById('form-checkout');
+            const errors = document.getElementById('card-errors');
+
+            const stripe = Stripe('{{ stripe_public_key }}');
+            const elements = stripe.elements();
+            const card = elements.create('card');
+
+            card.mount('#card-element');
+            card.addEventListener('change', function(event) {
+                if (event.error) {
+                    errors.textContent = event.error.message;
+                    form.classList.add('has-error');
+                } else {
+                    errors.textContent = '';
+                    form.classList.remove('has-error');
+                }
+            });
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                stripe.createToken(card).then(function(result) {
+                    if (result.error) {
+                        errors.textContent = result.error.message;
+                        form.classList.add('has-error');
+                    } else {
+                        document.getElementById('stripe-token').setAttribute('value', result.token.id);
+                        form.submit();
+                    }
+                });
+            });
+        </script>
+    {% elseif order.paymentMethod == 2 %}
+        <script type="text/javascript">
+            paypal.Buttons({
+                enableStandardCardFields: false,
+                createOrder: (data, actions) => {
+                    return actions.order.create({
+                        intent: 'CAPTURE',
+                        payer: {
+                            name: {
+                                given_name: '{{ order.firstName }} {{ order.lastName }}'
+                            },
+                            address: {
+                                address_line_1: '{{ order.billingAddress }}',
+                                postal_code: '{{ order.billingPostalCode }}',
+                                city: '{{ order.billingCity }}',
+                                country_code: 'FR'
+                            },
+                            email_address: '{{ order.email }}'
+                        },
+                        purchase_units: [
+                            {
+                                amount: {
+                                    value: '{{ total_order }}'
+                                },
+                                {% if order.shippingMethod != 3 %}
+                                    shipping: {
+                                        address: {
+                                            address_line_1: '{{ order.shippingAddress }}',
+                                            admin_area_2: '{{ order.shippingAddress }}',
+                                            postal_code: '{{ order.shippingPostalCode }}',
+                                            city: '{{ order.shippingCity }}',
+                                            country_code: 'FR'
+                                        }
+                                    }
+                                {% endif %}
+                            }
+                        ]
+                    });
+                },
+                onApprove: (data, actions) => {
+                    return actions.order.capture().then((details) => {
+                        $('#paypalId').val(details.id);
+                        $('#paypalForm').submit();
+                    });
+                }
+            }).render('#paypalButton');
+        </script>
+    {% endif %}
+{% endblock %}

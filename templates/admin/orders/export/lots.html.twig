@@ -1,0 +1,142 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Export des commandes par lots{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Expédition par lots - création du fichier CSV</h2>
+    </div>
+    <style>
+        label,
+        label.required {
+            display: flex !important;
+            color: #000;
+            font-weight: bold;
+            margin: 0px !important;
+            text-align: left !important;
+        }
+    </style>
+    <div class="content-table">
+        <div style="display: ruby-base">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+        <div style="overflow-x: auto">
+        <table>
+            <thead>
+            <tr>
+                <th>Ligne</th>
+                <th>Supprimer</th>
+                <th>Modifier</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+                <th>6</th>
+                <th>7</th>
+                <th>8</th>
+                <th>9</th>
+                <th>10</th>
+                <th>11</th>
+                <th>12</th>
+                <th>13</th>
+                <th>14</th>
+                <th>15</th>
+                <th>16</th>
+                <th>17</th>
+                <th>18</th>
+                <th>19</th>
+                <th>20</th>
+                <th>21</th>
+                <th>22</th>
+                <th>23</th>
+                <th>24</th>
+                <th>25</th>
+                <th>26</th>
+                <th>27</th>
+                <th>28</th>
+                <th>29</th>
+                <th>30</th>
+                <th>31</th>
+                <th>32</th>
+                <th>33</th>
+                <th>34</th>
+                <th>35</th>
+                <th>36</th>
+                <th>37</th>
+                <th>38</th>
+                <th>39</th>
+                <th>40</th>
+                <th>41</th>
+                <th>42</th>
+                <th>43</th>
+                <th>44</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><a href="{{ path('admin_relay_edit', {id :order.id}) }}">Modifier</a></td>
+                    <td><a href="{{ path('admin_relay_delete', {id :order.id}) }}">Supprimer</a></td>
+                    <td>{{ order.one }}</td>
+                    <td>{{ order.two }}</td>
+                    <td>{{ order.three }}</td>
+                    <td>{{ order.four }}</td>
+                    <td>{{ order.five }}</td>
+                    <td>{{ order.six }}</td>
+                    <td>{{ order.seven }}</td>
+                    <td>{{ order.eight }}</td>
+                    <td>{{ order.nine }}</td>
+                    <td>{{ order.ten }}</td>
+                    <td>{{ order.eleven }}</td>
+                    <td>{{ order.twelve }}</td>
+                    <td>{{ order.thirteen }}</td>
+                    <td>{{ order.fourteen }}</td>
+                    <td>{{ order.fifteen }}</td>
+                    <td>{{ order.sixteen }}</td>
+                    <td>{{ order.seventeen }}</td>
+                    <td>{{ order.eighteen }}</td>
+                    <td>{{ order.nineteen }}</td>
+                    <td>{{ order.twenty }}</td>
+                    <td>{{ order.twentyone }}</td>
+                    <td>{{ order.twentytwo }}</td>
+                    <td>{{ order.twentythree }}</td>
+                    <td>{{ order.twentyfour }}</td>
+                    <td>{{ order.twentyfive }}</td>
+                    <td>{{ order.twentysix }}</td>
+                    <td>{{ order.twentyseven }}</td>
+                    <td>{{ order.twentyeight }}</td>
+                    <td>{{ order.twentynine }}</td>
+                    <td>{{ order.thirty }}</td>
+                    <td>{{ order.thirtyone }}</td>
+                    <td>{{ order.thirtytwo }}</td>
+                    <td>{{ order.thirtythree }}</td>
+                    <td>{{ order.thirtyfour }}</td>
+                    <td>{{ order.thirtyfive }}</td>
+                    <td>{{ order.thirtysix }}</td>
+                    <td>{{ order.thirtyseven }}</td>
+                    <td>{{ order.thirtyeight }}</td>
+                    <td>{{ order.thirtynine }}</td>
+                    <td>{{ order.forty }}</td>
+                    <td>{{ order.fortyone }}</td>
+                    <td>{{ order.fortytwo }}</td>
+                    <td>{{ order.fortythree }}</td>
+                    <td>{{ order.fortyfour }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        <form method="post" action="{{ path('admin_orders_expedition_lots', {delete: true}) }}">
+            <button type="submit" class="button" style="width: 50%;display: inline-block;">Supprimer tous les lignes</button>
+        </form>
+        <form method="post" action="{{ path('admin_orders_expedition_lots', {export: true}) }}">
+            <button type="submit" class="button" style="width: 50%;display: inline-block;">Télécharger</button>
+        </form>
+
+    </div>
+{% endblock %}

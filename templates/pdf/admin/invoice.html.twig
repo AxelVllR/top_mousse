@@ -1,0 +1,123 @@
+<div style="margin: 10px; font-family: Futura, sans-serif; padding-bottom: 100px">
+    <div class="flex-container">
+        <div style="float: left">
+            <div style="display: flex; flex-direction: column">
+                {#  <div><img src="{{ asset('images/logo.png') }}" alt=""></div>#}
+                <div><span>TOPMOUSSE.NET</span></div>
+                <div><span>Z.I. de la Rouge Porte</span></div>
+                <div><span>12, rue de Menin</span></div>
+                <div><span>59250 - Halluin - FRANCE</span></div>
+                <div><span>tel : (+33) 03 20 23 23 74</span></div>
+                <div><span>Tel portable : 06 03 82 98 92</span></div>
+                <div><span>Fax : (+33) 03 20 23 81 32</span></div>
+                <div><span>Email : topmousse.net@gmail.com</span></div>
+                <div><span>SIRET : 804 975 126 00017</span></div>
+                <div><span>Code APE : 4791B</span></div>
+                <div><span>Vente sous enseigne VIRTUASHOP</span></div>
+            </div>
+        </div>
+
+        <div style="float: right">
+            <div style="display: flex; flex-direction: column; text-align: left;">
+                <div><span class="green">Date : {{ order.dateAt|date("d/m/Y") }}</span></div>
+                <br>
+                <div><span >Mode de paiement : {{ order.payementType }}</span></div>
+                <div><span >Email : {{ order.email }}</span></div>
+                <div><span >{{ order.phone }}</span></div>
+                <br>
+                <br>
+
+                <div><h3>Adresse de facturation</h3></div>
+                <br>
+                <div><span >{{ order.name }}</span></div>
+                <div><span >{{ order.address }}</span></div>
+                <div><span >{{ order.postalCode }}</span></div>
+                <div><span >{{ order.city }}</span></div>
+
+            </div>
+        </div>
+    </div>
+    <div style="padding-top: 350px;">
+        <div style="display: flex; flex-direction: column;">
+            <div class="green" style="text-align: center; font-size: 30px">FACTURE</div>
+            <div class="green" style="text-align: center; font-size:18px; padding-top: 5px">FACTURE
+                N°{{ order.number }}</div>
+        </div>
+    </div>
+    <div style="padding: 20px; margin-top: 50px">
+        <div style="border: 1px solid #0a0a0a">
+            <table style="border-collapse: collapse; width: 100%">
+                <tr style="background-color: #2e9415; color: white; font-size: 10px">
+                    <th style="font-weight: 400">Forme</th>
+                    <th style="font-weight: 400">Quant</th>
+                    <th style="font-weight: 400">Hauteur</th>
+                    <th style="font-weight: 400">Largeur</th>
+                    <th style="font-weight: 400">Longueur</th>
+                    <th style="font-weight: 400">Diamètre</th>
+                    <th style="font-weight: 400">Volume</th>
+                    <th style="font-weight: 400">Prix HT</th>
+                    <th style="font-weight: 400">Tva</th>
+                    <th style="font-weight: 400">Prix TTC</th>
+                </tr>
+                {% for invoice in order.articles %}
+                    <tr>
+                        <td style="text-align: center">{{ invoice.shape }}</td>
+                        <td style="text-align: center">{{ invoice.quantity ?? 0 }}</td>
+                        <td style="text-align: center">{{ invoice.height ?? 0 }}</td>
+                        <td style="text-align: center">{{ invoice.length ?? 0 }}</td>
+                        <td style="text-align: center">{{ invoice.longueur ?? 0 }}</td>
+                        <td style="text-align: center">{{ invoice.diametre ?? 0 }}</td>
+                        <td style="text-align: center">{{ invoice.volume ?? 0 }}</td>
+                        <td style="text-align: center">{{ invoice.priceTtc - invoice.priceTtc * 0.2  | number_format(2) }}€</td>
+                        <td style="text-align: center">{{ invoice.priceTtc * 0.2  | number_format(2) }}€</td>
+                        <td style="text-align: center">{{ invoice.priceTtc  | number_format(2) }}€</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+        </div>
+    </div>
+    <section>
+        <div class="flex-container" style="float: right">
+            <div style="width: 300px; border: 1px solid #0a0a0a ">
+                <table class="total" style="border-collapse: collapse;width: 100%; ">
+                    <tr>
+                        <th style="font-weight: 400">Total HT</th>
+                        <th style="font-weight: 400">{{ (order.totalHT) | number_format(2) }} €</th>
+                    </tr>
+                    <tr>
+                        <th style="font-weight: 400">TVA </th>
+                        <th style="font-weight: 400">{{ order.totalTva | number_format(2) }} €
+                        </th>
+                    </tr>
+                    <tr style="background-color: #2e9415; color: white">
+                        <th style="font-weight: 400">TOTAL TTC</th>
+                        <th style="font-weight: 400"> {{ order.totalPrice }} €</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+<div style="padding-top: 100px;float: outside">
+    <div style="font-size: 16px; text-align: center">
+        <span style="text-align: center; font-size: 11px">Référence facture : {{ order.number }}</span>
+    </div>
+</div>
+
+<style>
+    .green {
+        color: #2e9415;
+    }
+    .total th, td {
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 10px;
+    }
+    .flex-container {
+        display: flex;
+        column-gap: 40px;
+        font-family: Futura, sans-serif;
+    }
+</style>

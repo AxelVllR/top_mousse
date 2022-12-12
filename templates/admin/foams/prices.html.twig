@@ -1,0 +1,37 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Prix des mousses destinées aux revendeurs{% endblock %}
+
+{% block body %}
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <table style="margin-top: 150px">
+            <thead>
+            <tr>
+                <th>Référence</th>
+                <th>Prix public ht</th>
+                <th>Prix public ttc</th>
+                <th>Prix revendeur ht</th>
+                <th>Prix revendeur ttc</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for foam in foams %}
+                <tr>
+                    <td>{{ foam.reference }}</td>
+                    <td>{{ foam.priceCube | number_format(2) }}€</td>
+                    <td>{{ foam.priceCylinder | number_format(2) }}€</td>
+                    <td>{{ foam.resellerPriceHt | number_format(2) }}€</td>
+                    <td>{{ foam.resellerPrice | number_format(2) }}€</td>
+                    <td style="text-align: center;">
+                        <a class="button" href="{{ path('admin_update_foam', { id: foam.id }) }}" style="margin-top: 0;margin-bottom: 3px;">Modifier</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

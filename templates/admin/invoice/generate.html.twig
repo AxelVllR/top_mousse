@@ -1,0 +1,85 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} Générer une facture{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <h2>Générer une facture </h2>
+    </div>
+    <div class="">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <hr/>
+        <div>
+            {{ form_start(form) }}
+            <div class="container" >
+                {{ form_row(form.number) }}
+                {{ form_row(form.status) }}
+                {{ form_row(form.name) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.address) }}
+                {{ form_row(form.city) }}
+                {{ form_row(form.postalCode) }}
+                {{ form_row(form.country) }}
+                {{ form_row(form.phone) }}
+                {{ form_row(form.payementType) }}
+                {{ form_row(form.shipment) }}
+                {{ form_row(form.fee) }}
+                {{ form_row(form.dateAt) }}
+                <hr>
+                <ul class="tags " style="margin-top: 105px;"
+                    data-index="{{ form.articles|length > 0 ? form.articles|last.vars.name + 1 : 0 }}"
+                    data-prototype="{{ form_widget(form.articles.vars.prototype)|e('html_attr') }}"
+                ></ul>
+            </div>
+            <button type="button" id="add_item_link" class="button" data-collection-holder-class="tags">Ajouter un article</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+    <script>
+        //get button by id and add event listener on it
+        document.getElementById('add_item_link').addEventListener('click', function (e) {
+            //get collection holder class
+            const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+            const item = document.createElement('li');
+            const deleteButton = document.createElement('button');
+
+
+
+            item.style.backgroundColor = '#adadad';
+            item.style.padding = '10px';
+            item.style.margin = '10px';
+            item.style.borderRadius = '5px';
+            item.style.width =  '250px';
+
+
+            item.innerHTML = collectionHolder
+                .dataset
+                .prototype
+                .replace(
+                    /__name__/g,
+                    collectionHolder.dataset.index
+                );
+            item.id = collectionHolder.dataset.index;
+
+            deleteButton.innerHTML = "Supprimer l'article";
+            deleteButton.type = 'button';
+            deleteButton.className = 'button';
+            deleteButton.id = collectionHolder.dataset.index + '_delete_button';
+            deleteButton.onclick = function (e) {
+                console.log(e.currentTarget.id);
+                const selectedItem = document.getElementById(e.currentTarget.id.replace('_delete_button', ''));
+                const selectedButton = document.getElementById(e.currentTarget.id);
+                collectionHolder.removeChild(selectedItem);
+                collectionHolder.removeChild(selectedButton);
+            };
+
+            collectionHolder.appendChild(item);
+            collectionHolder.appendChild(deleteButton);
+            collectionHolder.dataset.index++;
+        });
+
+    </script>
+{% endblock %}

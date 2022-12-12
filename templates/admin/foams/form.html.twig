@@ -1,0 +1,91 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ action }} une mousse à la découpe{% endblock %}
+
+{% block body %}
+    <div class="header header-push-small">
+        <h2>Mousses à la découpe</h2>
+        <p><a href="{{ path('admin_list_foams') }}">Gérer les mousses à la découpe</a></p>
+    </div>
+    <div class="content">
+        {{ form_start(form) }}
+        <p>
+            {{ form_label(form.reference) }}
+            {{ form_widget(form.reference) }}
+        </p>
+        <p>
+            {{ form_label(form.line) }}
+            {{ form_widget(form.line) }}
+        </p>
+        <p>
+            {{ form_label(form.comfort) }}
+            {{ form_widget(form.comfort) }}
+        </p>
+        <p>
+            {{ form_label(form.density) }}
+            {{ form_widget(form.density) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.various) }}
+            {{ form_widget(form.various) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.mattress) }}
+            {{ form_widget(form.mattress) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.cake) }}
+            {{ form_widget(form.cake) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.sitting) }}
+            {{ form_widget(form.sitting) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.back) }}
+            {{ form_widget(form.back) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.cuff) }}
+            {{ form_widget(form.cuff) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.pillow) }}
+            {{ form_widget(form.pillow) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.cap) }}
+            {{ form_widget(form.cap) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.wedging) }}
+            {{ form_widget(form.wedging) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.footstool) }}
+            {{ form_widget(form.footstool) }}
+        </p>
+        <p>
+            {{ form_label(form.priceCube) }}
+            {{ form_widget(form.priceCube) }}
+        </p>
+        <p>
+            {{ form_label(form.priceCylinder) }}
+            {{ form_widget(form.priceCylinder) }}
+        </p>
+        <p>
+            {{ form_label(form.resellerPriceHt) }}
+            {{ form_widget(form.resellerPriceHt) }}
+        </p>
+        <p>
+            {{ form_label(form.resellerPrice) }}
+            {{ form_widget(form.resellerPrice) }}
+        </p>
+        <p class="small">
+            {{ form_label(form.promo) }}
+            {{ form_widget(form.promo) }}
+        </p>
+        <button type="submit">{{ action }}</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

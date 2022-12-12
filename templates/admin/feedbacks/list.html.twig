@@ -1,0 +1,35 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des feedbacks{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Réactions</h2>
+    </div>
+    <div class="content">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        {% for feedback in feedbacks %}
+            <p>{{ feedback.id }} - {{ feedback.user.firstName }} {{ feedback.user.lastName }}</p>
+            <p>{{ feedback.content | raw }}</p>
+            <form method="post" action="{{ path('admin_delete_feedback', { id: feedback.id }) }}">
+                <button type="submit" style="margin-top: 0;">Supprimer</button>
+                <input type="hidden" name="token" value="{{ csrf_token('delete-feedback') }}"/>
+            </form>
+            {% for answer in feedback.answers %}
+                <div class="reponse" style="margin-top: 15px;">{{ answer.content | raw }}</div>
+            {% endfor %}
+            <form method="post" action="{{ path('admin_create_answer') }}">
+                <p>
+                    <label for="content">Réponse</label>
+                    <textarea name="content" id="content"></textarea>
+                </p>
+                <button type="submit" class="button">Ajouter</button>
+                <input type="hidden" name="feedbackId" value="{{ feedback.id }}"/>
+                <input type="hidden" name="token" value="{{ csrf_token('create-answer') }}"/>
+            </form>
+            <hr/>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ action }} un produit fini{% endblock %}
+
+{% block body %}
+    <div class="header header-push-small">
+        <h2>Produits finis</h2>
+        <p><a href="{{ path('admin_list_products') }}">Gérer les produits finis</a></p>
+    </div>
+    <div class="content">
+        {{ form_start(form, { attr: { 'novalidate': 'novalidate' }}) }}
+            <p>
+                {{ form_label(form.reference) }}
+                {{ form_widget(form.reference) }}
+            </p>
+            <p>
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title) }}
+            </p>
+            <p>
+                {{ form_label(form.thumbnail) }}
+                {{ form_widget(form.thumbnail) }}
+            </p>
+            <p>
+                {{ form_label(form.volume) }}
+                {{ form_widget(form.volume) }}
+            </p>
+            <p>
+                {{ form_label(form.content) }}
+                {{ form_widget(form.content) }}
+            </p>
+            <p>
+                {{ form_label(form.priceTtc) }}
+                {{ form_widget(form.priceTtc) }}
+            </p>
+            <p>
+                {{ form_label(form.priceHt) }}
+                {{ form_widget(form.priceHt) }}
+            </p>
+            <p class="small">
+                {{ form_label(form.delivery) }}
+                {{ form_widget(form.delivery) }}
+            </p>
+            <p class="small">
+                {{ form_label(form.promo) }}
+                {{ form_widget(form.promo) }}
+            </p>
+            <p class="small">
+                {{ form_label(form.bestSeller) }}
+                {{ form_widget(form.bestSeller) }}
+            </p>
+            <p>
+                {{ form_label(form.declination) }}
+                {{ form_widget(form.declination) }}
+            </p>
+            <p>
+                {{ form_label(form.stock) }}
+                {{ form_widget(form.stock) }}
+            </p>
+            <p>
+                {{ form_label(form.draft) }}
+                {{ form_widget(form.draft) }}
+            </p>
+            <button type="submit">{{ action }}</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

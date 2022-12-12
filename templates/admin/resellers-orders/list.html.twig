@@ -1,0 +1,172 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Table des commandes revendeurs{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Table des commandes revendeurs</h2>
+    </div>
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <p>
+            <form method="post" action="{{ path('admin_set_reseller_order_number') }}">
+                <select name="resellerOrderId" style="width: 20%;display: inline-block;">
+                    {% for reseller_order in resellers_orders %}
+                        {% if reseller_order.status == 3 %}
+                            <option value="{{ reseller_order.id }}">{{ reseller_order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <input type="text" name="orderNumber" placeholder="Numéro d'ordre" style="width: 20%;display: inline-block;"/>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Attribuer un numéro d'ordre</button>
+                <input type="hidden" name="token" value="{{ csrf_token('set-reseller-order-number') }}"/>
+            </form>
+        </p>
+        <hr/>
+        <p>
+            <form method="post" action="{{ path('admin_expedite_resellers_orders') }}">
+                <select name="resellersOrdersIds[]" style="width: 20%;display: inline-block;" multiple>
+                    {% for reseller_order in resellers_orders %}
+                        {% if reseller_order.status == 6 %}
+                            <option value="{{ reseller_order.id }}">{{ reseller_order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Signaler comme expédiée(s)</button>
+                <input type="hidden" name="token" value="{{ csrf_token('expedite-resellers-orders') }}"/><br/>
+                <small>Maintenez la touche CTRL enfoncée pour sélectionner plusieurs commandes.</small>
+            </form>
+        </p>
+        <hr/>
+        <p>
+            <form method="post" action="{{ path('admin_sale_resellers_orders') }}">
+                <select name="resellersOrdersIds[]" style="width: 20%;display: inline-block;" multiple>
+                    {% for reseller_order in resellers_orders %}
+                        {% if reseller_order.status == 7 %}
+                            <option value="{{ reseller_order.id }}">{{ reseller_order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Marquer comme soldée(s)</button>
+                <input type="hidden" name="token" value="{{ csrf_token('sale-resellers-orders') }}"/><br/>
+                <small>Maintenez la touche CTRL enfoncée pour sélectionner plusieurs commandes.</small>
+            </form>
+        </p>
+        <hr/>
+        <p><b>Code couleur du processus de production :</b></p>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="background-color: #D553FF">Prise en compte</td>
+                    <td style="background-color: #CC3300">En préparation</td>
+                    <td style="background-color: #58ACFA">Découpée</td>
+                    <td style="background-color: #FB0606E6">Emballée</td>
+                    <td style="background-color: #47A619">Expédiée</td>
+                    <td style="background-color: #D3D3D3">Soldée</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr/>
+        <table>
+            <thead>
+                <tr>
+                    <th>Numéro d'ordre</th>
+                    <th>Facture</th>
+                    <th>Email client</th>
+                    <th>Statut</th>
+                    <th>Quantité</th>
+                    <th>Hauteur</th>
+                    <th>Largeur</th>
+                    <th>Longueur</th>
+                    <th>Diamètre</th>
+                    <th>Volume</th>
+                    <th>Prix TTC</th>
+                    <th>Prix HT</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reseller_order in resellers_orders %}
+                    <tr style="background-color: {{ reseller_order.findColor }}">
+                        <td>
+                            {{ (reseller_order.orderNumber) ? reseller_order.orderNumber : '-' }}
+                        </td>
+                        <td>
+                            {% if reseller_order.status > 2 %}
+                                <a href="{{ path('admin_re_orders_pdf', {id : reseller_order.id}) }}">PDF</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td style="text-align: center;">
+                            <a class="button" href="{{ path('admin_single_user', { id: reseller_order.user.id }) }}" style="margin: 0;">
+                                {{ reseller_order.user.email }}
+                            </a>
+                        </td>
+                        <td>{{ reseller_order.findStatus }}</td>
+                        <td>
+                            {% for item in reseller_order.resellerOrderItems %}
+                                {{ item.quantity }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in reseller_order.resellerOrderItems %}
+                                {% if (item.thickness) %}
+                                    {{ item.thickness }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in reseller_order.resellerOrderItems %}
+                                {% if (item.width) %}
+                                    {{ item.width }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in reseller_order.resellerOrderItems %}
+                                {% if (item.length) %}
+                                    {{ item.length }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in reseller_order.resellerOrderItems %}
+                                {% if (item.diameter) %}
+                                    {{ item.diameter }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in reseller_order.resellerOrderItems %}
+                                {{ item.volume |number_format(6) }} m<sup>3</sup><br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {{ reseller_order.totalPrice | number_format(2) }} €
+                        </td>
+                        <td>
+                            {{ (reseller_order.totalPrice - (reseller_order.totalPrice * 0.20)) | number_format(2) }} €
+                        </td>
+                        <td style="text-align: center;">
+                            <form method="post" action="{{ path('admin_delete_reseller_order', { id: reseller_order.id }) }}">
+                                <button type="submit" class="button" style="margin: 0;">Supprimer</button>
+                                <input type="hidden" name="token" value="{{ csrf_token('delete-reseller-order') }}"/>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Confirmation de commande{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="cartBreadcrumb">
+                <ul class="cartBreadcrumbList">
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">1</div>
+                        <span>Panier</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">2</div>
+                        <span>Identification</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">3</div>
+                        <span>Livraison</span>
+                    </li>
+                    <li class="cartBreadcrumbItem">
+                        <div class="step">4</div>
+                        <span>Paiement</span>
+                    </li>
+                    <li class="cartBreadcrumbItem active">
+                        <div class="step">5</div>
+                        <span>Confirmation</span>
+                    </li>
+                </ul>
+            </div>
+            <h1>En attente de paiement</h1>
+            Identifiant email : {{ current_user.email }}<br/>
+            Expédition :
+            {% if order.shippingMethod == 1 %}
+                Expédition à domicile
+            {% elseif order.shippingMethod == 2 %}
+                Expédition en point relai
+            {% else %}
+                Aucune
+            {% endif %}<br/>
+            Moyen de paiement :
+            {% if order.paymentMethod == 1 %}
+                Stripe
+            {% elseif order.paymentMethod == 2 %}
+                PayPal
+            {% else %}
+                Chèque de banque
+            {% endif %}
+            <br/><br/>
+            Adresse de facturation :<br/>
+            {{ order.billingAddress }}<br/>
+            {{ order.billingPostalCode }}<br/>
+            {{ order.billingCity }}
+            <br/><br/>
+            {% if order.shippingMethod != 3 %}
+                Adresse de livraison :<br/>
+                {{ order.shippingAddress }}<br/>
+                {{ order.shippingPostalCode }}<br/>
+                {{ order.shippingCity }}
+                <br/><br/>
+            {% endif %}
+            <strong>Articles</strong><br/>
+            {% for item in order.orderItems %}
+                {{ item.title }} - Quantité : {{ item.quantity }} - Prix ttc : {{ (item.price * item.quantity) | number_format(2) }}€<br/>
+            {% endfor %}
+            <br/>
+            <strong>Totaux</strong><br/>
+            Volume total : <strong>{{ total_volume | number_format(6) }} m<sup>3</sup></strong><br/>
+            Prix ttc pour ces {{ total }} article(s) : <strong>{{ total_price | number_format(2) }} €</strong><br/>
+            Frais de port :
+            <strong>
+                {% if order.shippingMethod == 1 %}
+                    19 €
+                {% elseif order.shippingMethod == 2 %}
+                    9 €
+                {% else %}
+                    0 €
+                {% endif %}<br/>
+            </strong>
+            <br/>
+            Total à régler :
+            <strong class="cOrange">
+                {{ total_order | number_format(2) }} €<br/>
+            </strong>
+            Votre référence de facturation : <strong>{{ order.id }}</strong>
+            <br/><br/>
+            <p style="margin-bottom: 30px;">Vous avez choisi de payer votre commande par chèque de banque. En choisissant cette option, vous devez envoyer un chèque de banque à la société Top Mousse, correspondant à votre commande. Nous confirmerons votre commande à sa réception.</p>
+        </div>
+    </div>
+{% endblock %}

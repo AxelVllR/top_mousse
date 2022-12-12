@@ -1,0 +1,251 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Table des commandes{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Table des commandes</h2>
+    </div>
+    <div class="content-table">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <p>
+            <form method="post" action="{{ path('admin_unpaid_order') }}">
+                <select name="orderId" style="width: 20%;display: inline-block;">
+                    {% for order in orders %}
+                        {% if order.status == 1 %}
+                            <option value="{{ order.id }}">{{ order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Relancer le client</button>
+                <input type="hidden" name="token" value="{{ csrf_token('unpaid-order') }}"/>
+            </form>
+        </p>
+        <p>
+            <form method="post" action="{{ path('admin_paid_order') }}">
+                <select name="orderId" style="width: 20%;display: inline-block;">
+                    {% for order in orders %}
+                        {% if order.status == 2 %}
+                            <option value="{{ order.id }}">{{ order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Signaler comme réglée</button>
+                <input type="hidden" name="token" value="{{ csrf_token('paid-order') }}"/>
+            </form>
+        </p>
+        <hr/>
+        <p>
+            <form method="post" action="{{ path('admin_set_order_number') }}">
+                <select name="orderId" style="width: 20%;display: inline-block;">
+                    {% for order in orders %}
+                        {% if order.status == 3 %}
+                            <option value="{{ order.id }}">{{ order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <input type="text" name="orderNumber" placeholder="Numéro d'ordre" style="width: 20%;display: inline-block;"/>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Attribuer un numéro d'ordre</button>
+                <input type="hidden" name="token" value="{{ csrf_token('set-order-number') }}"/>
+            </form>
+        </p>
+        <hr/>
+        <p>
+            <form method="post" action="{{ path('admin_available_order') }}">
+                <select name="orderId" style="width: 20%;display: inline-block;">
+                    {% for order in orders %}
+                        {% if order.shippingMethod == 3 and order.status == 6 %}
+                            <option value="{{ order.id }}">{{ order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Signaler comme disponible (magasin)</button>
+                <input type="hidden" name="token" value="{{ csrf_token('available-order') }}"/>
+            </form>
+        </p>
+        <p>
+            <form method="post" action="{{ path('admin_expedite_order') }}">
+                <select name="orderId" style="width: 20%;display: inline-block;">
+                    {% for order in orders %}
+                        {% if order.shippingMethod == 1 or order.shippingMethod == 2 and order.status == 6 %}
+                            <option value="{{ order.id }}">{{ order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <select name="carrier" style="width: 20%;display: inline-block;">
+                    <option value="Mondial Relay">Mondial Relay</option>
+                    <option value="Colissimo">Colissimo</option>
+                    <option value="TNT">TNT</option>
+                    <option value="DPD">DPD</option>
+                </select>
+                <input type="text" name="shippingNumber" style="width: 20%;display: inline-block;" placeholder="Numéro de suivi"/>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Signaler comme expédiée</button>
+                <input type="hidden" name="token" value="{{ csrf_token('expedite-order') }}"/>
+            </form>
+        </p>
+        <hr/>
+        <p>
+            <form method="post" action="{{ path('admin_sale_order') }}">
+                <select name="orderId" style="width: 20%;display: inline-block;">
+                    {% for order in orders %}
+                        {% if order.status == 7 %}
+                            <option value="{{ order.id }}">{{ order.id }}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <button type="submit" class="button" style="width: 50%;display: inline-block;">Marquer comme soldée</button>
+                <input type="hidden" name="token" value="{{ csrf_token('sale-order') }}"/>
+            </form>
+        </p>
+        <hr/>
+        <p><b>Code couleur du processus de production :</b></p>
+        <table>
+            <tbody>
+                <tr>
+                    <td style="background-color: #D3D3D3">Panier</td>
+                    <td style="background-color: #D1A5A5">En attente de paiement</td>
+                    <td style="background-color: #D553FF">Réglée</td>
+                    <td style="background-color: #CC3300">En préparation</td>
+                    <td style="background-color: #58ACFA">Découpée</td>
+                    <td style="background-color: #FB0606E6">Emballée</td>
+                    <td style="background-color: #47A619">Expédiée</td>
+                    <td style="background-color: #D3D3D3">Soldée</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr/>
+        <table>
+            <thead>
+                <tr>
+                    <th>Numéro</th>
+                    <th>Facture</th>
+                    <th>Numéro d'ordre</th>
+                    <th>Email client</th>
+                    <th>Statut</th>
+                    <th>Forme</th>
+                    <th>Référence</th>
+                    <th>Quantité</th>
+                    <th>Hauteur</th>
+                    <th>Largeur</th>
+                    <th>Longueur</th>
+                    <th>Diamètre</th>
+                    <th>Volume</th>
+                    <th>Prix TTC</th>
+                    <th>Prix HT</th>
+                    <th>Frais de port</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders|reverse %}
+                    <tr style="background-color: {{ order.findColor }}">
+                        <td>
+                            {{ (order.id) }}
+                        </td>
+                        <td>
+                            {% if order.status > 2 %}
+                                <a href="{{ path('admin_orders_pdf', {id : order.id, email : order.email}) }}">PDF</a>
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if order.status > 7 %}
+                                {{ (order.shippingNumber) ? order.shippingNumber : '-' }}
+                {% else %}
+                            {{ (order.orderNumber) ? order.orderNumber : '-' }}
+                            {% endif %}
+                        </td>
+                        <td style="text-align: center;">
+                            {% if order.user %}
+                            <a class="button" href="{{ path('admin_single_user', { id: order.user.id }) }}" style="margin: 0;">
+                                {{ order.user.email }}
+                            </a>
+                            {% else %}
+                                {{ order.email }}
+                                {% endif %}
+                        </td>
+                        <td>{{ order.findStatus }}</td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {{ (item.shape) ? item.shape : '-' }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {% if item.product %}
+                                    {{ item.product.reference }}<br/>
+                                {% elseif item.plate %}
+                                    {{ item.plate.reference }}<br/>
+                                {% else %}
+                                    Divers<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {{ item.quantity }}<br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {% if (item.thickness) %}
+                                    {{ item.thickness }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {% if (item.width) %}
+                                    {{ item.width }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {% if (item.length) %}
+                                    {{ item.length }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {% if (item.diameter) %}
+                                    {{ item.diameter }} cm<br/>
+                                {% else %}
+                                    -<br/>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for item in order.orderItems %}
+                                {{ item.volume |number_format(6) }} m<sup>3</sup><br/>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {{ order.totalPrice | number_format(2) }} €
+                        </td>
+                        <td>
+                            {{ (order.totalPrice - (order.totalPrice * 0.20)) | number_format(2) }} €
+                        </td>
+                        <td>{{ order.findShippingMethod }}</td>
+                        <td style="text-align: center;">
+                            <form method="post" action="{{ path('admin_delete_order', { id: order.id }) }}">
+                                <button type="submit" class="button" style="margin: 0;">Supprimer</button>
+                                <input type="hidden" name="token" value="{{ csrf_token('delete-order') }}"/>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

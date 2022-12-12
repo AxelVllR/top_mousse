@@ -1,0 +1,73 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Nouveau devis{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Devis</h2>
+    </div>
+    <div class="content">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        {{ form_start(form) }}
+            <p>
+                {{ form_label(form.firstName) }}
+                {{ form_widget(form.firstName) }}
+            </p>
+            <p>
+                {{ form_label(form.lastName) }}
+                {{ form_widget(form.lastName) }}
+            </p>
+            <p>
+                {{ form_label(form.company) }}
+                {{ form_widget(form.company) }}
+            </p>
+            <p>
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email) }}
+            </p>
+            <p>
+                {{ form_label(form.address) }}
+                {{ form_widget(form.address) }}
+            </p>
+            <p>
+                {{ form_label(form.postalCode) }}
+                {{ form_widget(form.postalCode) }}
+            </p>
+            <p>
+                {{ form_label(form.city) }}
+                {{ form_widget(form.city) }}
+            </p>
+            <p>
+                {{ form_label(form.quantity) }}
+                {{ form_widget(form.quantity) }}
+            </p>
+            <p>
+                {{ form_label(form.thickness) }}
+                {{ form_widget(form.thickness) }}
+            </p>
+            <p>
+                {{ form_label(form.length) }}
+                {{ form_widget(form.length) }}
+            </p>
+            <p>
+                {{ form_label(form.width) }}
+                {{ form_widget(form.width) }}
+            </p>
+            <p>
+                {{ form_label(form.height) }}
+                {{ form_widget(form.height) }}
+            </p>
+            <p>
+                {{ form_label(form.diameter) }}
+                {{ form_widget(form.diameter) }}
+            </p>
+            <p>
+                {{ form_label(form.price) }}
+                {{ form_widget(form.price) }}
+            </p>
+            <button type="submit">Envoyer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

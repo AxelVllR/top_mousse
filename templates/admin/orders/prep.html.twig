@@ -1,0 +1,77 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} Statut en préparation et attribuer un numéro d'ordre{% endblock %}
+
+{% block body %}
+    <style>
+        label,
+        label.required {
+            display: flex !important;
+            color: #000;
+            font-weight: bold;
+            margin: 0px !important;
+            text-align: left !important;
+        }
+    </style>
+    <div class="header">
+        <h2>Statut en préparation et attribuer un numéro d'ordre </h2>
+    </div>
+    <div class="">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        <hr/>
+        <div>
+            <h2>
+                <span> Tableau de gestion des découpes triées </span>
+            </h2>
+            <section id="list" class="mb-5">
+                {{ form(form) }}
+            </section>
+            <hr>
+            <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Nom</th>
+                    <th>Mail</th>
+                    <th>Statut</th>
+                    <th>Livraison</th>
+                    <th>Numéro d'ordre</th>
+                </tr>
+                </thead>
+                <tbody>
+                <form method="post" name="orders">
+                    {% for item in orders|reverse %}
+                        <tr>
+                            <td>{{ item.createdAt|date('d.M.Y') }}</td>
+                            <td>{{ item.firstName }} {{ item.lastName }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.findStatus }}</td>
+                            <td>
+                                {{ item.findShippingMethod }}
+                            </td>
+                            <td><input name="o-{{ item.id }}" value="{{ item.orderNumber }}" type="text"></td>
+                        </tr>
+
+                    {% endfor %}
+                    {% for item in resellers|reverse %}
+                        <tr>
+                            <td>{{ item.createdAt|date('d.M.Y') }}</td>
+                            <td>{{ item.firstName }} {{ item.lastName }}</td>
+                            <td>{{ item.email }}</td>
+                            <td>{{ item.findStatus }}</td>
+                            <td>
+                                {{ item.findShippingMethod }}
+                            </td>
+                            <td><input name="r-{{ item.id }}" type="text"></td>
+                        </tr>
+
+                    {% endfor %}
+                    <button type="submit" style="margin-bottom: 2px" class="mb-2">Enregistrer les numéros d'ordre séléctionnés</button>
+                </form>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

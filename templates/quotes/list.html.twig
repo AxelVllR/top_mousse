@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Devis en ligne{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                <h1>
+                    NOS PROPOSITIONS POUR VOTRE DEMANDE
+                </h1>
+                {% for key, result in results %}
+                    <h3 class="quote-title">{{ key }}</h3>
+                    <table class="quote-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Mousse</th>
+                                <th>Quantité</th>
+                                <th>Volume</th>
+                                <th>Prix</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for foam in result %}
+                                <tr>
+                                    <td style="width: 20%;">
+                                        {% if foam.comfort %}
+                                            {% if foam.comfort == 1 %}
+                                                Confort 1 - Souple
+                                            {% elseif foam.comfort == 2 %}
+                                                Confort 2 - Médium
+                                            {% elseif foam.comfort == 3 %}
+                                                Confort 3 - Ferme
+                                            {% elseif foam.comfort == 4 %}
+                                                Confort 4 - Très ferme
+                                            {% endif %}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td style="text-align: center;">
+                                        {{ (foam.reference) ? foam.reference : '-' }}
+                                        <a class="quote-info" href="#">i</a>
+                                    </td>
+                                    <td style="text-align: center;">{{ quantity }}</td>
+                                    <td style="text-align: center;">
+                                        {% if shape == 'carre' %}
+                                            {{ thickness }} x {{ width }} x {{ length }}
+                                        {% elseif shape == 'cylindre' %}
+                                            {{ height }} x {{ diameter }}
+                                        {% elseif shape == 'doublemarteau' or shape == 'simplemarteau' or shape == 'assisetrapeze' or shape == 'pupitre' or shape == 'assisepupitre' %}
+                                            {{ thickness }} x {{ dimensionA }} x {{ dimensionC }}
+                                        {% elseif shape == 'planincline' or shape == 'ellipse' %}
+                                            {{ thickness }} x {{ dimensionA }} x {{ dimensionB }}
+                                        {% endif %}
+                                        ({{ volume | number_format(2) }} m<sup>3</sup>)
+                                    </td>
+                                    <td style="text-align: center;">
+                                        {% if shape == 'cylindre' %}
+                                            {{ ((volume * foam.price_cylinder) * quantity) | number_format(2) }}€ TTC
+                                        {% else %}
+                                            {{ ((volume * foam.price_cube) * quantity) | number_format(2) }}€ TTC
+                                        {% endif %}
+                                    </td>
+                                    <td style="display: flex;justify-content: flex-end;">
+                                        <form method="post" action="{{ path('create_cart_item') }}">
+                                            <button type="submit" class="productAddToCart button">
+                                                <span class="icon-panier"></span>
+                                                AJOUTER AU PANIER
+                                            </button>
+                                            <input type="hidden" name="title" value="Découpe divers {{ foam.reference }}"/>
+                                            <input type="hidden" name="thickness" value="{{ (thickness) ? thickness : height }}"/>
+                                            <input type="hidden" name="width" value="{{ width }}"/>
+                                            <input type="hidden" name="length" value="{{ length }}"/>
+                                            <input type="hidden" name="diameter" value="{{ diameter }}"/>
+                                            <input type="hidden" name="volume" value="{{ volume }}"/>
+                                            <input type="hidden" name="quantity" value="{{ quantity }}"/>
+                                            {% if shape == 'cylindre' %}
+                                                <input type="hidden" name="price" value="{{ ((volume * foam.price_cylinder) * quantity) }}"/>
+                                            {% else %}
+                                                <input type="hidden" name="price" value="{{ ((volume * foam.price_cube) * quantity) }}"/>
+                                            {% endif %}
+                                            <input type="hidden" name="shape" value="{{ shape }}"/>
+                                            <input type="hidden" name="token" value="{{ csrf_token('create-cart-item') }}"/>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

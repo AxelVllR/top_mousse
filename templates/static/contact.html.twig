@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top Mousse - Nous contacter{% endblock %}
+
+{% block body %}
+    <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                {% for flash in app.flashes('response') %}
+                    <p class="reponse">{{ flash }}</p>
+                {% endfor %}
+                <h1>
+                    Découpe de mousse sur mesure<br/>
+                    Demande de devis par mail
+                </h1>
+                <div class="contactOptions">
+                    <div class="row">
+                        <div class="col-6-desktop">
+                            <p class="tac">
+                                Si vous désirez nous contacter pour une simple demande, remplissez le formulaire ci-dessous.
+                            </p>
+                        </div>
+                        <div class="col-6-desktop">
+                            <p class="tac">
+                                Vous demandez un DEVIS pour une forme personnalisée,<br>
+                                avec possibilité d'envoyer un schéma, une image en pièce jointe.
+                                <a href="{{ path('contact_quote') }}" class="buttonLink" style="text-decoration: none;margin-top: 15px;">Remplissez ce formulaire</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contactForm">
+                    {{ form_start(form) }}
+                        <div style="width: 600px;margin: 0 auto;">
+                            <p>
+                                {{ form_label(form.firstName) }}
+                                {{ form_widget(form.firstName) }}
+                            </p>
+                            <p>
+                                {{ form_label(form.lastName) }}
+                                {{ form_widget(form.lastName) }}
+                            </p>
+                            <p>
+                                {{ form_label(form.email) }}
+                                {{ form_widget(form.email) }}
+                            </p>
+                            <p>
+                                {{ form_label(form.content) }}
+                                {{ form_widget(form.content) }}
+                            </p>
+                            <p>
+                                {{ form_label(form.thumbnail) }}
+                                {{ form_widget(form.thumbnail) }}
+                            </p>
+                        </div>
+                        <div class="row center">
+                            <div class="col-6-tablet tac">
+                                <div class="g-recaptcha" data-sitekey="6LdI6L4UAAAAAFZhOk-Y0Bo05_08d9UkQxP1qID8" style="text-align:center; margin: 0 auto;  display: inline-block;"></div>
+                            </div>
+                        </div>
+                        <div class="row center">
+                            <div class="col-6-tablet tac">
+                                <button type="submit" class="button" data-callback="onReCaptchaValid">
+                                    <span class="icon-triangle-left"></span> Envoyer ma demande
+                                </button>
+                            </div>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+                <div class="contactInfos">
+                    <div class="row">
+                        <div class="col-6-tablet adress">
+                            <div class="col-12">
+                                <p>
+                                    VIRTUASHOP<br>
+                                    12, rue de Menin<br>
+                                    Z.I. de la Rouge Porte<br>
+                                    59250 - Halluin - FRANCE<br>
+                                    <br>
+                                    SIRET : 804 975 126 00017<br>
+                                    Code APE : 4791B
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-6-tablet phone">
+                            <div class="col-12">
+                                <p>
+                                    Téléphone fixe : <a href="tel:+33320232374" target="_blank">(+33) 03.20.23.23.74</a><br>
+                                    Téléphone mobile : <a href="tel:+33603829892" target="_blank">(+33) 06 03 82 98 92</a><br>
+                                    Fax : (+33) 03 20 23 81 32<br>
+                                    <br>
+                                    Email : <a href="mailto:topmousse.net@gmail.com" target="_blank">topmousse.net@gmail.com</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

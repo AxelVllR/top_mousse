@@ -1,0 +1,26 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Gestion des paramètres généraux{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Paramètres généraux</h2>
+    </div>
+    <div class="content">
+        {% for flash in app.flashes('response') %}
+            <p class="reponse">{{ flash }}</p>
+        {% endfor %}
+        {% for configuration in configurations %}
+            <div class="item">
+                {{ configuration.title }}
+                <form method="post" action="{{ path('admin_update_configuration', { id: configuration.id }) }}">
+                    <input type="text" name="content" value="{{ configuration.content }}"/>
+                    <button type="submit">Modifier</button>
+                    <input type="hidden" name="title" value="{{ configuration.title }}"/>
+                    <input type="hidden" name="token" value="{{ csrf_token('update-configuration') }}"/>
+                </form>
+            </div>
+            <hr/>
+        {% endfor %}
+    </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+    <h1 style="margin: 0;">Commande disponible</h1>
+    <p>Bonjour,</p>
+    <p>Nous vous informons que votre commande {{ order.id }} est disponible en magasin, vous pouvez venir la chercher dès aujourd'hui !</p>
+    <p><b>Votre équipe Top Mousse</b></p>
+{% endblock %}

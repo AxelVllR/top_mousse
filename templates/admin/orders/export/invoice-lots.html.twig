@@ -1,0 +1,20 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Export des commandes par lots{% endblock %}
+
+{% block body %}
+    <div class="header header-push">
+        <h2>Expédition par lots - export des factures</h2>
+    </div>
+    <div class="content-table">
+        <form method="get" action="{{ path('invoices_lots_orders') }}">
+            <input type="text" name="order-lot" placeholder="Numéro d'ordre" style="width: 20%;display: inline-block;"/>
+            <button type="submit" class="button" style="width: 50%;display: inline-block;">Afficher les commandes par numéro d'ordre</button>
+        </form>
+        <div style="display: ruby-base">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}
