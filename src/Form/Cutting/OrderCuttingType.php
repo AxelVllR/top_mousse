@@ -26,7 +26,7 @@ class OrderCuttingType extends AbstractType
                 'multiple' => true,
                 'expanded' => true,
                 'label' => false,
-
+                "attr" => [ "class" => "order_choice" ]
             ],
 
             )

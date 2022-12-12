@@ -3,6 +3,14 @@ body {
     padding: 40px;
 }
 
+.order_choice {
+    display: flex;
+}
+
+.order_choice > input {
+    margin-right: 12px;
+}
+
 .export_title {
     display: flex;
     justify-content: center;

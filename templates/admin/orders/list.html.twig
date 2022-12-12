@@ -121,6 +121,7 @@
                 <tr>
                     <th>Numéro</th>
                     <th>Facture</th>
+                    <th>Numéro d'expedition</th>
                     <th>Numéro d'ordre</th>
                     <th>Email client</th>
                     <th>Statut</th>
@@ -152,11 +153,10 @@
                             {% endif %}
                         </td>
                         <td>
-                            {% if order.status > 7 %}
-                                {{ (order.shippingNumber) ? order.shippingNumber : '-' }}
-                {% else %}
+                            {{ (order.shippingNumber) ? order.shippingNumber : '-' }}
+                        </td>
+                        <td>
                             {{ (order.orderNumber) ? order.orderNumber : '-' }}
-                            {% endif %}
                         </td>
                         <td style="text-align: center;">
                             {% if order.user %}
