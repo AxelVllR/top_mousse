@@ -1,0 +1,132 @@
+:root {
+    --lightgray: #efefef;
+    --blue: #3b4b5c;
+    --white: #fff;
+    --black: rgba(0, 0, 0, 0.8);
+    --bounceEasing: cubic-bezier(0.51, 0.92, 0.24, 1.15);
+}
+
+.container-faq {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+@media (min-width: 1200px){
+    .container-faq {
+        width: 1170px;
+    }
+}
+
+.txt-normal {
+    font-weight: normal;
+}
+
+.txt-uppercase {
+    text-transform: uppercase;
+}
+.txt-right-btn{
+   display: flex;
+    justify-content: end;
+}
+.close-text-modal{
+    font-size: 12px;
+    margin-right: 6px;
+}
+@media (min-width: 992px) {
+
+}
+.accordeon-page .button-faq {
+    border-radius: 3px;
+    background-color: #d9e2eb;
+    display: block;
+    margin: 8px 0;
+    width: 100%;
+    max-width: 800px;
+    padding: 15px 30px;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+.btn-contact {
+    max-width: none !important;
+    padding: 20px 50px !important;
+    font-size:15px !important;
+}
+
+hr{
+    margin-top: 0 !important;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: var(--black);
+    cursor: pointer;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.35s ease-in;
+    z-index: 199;
+}
+
+.modal.is-visible {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal-dialog {
+    position: relative;
+    max-width: 800px;
+    max-height: 80vh;
+    border-radius: 5px;
+    background: var(--white);
+    overflow: auto;
+    cursor: default;
+}
+
+.modal-dialog > * {
+    padding: 1rem;
+}
+
+.modal-header,
+.modal-footer {
+    background: var(--lightgray);
+}
+
+.modal-header {
+    display: flex;
+    justify-content:flex-start !important;
+}
+
+.modal-header .close-modal {
+    font-size: 1.5rem;
+}
+.modal h1 {
+    font-size: 18px;
+    color:var(--blue);
+}
+.modal p + p {
+    margin-top: 1rem;
+}
+button.close-modal {
+    width: auto;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
+}
+span.close-span {
+    font-size: 12px;
+    padding-right: 8px;
+}
+.bold{
+    color: #807e7b;
+    font-weight: bold;
+}
