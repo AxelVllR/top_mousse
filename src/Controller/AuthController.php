@@ -147,8 +147,6 @@ class AuthController extends AbstractController
 
         $items = $this->cartItemRepository->findAttached($token, $userId);
         $orders = $this->getUser()->getOrders();
-        dump($orders);
-
         $pendingOrders = [];
         $paidOrders = [];
         $processingOrders = [];
