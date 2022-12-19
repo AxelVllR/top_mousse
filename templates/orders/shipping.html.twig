@@ -1,164 +1,170 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Top Mousse - Choix du mode de livraison{% endblock %}
+{% block title %}Top Mousse - Choix du mode de livraison
+{% endblock %}
 
 {% block body %}
-    <div class="mainContent">
-        <div class="container">
-            <div class="cartBreadcrumb">
-                <ul class="cartBreadcrumbList">
-                    <li class="cartBreadcrumbItem">
-                        <div class="step">1</div>
-                        <span>Panier</span>
-                    </li>
-                    <li class="cartBreadcrumbItem">
-                        <div class="step">2</div>
-                        <span>Identification</span>
-                    </li>
-                    <li class="cartBreadcrumbItem active">
-                        <div class="step">3</div>
-                        <span>Livraison</span>
-                    </li>
-                    <li class="cartBreadcrumbItem">
-                        <div class="step">4</div>
-                        <span>Paiement</span>
-                    </li>
-                    <li class="cartBreadcrumbItem">
-                        <div class="step">5</div>
-                        <span>Confirmation</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="row cart">
-                <div class="col-12">
-                    {% for flash in app.flashes('response') %}
-                        <p class="reponse">{{ flash }}</p>
-                    {% endfor %}
-                    <div class="row">
-                        <div class="col-12">
-                            <form method="post" class="expeditionForm">
-                                <div>
-                                    <h3 class="bold">Choisissez le mode d'expédition</h3>
-                                    <div class="row">
-                                        <div class="col-4-desktop pl50">
-                                            <label>
-                                                <span>
-                                                    <input type="radio" value="domicile" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 1 %}checked{% endif %}/>
-                                                    <span class="radio"></span>
-                                                    Expédition à domicile<br/>
-                                                    (Frais de port : 19 €)
-                                                </span>
-                                                <div class="homeExpedition" style="margin-top: 15px;{% if order.shippingMethod == 1  or order.shippingMethod is null%}display: block;{% else %}display: none;{% endif %}">
-                                                    <p>
-                                                        Votre adresse de livraison actuelle :<br/>
-                                                        {{ current_user.firstName }} {{ current_user.lastName }}<br/>
-                                                        {{ current_user.email }}<br/>
-                                                        {{ current_user.address }}<br/>
-                                                        {{ current_user.postalCode }} {{ current_user.city }}
-                                                    </p>
-                                                    <a href="{{ path('update_account_address', { id: order.id }) }}" class="underline" style="display: block;margin-top: 15px;">
-                                                        <span class="icon-triangle-left"></span>
-                                                        Vous pouvez choisir une autre adresse de livraison à domicile
-                                                    </a>
-                                                </div>
-                                            </label>
-                                        </div>
-                                        <div class="col-4-desktop pl50">
-                                            <label>
-                                                <span>
-                                                    <input type="radio" value="relais" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 2 %}checked{% endif %}/>
-                                                    <span class="radio"></span>
-                                                    Expédition en point Relais ({{ total_volume | number_format(6) }} m<sup>3</sup>)<br/>
-                                                    (Frais de port : 9 €)
-                                                </span>
-                                                <div class="pointExpedition" style="margin-top: 15px;{% if order.shippingMethod == 2 %}display: block;{% else %}display: none;{% endif %}">
-                                                    <p class="cRed">
-                                                        En raison de la situation sanitaire actuelle, la liste des points Relay est susceptible de changer.
-                                                    </p>
-                                                    {% if current_user.shippingAddress %}
-                                                        <p style="margin-top: 15px !important;">
-                                                            Votre adresse de livraison en point relai actuelle :<br/>
-                                                            {{ current_user.shippingAddress }}<br/>
-                                                            {{ current_user.shippingPostalCode }} {{ current_user.shippingCity }}
-                                                        </p>
-                                                    {% endif %}
-                                                    <a href="{{ path('update_account_shipping_address', { id: order.id }) }}" class="underline" style="display: block;margin-top: 15px;">
-                                                        <span class="icon-triangle-left"></span>
-                                                        Vous pouvez choisir une autre adresse de livraison en point relai
-                                                    </a>
-                                                </div>
-                                            </label>
-                                        </div>
-                                        <div class="col-4-desktop pl50">
-                                            <label>
-                                                <span>
-                                                    <input type="radio" value="non" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 3 %}checked{% endif %}/>
-                                                    <span class="radio"></span>
-                                                    Je passerai prendre ma commande<br/>
-                                                    Pas de frais de port
-                                                </span>
-                                                <div class="shopExpedition" style="margin-top: 15px;{% if order.shippingMethod == 3 %}display: block;{% else %}display: none;{% endif %}">
-                                                    <p>
-                                                        Vous avez choisi de ne pas être livré.
-                                                        Vous passerez enlever votre commande quand elle sera préparée à cette adresse :
-                                                        <br/><br/>
-                                                        TOPMOUSSE<br/>
-                                                        12 rue de Menin<br/>
-                                                        59250 - Halluin - FRANCE
-                                                    </p>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="token" value="{{ csrf_token('set-order-shipping') }}"/>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row w100pDesktop">
-                        <div class="col-12 p0Desktop">
-                            <form method="post" class="expeditionForm">
-                                <h3 class="bold">Choisissez le mode de paiement</h3>
-                                <div class="row">
-                                    <div class="col-4-desktop pl50">
-                                        <label class="block">
-                                            <input type="radio" name="payment" id="stripe" value="stripe" onclick="this.form.submit();" {% if order.paymentMethod == 1 %}checked{% endif %}/>
-                                            <span class="radio"></span>
-                                            <span class="flex-1">Je paie en ligne avec Stripe</span>
-                                            <img src="{{ asset('images/checkout/stripe.png') }}" alt="Stripe" style="max-width: 250px;max-height: 80px;margin: 0 auto;"/>
-                                        </label>
-                                    </div>
-                                    <div class="col-4-desktop pl50">
-                                        <label class="block">
-                                            <input type="radio" name="payment" id="paypal" value="paypal" onclick="this.form.submit();" {% if order.paymentMethod == 2 %}checked{% endif %}/>
-                                            <span class="radio"></span>
-                                            <span class="flex-1">Je paie en ligne avec Paypal</span>
-                                            <img src="{{ asset('images/checkout/paypal.png') }}" alt="Paypal" style="max-width: 250px;max-height: 80px;margin: 0 auto;"/>
-                                        </label>
-                                    </div>
-                                    <div class="col-4-desktop pl50">
-                                        <label class="block">
-                                            <input type="radio" name="payment" id="bank" value="cheque" onclick="this.form.submit();" {% if order.paymentMethod == 3 %}checked{% endif %}/>
-                                            <span class="radio"></span>
-                                            <span class="flex-1">Je paie par chèque de banque</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="token" value="{{ csrf_token('set-order-shipping') }}"/>
-                            </form>
-                        </div>
-                    </div>
-                    {% if order.shippingMethod and order.paymentMethod %}
-                        <div class="row w100pDesktop" id="paypalForm">
-                            <div class="col-12 p0Desktop">
-                                <a href="{{ path('checkout_order', { id: order.id }) }}" class="button button-orange button-icon button-big">
-                                    <span class="icon-triangle-left"></span> Finalisez votre commande
-                                </a>
-                            </div>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="mainContent">
+		<div class="container">
+			<div class="cartBreadcrumb">
+				<ul class="cartBreadcrumbList">
+					<li class="cartBreadcrumbItem">
+						<div class="step">1</div>
+						<span>Panier</span>
+					</li>
+					<li class="cartBreadcrumbItem">
+						<div class="step">2</div>
+						<span>Identification</span>
+					</li>
+					<li class="cartBreadcrumbItem active">
+						<div class="step">3</div>
+						<span>Livraison</span>
+					</li>
+					<li class="cartBreadcrumbItem">
+						<div class="step">4</div>
+						<span>Paiement</span>
+					</li>
+					<li class="cartBreadcrumbItem">
+						<div class="step">5</div>
+						<span>Confirmation</span>
+					</li>
+				</ul>
+			</div>
+			<div class="row cart">
+				<div class="col-12">
+					{% for flash in app.flashes('response') %}
+						<p class="reponse">{{ flash }}</p>
+					{% endfor %}
+					<div class="row">
+						<div class="col-12">
+							<form method="post" class="expeditionForm">
+								<div>
+									<h3 class="bold">Choisissez le mode d'expédition</h3>
+									<div class="row">
+										<div class="col-4-desktop pl50">
+											<label>
+												<span>
+													<input type="radio" value="domicile" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 1 %} checked {% endif %}/>
+													<span class="radio"></span>
+													Expédition à domicile<br/>
+													(Frais de port : 19 €)
+												</span>
+												<div class="homeExpedition" style="margin-top: 15px;{% if order.shippingMethod == 1  or order.shippingMethod is null%}display: block;{% else %}display: none;{% endif %}">
+													<p>
+														Votre adresse de livraison actuelle :<br/>
+														{{ current_user.firstName }}
+														{{ current_user.lastName }}<br/>
+														{{ current_user.email }}<br/>
+														{{ current_user.address }}<br/>
+														{{ current_user.postalCode }}
+														{{ current_user.city }}
+													</p>
+													<a href="{{ path('update_account_address', { id: order.id }) }}" class="underline" style="display: block;margin-top: 15px;">
+														<span class="icon-triangle-left"></span>
+														Vous pouvez choisir une autre adresse de livraison à domicile
+													</a>
+												</div>
+											</label>
+										</div>
+										<div class="col-4-desktop pl50">
+											<label>
+												<span>
+													<input type="radio" value="relais" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 2 %} checked {% endif %}/>
+													<span class="radio"></span>
+													Expédition en point Relais ({{ total_volume | number_format(6) }}
+													m<sup>3</sup>)<br/>
+													(Frais de port : 9 €)
+												</span>
+												<div class="pointExpedition" style="margin-top: 15px;{% if order.shippingMethod == 2 %}display: block;{% else %}display: none;{% endif %}">
+													<p class="cRed">
+														En raison de la situation sanitaire actuelle, la liste des points Relay est susceptible de changer.
+													</p>
+													{% if current_user.shippingAddress %}
+														<p style="margin-top: 15px !important;">
+															Votre adresse de livraison en point relai actuelle :<br/>
+															{{ current_user.shippingAddress }}<br/>
+															{{ current_user.shippingPostalCode }}
+															{{ current_user.shippingCity }}
+														</p>
+													{% endif %}
+													<a href="{{ path('update_account_shipping_address', { id: order.id }) }}" class="underline" style="display: block;margin-top: 15px;">
+														<span class="icon-triangle-left"></span>
+														Vous pouvez choisir une autre adresse de livraison en point relai
+													</a>
+												</div>
+											</label>
+										</div>
+										<div class="col-4-desktop pl50">
+											<label>
+												<span>
+													<input type="radio" value="non" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 3 %} checked {% endif %}/>
+													<span class="radio"></span>
+													Je passerai prendre ma commande<br/>
+													Pas de frais de port
+												</span>
+												<div class="shopExpedition" style="margin-top: 15px;{% if order.shippingMethod == 3 %}display: block;{% else %}display: none;{% endif %}">
+													<p>
+														Vous avez choisi de ne pas être livré.
+														                                                        Vous passerez enlever votre commande quand elle sera préparée à cette adresse :
+														<br/><br/>
+														TOPMOUSSE<br/>
+														12 rue de Menin<br/>
+														59250 - Halluin - FRANCE
+													</p>
+												</div>
+											</label>
+										</div>
+									</div>
+								</div>
+								<input type="hidden" name="token" value="{{ csrf_token('set-order-shipping') }}"/>
+							</form>
+						</div>
+					</div>
+					<div class="row w100pDesktop">
+						<div class="col-12 p0Desktop">
+							<form method="post" class="expeditionForm">
+								<h3 class="bold">Choisissez le mode de paiement</h3>
+								<div class="row">
+									<div class="col-4-desktop pl50">
+										<label class="block">
+											<input type="radio" name="payment" id="stripe" value="stripe" onclick="this.form.submit();" {% if order.paymentMethod == 1 %} checked {% endif %}/>
+											<span class="radio"></span>
+											<span class="flex-1">Je paie en ligne avec Stripe</span>
+											<img src="{{ asset('images/checkout/stripe.png') }}" alt="Stripe" style="max-width: 250px;max-height: 80px;margin: 0 auto;"/>
+										</label>
+									</div>
+									<div class="col-4-desktop pl50">
+										<label class="block">
+											<input type="radio" name="payment" id="paypal" value="paypal" onclick="this.form.submit();" {% if order.paymentMethod == 2 %} checked {% endif %}/>
+											<span class="radio"></span>
+											<span class="flex-1">Je paie en ligne avec Paypal</span>
+											<img src="{{ asset('images/checkout/paypal.png') }}" alt="Paypal" style="max-width: 250px;max-height: 80px;margin: 0 auto;"/>
+										</label>
+									</div>
+									<div class="col-4-desktop pl50">
+										<label class="block">
+											<input type="radio" name="payment" id="bank" value="cheque" onclick="this.form.submit();" {% if order.paymentMethod == 3 %} checked {% endif %}/>
+											<span class="radio"></span>
+											<span class="flex-1">Je paie par chèque bancaire</span>
+										</label>
+									</div>
+								</div>
+								<input type="hidden" name="token" value="{{ csrf_token('set-order-shipping') }}"/>
+							</form>
+						</div>
+					</div>
+					{% if order.shippingMethod and order.paymentMethod %}
+						<div class="row w100pDesktop" id="paypalForm">
+							<div class="col-12 p0Desktop">
+								<a href="{{ path('checkout_order', { id: order.id }) }}" class="button button-orange button-icon button-big">
+									<span class="icon-triangle-left"></span>
+									Finalisez votre commande
+								</a>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
