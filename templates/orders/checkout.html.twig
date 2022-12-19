@@ -55,7 +55,7 @@
                                     {% elseif order.paymentMethod == 2 %}
                                         PayPal
                                     {% else %}
-                                        Chèque de banque
+                                        chèque bancaire
                                     {% endif %}
                                     <br/><br/>
                                     Adresse de facturation :<br/>
@@ -129,7 +129,7 @@
                                                 <input type="hidden" name="token" value="{{ csrf_token('pay-order-paypal') }}"/>
                                             </form>
                                         {% else %}
-                                            <p>En choisissant cette option, vous devrez envoyer un chèque de banque à la société Top Mousse, correspondant à votre commande. Nous confirmerons votre commande à sa réception.</p>
+                                            <p>En choisissant cette option, vous devrez envoyer un chèque bancaire à la société Top Mousse, correspondant à votre commande. Nous confirmerons votre commande à sa réception.</p>
                                             <form method="post" action="{{ path('pay_order_bank', { id: order.id }) }}">
                                                 <input type="hidden" name="token" value="{{ csrf_token('pay-order-bank') }}"/>
                                                 <button type="submit" class="button">Payer</button>
