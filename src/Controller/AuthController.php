@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\ClientType;
 use App\Form\UpdateAddressType;
 use App\Form\UpdateShippingAddressType;
 use App\Form\UserType;
@@ -102,6 +103,33 @@ class AuthController extends AbstractController
     public function signOut()
     {
         // Intercepted by firewall.
+    }
+
+    /**
+     * @return Response
+     * @Route("/account/edit", name="account_edit", methods={"GET", "POST"})
+     */
+    public function editCoordinates(Request $request): Response
+    {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('signin');
+        }
+
+        $form = $this->createForm(ClientType::class, $this->getUser());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            $this->addFlash("response", "Profil modifié");
+            return $this->redirectToRoute('account');
+        }
+
+        return $this->render('account/account_edit.twig', [
+            'current_menu' => 'customer',
+            'current_user' => $this->getUser(),
+            "form" => $form->createView()
+        ]);
     }
 
     /**
