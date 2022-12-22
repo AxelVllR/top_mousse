@@ -33,7 +33,7 @@ class AuthController extends AbstractController
     /**
      * @Route("/signin", name="signin", methods={"GET", "POST"})
      */
-    public function signIn(Request $request,AuthenticationUtils $authenticationUtils): Response
+    public function signIn(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('account');
@@ -235,7 +235,7 @@ class AuthController extends AbstractController
 
         if ($order) {
             $volume = 0;
-            foreach($order->getOrderItems() as $item) {
+            foreach ($order->getOrderItems() as $item) {
                 $volume += ($item->getQuantity() * $item->getVolume());
             }
 
