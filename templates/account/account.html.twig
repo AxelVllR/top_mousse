@@ -29,7 +29,10 @@
                         <span>{{ current_user.postalCode }} {{ current_user.city }}</span><br/>
                         <br/>
                         <span>Tel: {{ current_user.phone }}</span><br/><br/>
-                        <button class="button">Modifier mes coordonnées personnelles</button>
+                        {% for flash in app.flashes('response') %}
+                            <p class="reponse">{{ flash }}</p>
+                        {% endfor %}
+                        <a href="{{path('account_edit')}}" class="button">Modifier mes coordonnées personnelles</a>
                     </div>
                     <div class="myAccountShippingAdress">
                         <h2>
