@@ -71,11 +71,13 @@ class QuoteController extends AbstractController
             }
 
             $const = 0.01;
-
             if ($shape === 'carre') {
                 $volume = (intval($thickness) * $const) * (intval($width) * $const) * (intval($length) * $const);
             } else if ($shape === 'cylindre') {
-                $volume = (intval($height) * $const) * pi() * (((intval($diameter) * $const) / 2) * ((intval($diameter) * $const) / 2));
+                $diameter = intval($diameter);
+                $height = intval($height);
+                $volume = ($diameter * $diameter * $height) / 1000000;
+                //$volume = (intval($height) * $const) * pi() * (((intval($diameter) * $const) / 2) * ((intval($diameter) * $const) / 2));
             } else if ($shape === 'doublemarteau' || $shape === 'simplemarteau' || $shape === 'assisetrapeze' || $shape === 'pupitre' || $shape === 'assisepupitre') {
                 $volume = (intval($thickness) * $const) * (intval($dimensionA) * $const) * (intval($dimensionC) * $const);
             } else if ($shape === 'planincline' || $shape === 'ellipse') {
