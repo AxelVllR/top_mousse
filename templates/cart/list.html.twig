@@ -78,6 +78,14 @@
                         {% if items | length == 0 %}
                             <li>Aucun élément trouvé dans votre panier.</li>
                         {% endif %}
+                        <div class="actions" style="display: flex;">
+                            <a href="{{ path('create_quote') }}" class="button">
+                                <span class="icon-triangle-left"></span>Choisissez une autre mousse sur mesure
+                            </a>
+                            <a href="{{ path('shop') }}" class="button" style="margin-left: 10px;">
+                                <span class="icon-triangle-left"></span>Choisissez un autre article de la boutique
+                            </a>
+                        </div>
                     </ul>
                 </div>
                 <div class="col-4-desktop cartResume">
