@@ -67,7 +67,7 @@
                                         ({{ volume | number_format(2) }} m<sup>3</sup>)
                                     </td>
                                     <td style="text-align: center;">
-                                        {% if shape == 'cylindre' %}
+                                        {% if shape != 'carre' %}
                                             {{ ((volume * foam.price_cylinder) * quantity) | number_format(2) }}€ TTC
                                         {% else %}
                                             {{ ((volume * foam.price_cube) * quantity) | number_format(2) }}€ TTC
@@ -86,7 +86,7 @@
                                             <input type="hidden" name="diameter" value="{{ diameter }}"/>
                                             <input type="hidden" name="volume" value="{{ volume }}"/>
                                             <input type="hidden" name="quantity" value="{{ quantity }}"/>
-                                            {% if shape == 'cylindre' %}
+                                            {% if shape != 'carre' %}
                                                 <input type="hidden" name="price" value="{{ ((volume * foam.price_cylinder) * quantity) }}"/>
                                             {% else %}
                                                 <input type="hidden" name="price" value="{{ ((volume * foam.price_cube) * quantity) }}"/>
