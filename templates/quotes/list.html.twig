@@ -68,9 +68,17 @@
                                     </td>
                                     <td style="text-align: center;">
                                         {% if shape != 'carre' %}
-                                            {{ ((volume * foam.price_cylinder) * quantity) | number_format(2) }}€ TTC
+                                            {% if (volume * foam.price_cylinder) * quantity >= minimum_price %}
+                                                {{ ((volume * foam.price_cylinder) * quantity) | number_format(2) }}€ TTC
+                                            {% else %}
+                                                {{minimum_price | number_format(2) }}€ TTC
+                                            {% endif %}
                                         {% else %}
-                                            {{ ((volume * foam.price_cube) * quantity) | number_format(2) }}€ TTC
+                                            {% if (volume * foam.price_cube) * quantity >= minimum_price %}
+                                                {{ ((volume * foam.price_cube) * quantity) | number_format(2) }}€ TTC
+                                            {% else %}
+                                                {{minimum_price | number_format(2) }}€ TTC
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     <td style="display: flex;justify-content: flex-end;">
@@ -87,9 +95,9 @@
                                             <input type="hidden" name="volume" value="{{ volume }}"/>
                                             <input type="hidden" name="quantity" value="{{ quantity }}"/>
                                             {% if shape != 'carre' %}
-                                                <input type="hidden" name="price" value="{{ ((volume * foam.price_cylinder) * quantity) }}"/>
+                                                <input type="hidden" name="price" value="{{ ((volume * foam.price_cylinder) * quantity) >= minimum_price ? ((volume * foam.price_cylinder) * quantity) : minimum_price}}"/>
                                             {% else %}
-                                                <input type="hidden" name="price" value="{{ ((volume * foam.price_cube) * quantity) }}"/>
+                                                <input type="hidden" name="price" value="{{ ((volume * foam.price_cube) * quantity) >= minimum_price ? ((volume * foam.price_cube) * quantity) : minimum_price}}"/>
                                             {% endif %}
                                             <input type="hidden" name="shape" value="{{ shape }}"/>
                                             <input type="hidden" name="token" value="{{ csrf_token('create-cart-item') }}"/>
