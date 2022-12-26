@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Configuration;
 use App\Repository\FoamRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -90,6 +91,14 @@ class QuoteController extends AbstractController
         $foams = $stmt->fetchAll();
         $results = [];
 
+        $miniPrice = $this->getDoctrine()->getRepository(Configuration::class)->findOneBy([
+            "slug" => "prix-minimum-pour-les-petites-commandes"
+        ]);
+
+        if($miniPrice instanceof Configuration) {
+            $minimumPrice = intval($miniPrice->getContent());
+        }
+
         $lines = [
             0 => 'Qualité 0 - Mousse calage',
             1 => 'Qualité 1 - Mousse polyéther',
@@ -123,7 +132,8 @@ class QuoteController extends AbstractController
             'diameter' => $diameter,
             'dimensionA' => $dimensionA,
             'dimensionB' => $dimensionB,
-            'dimensionC' => $dimensionC
+            'dimensionC' => $dimensionC,
+            "minimum_price" => $minimumPrice ? $minimumPrice : 1
         ]);
     }
 }

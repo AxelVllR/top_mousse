@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ConfigurationRepository;
 use App\Repository\PageRepository;
 use App\Repository\ProductRepository;
 use Ramsey\Uuid\Uuid;
@@ -14,10 +15,11 @@ class HomeController extends AbstractController
     private $pageRepository;
     private $productRepository;
 
-    public function __construct(PageRepository $pageRepository, ProductRepository $productRepository)
+    public function __construct(PageRepository $pageRepository, ProductRepository $productRepository, ConfigurationRepository $confRepo)
     {
         $this->pageRepository = $pageRepository;
         $this->productRepository = $productRepository;
+        $this->confRepo = $confRepo;
     }
 
     /**
@@ -45,11 +47,18 @@ class HomeController extends AbstractController
             return $this->redirectToRoute('index');
         }
 
+        $configs =  $this->confRepo->findAll();
+        $configsArr = [];
+        foreach($configs as $config) {
+            $configsArr[$config->getSlug()] = $config->getContent();
+        }
+
         return $this->render('static/home.html.twig', [
             'current_menu' => 'home',
             'current_user' => $this->getUser(),
             'content' => $page->getContent(),
-            'products' => $products
+            'products' => $products,
+            'config' => $configsArr
         ]);
     }
 }

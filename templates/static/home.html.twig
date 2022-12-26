@@ -46,7 +46,7 @@
                 <div class="col-6-desktop presentation" style="display: flex;align-items: flex-start;">
                     {{ content | raw }}
                     <div class="action">
-                        <a href="#" class="choose">
+                        <a href="{{ path('create_quote') }}" class="choose">
                             <span class="icon-triangle-left"></span>Choisissez votre mousse sur mesure
                         </a>
                     </div>
@@ -55,16 +55,16 @@
                     <h2>Services TopMousse</h2>
                     <ul>
                         <li><span class="icon-qualite"></span> Rapport <b>qualité/prix</b> de nos mousses est <b>exceptionnel</b></li>
-                        <li><span class="icon-delais"></span> Délai de fabrication <b>(8 a 10 jours ouvres)</b></li>
+                        <li><span class="icon-delais"></span> Délai de fabrication <b>{{config['delai-de-fabrication-du-type-3-a-4-jours-ouvrables'] is defined ? config['delai-de-fabrication-du-type-3-a-4-jours-ouvrables'] : '(8 a 10 jours ouvres)' }}</b></li>
                         <li>
                             <span class="icon-localisation"></span>
-                            Livraison à 9 € seulement <b>en point Relais</b> (2 à 3 jours ouvrables)
+                            Livraison à {{config['prix-ttc-de-la-livraison-en-point-relay'] is defined ? config['prix-ttc-de-la-livraison-en-point-relay'] : '9' }}€ seulement <b>en point Relais</b> {{ config['delai-pour-les-livraisons-en-point-relai-du-type-3-a-4-jours-ouvrables'] is defined ? config['delai-pour-les-livraisons-en-point-relai-du-type-3-a-4-jours-ouvrables'] : '(2 à 3 jours ouvrables)' }}
                             <a href="https://www.mondialrelay.fr/trouver-le-point-relais-le-plus-proche-de-chez-moi/" target="_blank" class="block txt-black">
                                 <strong><span class="icon-triangle-left"></span> Consultez les Points Relais</strong>
                             </a>
                         </li>
-                        <li><span class="icon-livraison"></span> Livraison à domicile (1 à 2 jours ouvrables) : 19&nbsp;€</li>
-                        <li><span class="icon-offert"></span> <b>Livraison offerte</b> pour toute commande à partir de 160.00&nbsp;€</li>
+                        <li><span class="icon-livraison"></span> Livraison à domicile {{ config['delai-pour-les-livraisons-a-domicile-du-type-4-a-6-jours-ouvrables'] is defined ? config['delai-pour-les-livraisons-a-domicile-du-type-4-a-6-jours-ouvrables'] : '(1 à 2 jours ouvrables)' }} : {{ config['prix-ttc-de-la-livraison-a-domicile'] is defined ? config['prix-ttc-de-la-livraison-a-domicile'] : '19'}}&nbsp;€</li>
+                        <li><span class="icon-offert"></span> <b>Livraison offerte</b> pour toute commande à partir de {{ config['forfait-maximum-pour-frais-de-port-offerts'] is defined ? config['forfait-maximum-pour-frais-de-port-offerts'] : '160.00' }}&nbsp;€</li>
                         <li><span class="icon-paiement"></span> Paiement <b>sécurisé</b></li>
                     </ul>
                 </div>
