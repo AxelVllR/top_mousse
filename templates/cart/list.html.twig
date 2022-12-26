@@ -46,6 +46,16 @@
                                 </div>
                                 <div class="cartProductInfos">
                                     <h2 class="cartProductName">{{ item.title }}</h2>
+                                    <div>Dimensions : 
+                                        {% if item.shape == 'carre' %}
+                                            {{ item.thickness }} x {{ item.width }} x {{ item.length }}
+                                        {% elseif item.shape == 'cylindre' %}
+                                            {{ item.height }} x {{ item.diameter }}
+                                        {% elseif item.shape == 'doublemarteau' or item.shape == 'simplemarteau' or item.shape == 'assisetrapeze' or item.shape == 'pupitre' or item.shape == 'assisepupitre' %}
+                                            {{ item.thickness }} x {{ item.A }} x {{ item.B }} x {{ item.C }} {{item.D ? 'x ' ~ item.D : ''}}
+                                        {% elseif item.shape == 'planincline' or item.shape == 'ellipse' %}
+                                            {{ item.thickness }} x {{ item.A }} x {{ item.B }}
+                                        {% endif %}</div>
                                     <div class="cartProductResume">
                                         <ul class="cartProductSpecs">
                                             <li class="cartProductSpec">
