@@ -63,6 +63,7 @@ class QuoteController extends AbstractController
         $dimensionA = $request->request->get('dimensionA');
         $dimensionB = $request->request->get('dimensionB');
         $dimensionC = $request->request->get('dimensionC');
+        $dimensionD = $request->request->get('dimensionD');
         $token = $request->request->get('token');
         $initialVolume = 0;
 
@@ -135,6 +136,7 @@ class QuoteController extends AbstractController
             'dimensionA' => $dimensionA,
             'dimensionB' => $dimensionB,
             'dimensionC' => $dimensionC,
+            'dimensionD' => $dimensionD,
             "minimum_price" => $minimumPrice ? $minimumPrice : 1
         ]);
     }
