@@ -1,114 +1,116 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Top Mousse - Compte client{% endblock %}
+{% block title %}Top Mousse - Compte client
+{% endblock %}
 
 {% block body %}
-    <div class="mainContent">
-        <div class="container">
-            <div class="breadcrumb">
-                <ul>
-                    <li>
-                        <a href="{{ path('index') }}">
-                            Accueil
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="contentPage">
-                {% if error %}
-                    <p class="reponse">{{ error.messageKey | trans(error.messageData, 'security') }}</p>
-                {% endif %}
-                {% for flash in app.flashes('response') %}
-                    <p class="reponse">{{ flash }}</p>
-                {% endfor %}
-                <h1>
-                    VOTRE ESPACE CLIENT
-                </h1>
-                <div class="identification">
-                    <div class="col-6-desktop connexion">
-                        <h2>
-                            Vous êtes déjà client
-                        </h2>
-                        <form method="post" class="connexionForm">
-                            <label>
-                                <span>Votre adresse email :</span>
-                                <input type="email" value="{{ last_username }}" name="email" id="email" autocomplete="email" required autofocus/>
-                            </label>
-                            <label>
-                                <span>Votre mot de passe :</span>
-                                <input type="password" name="password" id="password" required>
-                            </label>
-                            <div class="connexionFormValidation">
-                                <button type="submit" class="button small">
-                                    <span class="icon-triangle-left"></span> Valider
-                                </button>
-                            </div>
-                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-                        </form>
-                        <a class="forgotPassword" href="{{ path('forgot_password_request') }}">
-                            <span class="icon-triangle-left"></span> Mot de passe oublié ?
-                        </a>
-                    </div>
-                    <div class="col-6-desktop subscription">
-                        <h2>
-                            Vous n’avez pas encore de compte
-                        </h2>
-                        <p>
-                            Inscrivez-vous ci-dessous, en indiquant vos coordonnées.<br/>
-                            Tous les champs doivent être remplis.
-                        </p>
-                        <p>
-                            Ces renseignements sont nécessaires pour :<br/>
-                            • Effectuer une commande en ligne<br/>
-                            • Payer en ligne.
-                        </p>
-                        <form method="post" action="{{ path('signup') }}" class="subscriptionForm">
-                            <label>
-                                <span>Votre adresse email :</span>
-                                <input type="email" name="email"/>
-                            </label>
-                            <label>
-                                <span>Votre mot de passe :</span>
-                                <input type="password" name="password"/>
-                            </label>
-                            <label>
-                                <span>Votre prénom :</span>
-                                <input type="text" name="firstName"/>
-                            </label>
-                            <label>
-                                <span>Votre nom :</span>
-                                <input type="text" name="lastName"/>
-                            </label>
-                            <label>
-                                <span>Votre adresse :</span>
-                                <input type="text" name="address"/>
-                            </label>
-                            <label>
-                                <span>Votre ville :</span>
-                                <input type="text" name="city"/>
-                            </label>
-                            <label>
-                                <span>Votre code postal :</span>
-                                <input type="number" name="postalCode"/>
-                            </label>
-                            <label>
-                                <span>Votre pays :</span>
-                                <input type="text" name="country"/>
-                            </label>
-                            <label>
-                                <span>Votre numéro de téléphone :</span>
-                                <input type="text" name="phone"/>
-                            </label>
-                            <div class="connexionFormValidation">
-                                <button class="button small">
-                                    <span class="icon-triangle-left"></span> Valider
-                                </button>
-                            </div>
-                            <input type="hidden" name="token" value="{{ csrf_token('signup-account') }}"/>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="mainContent">
+		<div class="container">
+			<div class="breadcrumb">
+				<ul>
+					<li>
+						<ahref="{{path('index')}}">Accueil</ahref=>
+					</li>
+				</ul>
+			</div>
+			<div class="contentPage">
+				{% if error %}
+					<p class="reponse">{{ error.messageKey | trans(error.messageData, 'security') }}</p>
+				{% endif %}
+				{% for flash in app.flashes('response') %}
+					<p class="reponse">{{ flash }}</p>
+				{% endfor %}
+				<h1>
+					VOTRE ESPACE CLIENT
+				</h1>
+				<div class="identification">
+					<div class="col-6-desktop connexion">
+						<h2>
+							Vous êtes déjà client
+						</h2>
+						<form method="post" class="connexionForm">
+							<label>
+								<span>Votre adresse email :</span>
+								<input type="email" value="{{ last_username }}" name="email" id="email" autocomplete="email" required autofocus/>
+							</label>
+							<label>
+								<span>Votre mot de passe :</span>
+								<input type="password" name="password" id="password" required>
+							</label>
+							<div class="connexionFormValidation">
+								<button type="submit" class="button small">
+									<span class="icon-triangle-left"></span>
+									Valider
+								</button>
+							</div>
+							<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+						</form>
+						<a class="forgotPassword" href="{{ path('forgot_password_request') }}">
+							<span class="icon-triangle-left"></span>
+							Mot de passe oublié ?
+						</a>
+					</div>
+					<div class="col-6-desktop subscription">
+						<h2>
+							Vous n’avez pas encore de compte
+						</h2>
+						<p>
+							Inscrivez-vous ci-dessous, en indiquant vos coordonnées.<br/>
+							Tous les champs doivent être remplis.
+						</p>
+						<p>
+							Ces renseignements sont nécessaires pour :<br/>
+							• Effectuer une commande en ligne<br/>
+							• Payer en ligne.
+						</p>
+						<form method="post" action="{{ path('signup') }}" class="subscriptionForm">
+							<label>
+								<span>Votre adresse email :</span>
+								<input type="email" name="email" required="required"/>
+							</label>
+							<label>
+								<span>Votre mot de passe :</span>
+								<input type="password" name="password" required="required"/>
+							</label>
+							<label>
+								<span>Votre prénom :</span>
+								<input type="text" name="firstName" required="required"/>
+							</label>
+							<label>
+								<span>Votre nom :</span>
+								<input type="text" name="lastName" required="required"/>
+							</label>
+							<label>
+								<span>Votre adresse :</span>
+								<input type="text" name="address" required="required"/>
+							</label>
+							<label>
+								<span>Votre ville :</span>
+								<input type="text" name="city" pattern="[a-z]+" required="required" title="les chiffres ne sont pas autorisés"/>
+							</label>
+							<label>
+								<span>Votre code postal :</span>
+								<input type="number" name="postalCode" required="required"/>
+							</label>
+							<label>
+								<span>Votre pays :</span>
+								<input type="text" name="country" required="required"/>
+							</label>
+							<label>
+								<span>Votre numéro de téléphone :</span>
+								<input type="text" name="phone" required="required"/>
+							</label>
+							<div class="connexionFormValidation">
+								<button class="button small">
+									<span class="icon-triangle-left" required="required"></span>
+									Valider
+								</button>
+							</div>
+							<input type="hidden" name="token" value="{{ csrf_token('signup-account') }}"/>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
