@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Top mouse - FAQ{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/faq.css') }}" xmlns="http://www.w3.org/1999/html"/>
+{% endblock %}
+{% block body %}
+    <main class="container-faq">
+        <div class="breadcrumb">
+            <ul>
+                <li>
+                    <a href="{{ path('index') }}">
+                        Accueil
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <h1 class="txt-normal txt-uppercase">La foire aux questions</h1>
+        <div class="accordeon-page ">
+            {% for question in questions %}
+                <button type="button" class="button-faq txt-uppercase" data-open="modal{{ question.id }}">{{ question.title | raw }}</button>
+                <div class="modal" id="modal{{ question.id }}">
+                    <div class="modal-dialog">
+                        <header class="modal-header">
+                            <button class="close-modal" aria-label="close modal" data-close><span class="close-span">Fermer</span>✕</button>
+                        </header>
+                        <section class="modal-content">
+                            <h1>{{ question.title | raw }}</h1>
+                            <hr>
+                            {{ question.content | raw }}
+                        </section>
+
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+        <div class="txt-right-btn ">
+            <a href="{{ path('contact') }}" class="button">
+                <span class="icon-triangle-left"></span> Pour poser une autre question
+            </a>
+        </div>
+        <br>
+    </main>
+
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js
+" ></script>
+    <script src="{{ asset('js/modal.js') }}"></script>
+{% endblock %}
