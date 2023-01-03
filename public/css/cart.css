@@ -1,0 +1,16 @@
+.btn-validation {
+    background-color: #e06126;
+    cursor: pointer;
+    color:white;
+    padding: 4px 5px;
+    visibility: hidden;
+    opacity: 0;
+}
+.amount {
+    width: 80px;
+    margin-left: 15px;
+}
+.btn-validation.is-visible {
+    visibility: visible;
+    opacity: 1;
+}
