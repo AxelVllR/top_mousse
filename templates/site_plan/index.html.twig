@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}plan du site{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/plan-site.css') }}"/>
+{% endblock %}
+{% block body %}
+
+ <div class="mainContent">
+        <div class="container">
+            <div class="breadcrumb">
+                <ul class="check-list">
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="contentPage">
+                <h1>
+                    Plan du site
+                </h1>
+                <div class="container-plan">
+                <div class="card-plan">
+                <h3>Pages</h3>
+                <ul class="check-list">
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Accueil
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('about') }}">
+                            Nous
+                        </a>
+                    </li>
+                     <li>
+                        <a href="{{ path('create_quote') }}">
+                            Choisir sa mousse
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('shop') }}">
+                            Boutique
+                        </a>
+                    </li>
+                     <li>
+                        <a href="{{ path('signin') }}">
+                            Compte
+                        </a>
+                    </li>
+                </ul>
+                </div>
+                <div class="card-plan">
+                <h3>Services</h3>
+                <ul  class="check-list">
+                    <li>
+                        <a href="{{ path('create_quote') }}">
+                            Devis en ligne
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('index') }}">
+                            Espace Revendeur
+                        </a>
+                    </li>
+                     <li>
+                        <a href="{{ path('site_plan') }}">
+                            Plan du site
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('shop') }}">
+                            Faq
+                        </a>
+                    </li>
+                     <li>
+                        <a href="{{ path('signin') }}">
+                            Compte
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('faq') }}">
+                            Vos questions
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('list_feedbacks') }}">
+                            Vos Réactions
+                        </a>
+                    </li>
+                    
+                </ul>
+                </div>
+                <div class="card-plan">
+                <h3>Informations & contact</h3>
+                <ul class="check-list">
+                    <li>
+                        <a href="{{ path('contact') }}">
+                            Nous contacter
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                             Nos partenaires
+                        </a>
+                    </li>
+                </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
