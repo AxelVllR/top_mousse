@@ -103,7 +103,7 @@ class User implements UserInterface, \Serializable
     private $cartItems;
 
     /**
-     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Order::class, mappedBy="user", fetch="EAGER")
      */
     private $orders;
 
