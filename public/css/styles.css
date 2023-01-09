@@ -39,6 +39,10 @@ footer a:hover {
     color: #ffffff;
 }
 
+.button,
+button[type=submit] {
+    margin-top: 15px;
+}
 
 .button,
 .choose {
