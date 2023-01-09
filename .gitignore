@@ -17,7 +17,6 @@ lien-###> symfony/framework-bundle ###
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-public/uploads/
 /vendor/
 .idea/
 .history/

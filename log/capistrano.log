@@ -1,0 +1,29 @@
+# Logfile created on 2023-01-09 15:08:43 +0100 by logger.rb/v1.5.3
+  INFO ---------------------------------------------------------------------------
+  INFO START 2023-01-09 15:08:43 +0100 cap develop deploy
+  INFO ---------------------------------------------------------------------------
+  INFO ---------------------------------------------------------------------------
+  INFO START 2023-01-09 15:09:19 +0100 cap develop deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [7e71ce4b] Running /usr/bin/env mkdir -p /tmp as axelvllr@IPDELAMACHINEDEPRODUCTION
+ DEBUG [7e71ce4b] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2023-01-09 15:10:13 +0100 cap develop deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [ac9a008c] Running /usr/bin/env mkdir -p /tmp as axelvllr@86.210.114.247
+ DEBUG [ac9a008c] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2023-01-09 15:11:10 +0100 cap develop deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [8bb6c6b6] Running /usr/bin/env mkdir -p /tmp as axelvllr@86.210.114.247
+ DEBUG [8bb6c6b6] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2023-01-09 15:11:50 +0100 cap develop deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [cfb34275] Running /usr/bin/env mkdir -p /tmp as axelvllr@86.210.114.247
+ DEBUG [cfb34275] Command: /usr/bin/env mkdir -p /tmp
+  INFO ---------------------------------------------------------------------------
+  INFO START 2023-01-09 15:12:30 +0100 cap develop deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [48de3893] Running /usr/bin/env mkdir -p /tmp as axelvllr@86.210.114.247
+ DEBUG [48de3893] Command: /usr/bin/env mkdir -p /tmp
