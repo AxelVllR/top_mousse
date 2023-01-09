@@ -83,16 +83,16 @@
                 <table class="total" style="border-collapse: collapse;width: 100%; ">
                     <tr>
                         <th style="font-weight: 400">Total HT</th>
-                        <th style="font-weight: 400">{{ (order.totalHT) | number_format(2) }} €</th>
+                        <th style="font-weight: 400">{{ (totalPrice - tva) | number_format(2) }} €</th>
                     </tr>
                     <tr>
                         <th style="font-weight: 400">TVA </th>
-                        <th style="font-weight: 400">{{ order.totalTva | number_format(2) }} €
+                        <th style="font-weight: 400">{{ tva | number_format(2) }} €
                         </th>
                     </tr>
                     <tr style="background-color: #2e9415; color: white">
                         <th style="font-weight: 400">TOTAL TTC</th>
-                        <th style="font-weight: 400"> {{ order.totalPrice }} €</th>
+                        <th style="font-weight: 400"> {{ totalPrice }} €</th>
                     </tr>
                 </table>
             </div>

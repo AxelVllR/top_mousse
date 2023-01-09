@@ -105,13 +105,6 @@ class InvoiceArticleType extends AbstractType
                     'class' => 'form-control'
                 ],
             ])
-            ->add('tva', NumberType::class,[
-                'label' => 'TVA en €',
-                'attr' => [
-                    'placeholder' => 'TVA',
-                    'class' => 'form-control'
-                ],
-            ])
         ;
     }
 

@@ -32,6 +32,9 @@ class InvoiceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            foreach($invoice->getArticles() as $item) {
+                $item->setTva($item->getPriceTTC() - $item->getPriceHt());
+            }
             $this->entityManager->persist($invoice);
             $this->entityManager->flush();
             //go to pdf generation
@@ -41,10 +44,8 @@ class InvoiceController extends AbstractController
                 $totalPrice += ($item->getQuantity() * $item->getPriceTtc());
                 $totalTva += ($item->getQuantity() * $item->getTva());
             }
-            $invoice->totalPrice = $totalPrice;
-            $invoice->totalTva = $totalTva;
             $dompdf = new Dompdf();
-            $dompdf->loadHtml($this->renderView('pdf/admin/invoice.html.twig', ['order' => $invoice]));
+            $dompdf->loadHtml($this->renderView('pdf/admin/invoice.html.twig', ['order' => $invoice, 'totalPrice' => $totalPrice, 'tva' => $totalTva]));
             $dompdf->setPaper('A4', 'portrait');
 
             // Render the HTML as PDF
