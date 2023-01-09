@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Top Mousse - Panier{% endblock %}
-
+{% block title %}Top Mousse - Panier
+{% endblock %}
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/cart.css') }}"/>
+{% endblock %}
 {% block body %}
     <div class="mainContent">
         <div class="container">
@@ -78,20 +81,12 @@
                         {% if items | length == 0 %}
                             <li>Aucun élément trouvé dans votre panier.</li>
                         {% endif %}
-                        <div class="actions" style="display: flex;">
-                            <a href="{{ path('create_quote') }}" class="button">
-                                <span class="icon-triangle-left"></span>Choisissez une autre mousse sur mesure
-                            </a>
-                            <a href="{{ path('shop') }}" class="button" style="margin-left: 10px;">
-                                <span class="icon-triangle-left"></span>Choisissez un autre article de la boutique
-                            </a>
-                        </div>
                     </ul>
                 </div>
                 <div class="col-4-desktop cartResume">
                     <h3>Volume total de votre commande :</h3>
                     <div class="cartFinalVolume">
-                        <strong>{{ total_volume | number_format(2) }}</strong> m³
+                        <strong>{{ total_volume | number_format(6) }}</strong> m³
                     </div>
                     <h3>Prix total pour ces {{ total }} articles :</h3>
                     <div class="cartFinalPrice">
@@ -117,4 +112,7 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block javascript %}
+	<script src="{{ asset('js/cart.js') }}"></script>
 {% endblock %}

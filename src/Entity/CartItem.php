@@ -83,6 +83,26 @@ class CartItem
      */
     private $diameter;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $A;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $B;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $C;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $D;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -240,6 +260,54 @@ class CartItem
     public function setDiameter(?int $diameter): self
     {
         $this->diameter = $diameter;
+
+        return $this;
+    }
+
+    public function getA(): ?int
+    {
+        return $this->A;
+    }
+
+    public function setA(?int $A): self
+    {
+        $this->A = $A;
+
+        return $this;
+    }
+
+    public function getB(): ?int
+    {
+        return $this->B;
+    }
+
+    public function setB(?int $B): self
+    {
+        $this->B = $B;
+
+        return $this;
+    }
+
+    public function getC(): ?int
+    {
+        return $this->C;
+    }
+
+    public function setC(?int $C): self
+    {
+        $this->C = $C;
+
+        return $this;
+    }
+
+    public function getD(): ?int
+    {
+        return $this->D;
+    }
+
+    public function setD(?int $D): self
+    {
+        $this->D = $D;
 
         return $this;
     }

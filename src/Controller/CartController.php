@@ -45,6 +45,11 @@ class CartController extends AbstractController
         $shape = $request->request->get('shape');
         $token = $request->request->get('token');
 
+        $dimA = ($request->request->get('dimA')) ? $request->request->get('dimA') : null;
+        $dimB = ($request->request->get('dimB')) ? $request->request->get('dimB') : null;
+        $dimC = ($request->request->get('dimC')) ? $request->request->get('dimC') : null;
+        $dimD = ($request->request->get('dimD')) ? $request->request->get('dimD') : null;
+
         if ($title && $volume && $quantity && $price && $shape && $this->isCsrfTokenValid('create-cart-item', $token)) {
             $manager = $this->getDoctrine()->getManager();
 
@@ -58,6 +63,12 @@ class CartController extends AbstractController
             $cartItem->setQuantity(intval($quantity));
             $cartItem->setPrice($price);
             $cartItem->setShape($shape);
+
+            $cartItem->setA($dimA); 
+            $cartItem->setB($dimB);
+            $cartItem->setC($dimC);
+            $cartItem->setD($dimD);
+
 
             if ($productId) {
                 $product = $this->productRepository->findOneBy(['id' => $productId]);

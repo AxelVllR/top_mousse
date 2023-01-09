@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Top Mousse - Mon compte client{% endblock %}
+{% block title %}Top Mousse - Mon compte client
+{% endblock %}
 
 {% block body %}
     <div class="mainContent">
@@ -112,6 +113,7 @@
                                 </td>
                             </tr>
                             {% for order in orders %}
+                            
                                 <tr>
                                     <td style="border: 1px solid #333;">
                                         {% if order.status > 2 %}
@@ -131,32 +133,38 @@
                                         {% endif %}
                                     </td>
                                     <td style="border: 1px solid #333;">
-                                        {% if order.status == 3 %}
+                                        {% if order.status >= 3 %}
                                             x
                                         {% endif %}
                                     </td>
                                     <td style="border: 1px solid #333;">
-                                        {% if order.status == 4 %}
+                                        {% if order.status >= 4 %}
                                             x
                                         {% endif %}
                                     </td>
                                     <td style="border: 1px solid #333;">
-                                        {% if order.status == 5 %}
+                                        {% if order.status  >= 5 %}
                                             x
                                         {% endif %}
                                     </td>
                                     <td style="border: 1px solid #333;">
-                                        {% if order.status == 6 %}
+                                        {% if order.status >= 6 %}
                                             x
                                         {% endif %}
                                     </td>
                                     <td style="border: 1px solid #333;">
-                                        {% if order.status == 7 %}
-                                            x
+                                        {% if order.status >= 7 %}
+                                           
+                                            {% if order.shippingMethod == 3 %}
+                                                disponible<br>
+                                                N° colis : {{order.shippingCode}}
+                                            {% else %}
+                                             x
+                                            {% endif %}
                                         {% endif %}
                                     </td>
                                     <td style="border: 1px solid #333;">
-                                        {% if order.status == 8 %}
+                                        {% if order.status >= 8 %}
                                             x
                                         {% endif %}
                                     </td>
