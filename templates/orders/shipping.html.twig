@@ -41,13 +41,13 @@
 								<div>
 									<h3 class="bold">Choisissez le mode d'expédition</h3>
 									<div class="row">
-										<div class="col-4-desktop pl50">
+										<div class="col-{{ current_user.country == 'France' ? '4' : '6' }}-desktop pl50">
 											<label>
 												<span>
 													<input type="radio" value="domicile" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 1 %} checked {% endif %}/>
 													<span class="radio"></span>
 													Expédition à domicile<br/>
-													(Frais de port : 19 €)
+													(Frais de port : {{total_price >= free_shipping_amount ? 'Offerts' : '19 €'}})
 												</span>
 												<div class="homeExpedition" style="margin-top: 15px;{% if order.shippingMethod == 1  or order.shippingMethod is null%}display: block;{% else %}display: none;{% endif %}">
 													<p>
@@ -57,7 +57,8 @@
 														{{ current_user.email }}<br/>
 														{{ current_user.address }}<br/>
 														{{ current_user.postalCode }}
-														{{ current_user.city }}
+														{{ current_user.city }},
+														{{ current_user.country }}
 													</p>
 													<a href="{{ path('update_account_address', { id: order.id }) }}" class="underline" style="display: block;margin-top: 15px;">
 														<span class="icon-triangle-left"></span>
@@ -66,14 +67,15 @@
 												</div>
 											</label>
 										</div>
-										<div class="col-4-desktop pl50">
+										{% if current_user.country == 'France' %}
+										<div class="col-{{ current_user.country == 'France' ? '4' : '6' }}-desktop pl50">
 											<label>
 												<span>
 													<input type="radio" value="relais" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 2 %} checked {% endif %}/>
 													<span class="radio"></span>
-													Expédition en point Relais ({{ total_volume | number_format(6) }}
+													Expédition en point Relais ({{ total_volume | number_format(2) }}
 													m<sup>3</sup>)<br/>
-													(Frais de port : 9 €)
+													(Frais de port : {{total_price >= free_shipping_amount ? 'Offerts' : '9 €'}})
 												</span>
 												<div class="pointExpedition" style="margin-top: 15px;{% if order.shippingMethod == 2 %}display: block;{% else %}display: none;{% endif %}">
 													<p class="cRed">
@@ -94,7 +96,8 @@
 												</div>
 											</label>
 										</div>
-										<div class="col-4-desktop pl50">
+										{% endif %}
+										<div class="col-{{ current_user.country == 'France' ? '4' : '6' }}-desktop pl50">
 											<label>
 												<span>
 													<input type="radio" value="non" id="port" name="port" onclick="this.form.submit();" {% if order.shippingMethod == 3 %} checked {% endif %}/>
