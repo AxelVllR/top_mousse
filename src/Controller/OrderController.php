@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Configuration;
 use App\Entity\Order;
 use App\Entity\OrderItem;
 use App\Repository\CartItemRepository;
+use App\Repository\ConfigurationRepository;
 use App\Repository\OrderRepository;
 use App\Security\PaypalClient;
 use Ramsey\Uuid\Uuid;
@@ -20,9 +22,11 @@ class OrderController extends AbstractController
 {
     private $orderRepository;
     private $cartItemRepository;
+    private $confRepo;
 
-    public function __construct(OrderRepository $orderRepository, CartItemRepository $cartItemRepository)
+    public function __construct(OrderRepository $orderRepository, CartItemRepository $cartItemRepository, ConfigurationRepository $confRepo)
     {
+        $this->confRepo = $confRepo;
         $this->orderRepository = $orderRepository;
         $this->cartItemRepository = $cartItemRepository;
     }
@@ -152,6 +156,8 @@ class OrderController extends AbstractController
                 return $this->redirectToRoute('cart');
             }
 
+            $shippingMethod = $order->getShippingMethod();
+            
             $port = $request->request->get('port');
             $token = $request->request->get('token');
             $payment = $request->request->get('payment');
@@ -169,6 +175,12 @@ class OrderController extends AbstractController
                     $order->setShippingAddress($this->getUser()->getShippingAddress());
                     $order->setShippingCity($this->getUser()->getShippingCity());
                     $order->setShippingPostalCode($this->getUser()->getShippingPostalCode());
+                    $manager->persist($order);
+                    $manager->flush();
+    
+                    return $this->redirectToRoute("update_account_shipping_address", [
+                        "id" => $order->getId()
+                    ]);
                 } else {
                     $order->setShippingMethod(3);
                     $order->setShippingAddress(null);
@@ -195,6 +207,10 @@ class OrderController extends AbstractController
                 $manager->flush();
             }
 
+            if($shippingMethod == 2 && $this->getUser()->getCountry() !== 'France') {
+                $order->setShippingMethod(1);
+            }
+
             $totalPrice = 0;
             $totalVolume = 0;
             $total = 0;
@@ -205,13 +221,20 @@ class OrderController extends AbstractController
                 $total++;
             }
 
+            $freeShippingAmount = $this->confRepo->findOneBy([
+                "slug" => "forfait-maximum-pour-frais-de-port-offerts"
+            ]);
+
+            $freeShippingAmount = $freeShippingAmount instanceof Configuration ? intval($freeShippingAmount->getContent()) : 200;
+
             return $this->render('orders/shipping.html.twig', [
                 'current_menu' => 'orders',
                 'current_user' => $this->getUser(),
                 'order' => $order,
                 'total_price' => $totalPrice,
                 'total_volume' => $totalVolume,
-                'total' => $total
+                'total' => $total,
+                'free_shipping_amount' => $freeShippingAmount
             ]);
         }
 

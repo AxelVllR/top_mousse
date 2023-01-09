@@ -15,6 +15,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class User implements UserInterface, \Serializable
 {
+
+    static $COUNTRIES = [
+        'France' => 'France',
+        'Belgique' => 'Belgique',
+        'Luxembourg' => 'Luxembourg',
+        'Allemagne' => 'Allemagne',
+        'Pays-Bas' => 'Pays-Bas',
+        'Espagne' => 'Espagne'
+    ];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
