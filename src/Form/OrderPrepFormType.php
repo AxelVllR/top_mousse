@@ -28,7 +28,7 @@ class OrderPrepFormType extends AbstractType
                 },
                 'multiple' => true,
                 'expanded' => true,
-                'label' => false,
+                'label' => false
             ],
 
             )

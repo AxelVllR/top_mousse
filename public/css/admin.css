@@ -7,6 +7,14 @@ body {
     display: flex;
 }
 
+.orders_list {
+ display: flex;
+}
+
+.orders_list > input {
+    margin-right: 5px;
+}
+
 .order_choice > input {
     margin-right: 12px;
 }

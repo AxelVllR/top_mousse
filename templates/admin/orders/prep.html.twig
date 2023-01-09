@@ -26,7 +26,28 @@
                 <span> Tableau de gestion des découpes triées </span>
             </h2>
             <section id="list" class="mb-5">
-                {{ form(form) }}
+            {{ form_start(form) }}
+             {{ form_label(form.orders) }}
+                {% for child in form.orders.children %}
+                    <div class="group-15">
+                        <div class="custom-control custom-checkbox custom-checkbox-primary orders_list">
+                            {{ form_widget(child, {'attr': {'class': 'custom-control-input'}}) }}   
+                            <label class="custom-control-label" for="{{ child.vars.id }}" >{{ child.vars.label }}</label>   
+                        </div>  
+                    </div>  
+                {% endfor %}
+            {{ form_label(form.resellers) }}
+                {% for child in form.resellers.children %}
+                    <div class="group-15">
+                        <div class="custom-control custom-checkbox custom-checkbox-primary orders_list">
+                            {{ form_widget(child, {'attr': {'class': 'custom-control-input'}}) }}   
+                            <label class="custom-control-label" for="{{ child.vars.id }}" >{{ child.vars.label }}</label>   
+                        </div>  
+                    </div>  
+                {% endfor %}
+                {{ form_row(form.submit) }}        
+                {{ form_end(form) }}
+    
             </section>
             <hr>
             <table>
