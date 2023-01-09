@@ -24,7 +24,12 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('u')
             ->where('u.firstName LIKE :search')
             ->orWhere('u.lastName LIKE :search')
-            ->setParameter('search', $search)
+            ->orWhere('u.email LIKE :search')
+            ->orWhere('u.phone LIKE :search')
+            ->orWhere('u.address LIKE :search')
+            ->orWhere('u.city LIKE :search')
+            ->orWhere('u.entreprise LIKE :search')
+            ->setParameter('search', '%'.$search.'%')
             ->getQuery()
             ->getResult();
     }

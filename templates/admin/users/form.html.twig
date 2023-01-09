@@ -48,6 +48,18 @@
                 {{ form_label(form.phone) }}
                 {{ form_widget(form.phone) }}
             </p>
+             <p>
+                {{ form_label(form.entreprise) }}
+                {{ form_widget(form.entreprise) }}
+            </p>
+             <p>
+                {{ form_label(form.siret) }}
+                {{ form_widget(form.siret) }}
+            </p>
+             <p>
+                {{ form_label(form.numero_tva,'Tva') }}
+                {{ form_widget(form.numero_tva) }}
+            </p>
             <button type="submit" class="button">{{ action }}</button>
         {{ form_end(form) }}
     </div>

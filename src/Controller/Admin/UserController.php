@@ -64,13 +64,16 @@ class UserController extends AbstractController
     {
         $form = $this->createForm(SearchUserType::class);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $users = $this->userRepository->search($form->get('search')->getData());
-        } else {
+        $search = $form->get('search')->getData();
+        $users=null;
+        if($search){
+            if ($form->isSubmitted() && $form->isValid()) {
+                $users = $this->userRepository->search($search);
+            } 
+        }
+        else {
             $users = $this->userRepository->findAll();
         }
-
         return $this->render('admin/users/list.html.twig', [
             'current_menu' => 'users',
             'current_user' => $this->getUser(),

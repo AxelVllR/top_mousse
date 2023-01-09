@@ -32,11 +32,15 @@
                     <th>Code postal</th>
                     <th>Pays</th>
                     <th>Tél.</th>
+                     <th>Entreprise</th>
+                     <th>N° SIRET</th>
+                     <th>TVA</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for user in users %}
+
                     <tr>
                         <td style="text-align: center;">
                             <a href="{{ path('admin_single_user', { id: user.id }) }}">
@@ -52,6 +56,9 @@
                         <td>{{ user.postalCode }}</td>
                         <td>{{ user.country }}</td>
                         <td>{{ user.phone }}</td>
+                        <td>{{ user.entreprise }}</td>
+                        <td>{{ user.siret }}</td>
+                        <td>{{ user.numeroTva }}</td>
                         <td style="text-align: center;">
                             <a href="{{ path('admin_update_user', { id: user.id }) }}" class="button" style="margin-top: 0;margin-bottom: 3px;">Modifier</a>
                             <form method="post" action="{{ path('admin_delete_user', { id: user.id }) }}">
