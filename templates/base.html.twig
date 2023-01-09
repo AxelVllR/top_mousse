@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <!-- CSS -->
         <link rel="stylesheet" type="text/css" href="{{ asset('css/styles.css') }}"/>
+        {% block stylesheets %}
+        {% endblock %}
         <!-- SEO -->
         <meta name="google-site-verification" content="uRzFkPUyS7whq4kpuJlIvIiI_Jr_GaNjWws1HOAhfAM"/>
         <meta name="description" lang="fr" content="Spécialiste de la mousse d’ameublement polyéther, haute résilience et Bultex, Topmousse découpe pour vous et sur mesure (coupe droite, cylindrique ou en  profil) – Devis, commande et paiement en ligne. Port gratuit sous certaines conditions. Mousse à prix d’usine."/>
@@ -161,5 +163,7 @@
             </script>
         {% endif %}
         <script src="{{ asset('js/scripts.js') }}"></script>
+        {% block javascript %}
+        {% endblock %}
     </body>
 </html>

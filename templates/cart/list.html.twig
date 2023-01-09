@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Top Mousse - Panier{% endblock %}
-
+{% block stylesheets %}
+	<link rel="stylesheet" type="text/css" href="{{ asset('css/cart.css') }}"/>
+{% endblock %}
 {% block body %}
     <div class="mainContent">
         <div class="container">
@@ -59,13 +61,13 @@
                                     <div class="cartProductResume">
                                         <ul class="cartProductSpecs">
                                             <li class="cartProductSpec">
-                                                Volume : <strong>{{ item.volume | number_format(2) }} m<sup>3</sup></strong>
+                                                Volume : <strong>{{ total_volume | number_format(2) }} m<sup>3</sup></strong>
                                             </li>
                                             <li>
                                                 Quantité:
                                                 <form method="post" action="{{ path('update_cart_item', { id: item.id }) }}">
-                                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="100" style="width: 80px;margin-left: 15px;"/>
-                                                    <button type="submit" style="display: none;"></button>
+                                                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="100" style="width: 80px;margin-left: 15px;" data-open="{{item.id}}"/>
+                                                    <button id="amount{{item.id}}" type="submit" class="btn-validation">valider</button>
                                                     <input type="hidden" name="token" value="{{ csrf_token('update-cart-item') }}"/>
                                                 </form>
                                             </li>
@@ -127,4 +129,7 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block javascript %}
+	<script src="{{ asset('js/cart.js') }}"></script>
 {% endblock %}
