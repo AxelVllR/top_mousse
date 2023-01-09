@@ -154,6 +154,15 @@ class OrderController extends AbstractController
                 $manager->persist($order);
                 $manager->flush();
 
+                $email = (new TemplatedEmail())
+                    ->from(new Address('no-reply@topmousse.net', 'Top Mousse'))
+                    ->to($order->getUser()->getEmail())
+                    ->subject('Commande Payée')
+                    ->htmlTemplate('emails/orders/paid.html.twig')
+                    ->context([
+                        'order' => $order,
+                    ]);
+                $this->mailer->send($email);
                 $this->addFlash('response', 'La commande a été marquée comme réglée.');
             }
         }
@@ -173,7 +182,7 @@ class OrderController extends AbstractController
         $order = $this->orderRepository->findOneBy(['id' => $orderId]);
 
         if ($order && $this->isCsrfTokenValid('unpaid-order', $token)) {
-            if ($order->getStatus() === 1) {
+            if ($order->getStatus() === 1 ||$order->getStatus() === 2) {
                 $email = (new TemplatedEmail())
                     ->from(new Address('no-reply@topmousse.net', 'Top Mousse'))
                     ->to($order->getUser()->getEmail())
@@ -325,7 +334,7 @@ class OrderController extends AbstractController
                 $email = (new TemplatedEmail())
                     ->from(new Address('no-reply@topmousse.net', 'Top Mousse'))
                     ->to($order->getUser()->getEmail())
-                    ->subject('Commande disponible')
+                    ->subject('Commande expediée')
                     ->htmlTemplate('emails/orders/expedite.html.twig')
                     ->context([
                         'order' => $order,

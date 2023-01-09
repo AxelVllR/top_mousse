@@ -1,0 +1,8 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block body %}
+    <h1 style="margin: 0;">Commande Payée</h1>
+    <p>Bonjour,</p>
+    <p>Nous vous informons que le reglement de votre commande N°{{ order.id }} à bien été reçu.</p>
+    <p><b>Votre équipe Top Mousse</b></p>
+{% endblock %}
