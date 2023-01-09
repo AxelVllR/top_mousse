@@ -51,6 +51,15 @@ class UserType extends AbstractType
             ->add('phone', TextType::class, [
                 'empty_data' => null,
                 'required' => true
+            ])
+            ->add('entreprise', TextType::class, [
+                'empty_data' => null,
+            ])
+            ->add('siret', TextType::class, [
+                'empty_data' => null,
+            ])
+            ->add('numero_tva', TextType::class, [
+                'empty_data' => null,
             ]);
     }
 

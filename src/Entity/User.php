@@ -117,6 +117,21 @@ class User implements UserInterface, \Serializable
      */
     private $resellerOrders;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $entreprise;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $siret;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $numero_tva;
+
     public function __construct()
     {
         $this->role = 1;
@@ -511,6 +526,42 @@ class User implements UserInterface, \Serializable
                 $resellerOrder->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEntreprise(): ?string
+    {
+        return $this->entreprise;
+    }
+
+    public function setEntreprise(?string $entreprise): self
+    {
+        $this->entreprise = $entreprise;
+
+        return $this;
+    }
+
+    public function getSiret(): ?string
+    {
+        return $this->siret;
+    }
+
+    public function setSiret(?string $siret): self
+    {
+        $this->siret = $siret;
+
+        return $this;
+    }
+
+    public function getNumeroTva(): ?string
+    {
+        return $this->numero_tva;
+    }
+
+    public function setNumeroTva(string $numero_tva): self
+    {
+        $this->numero_tva = $numero_tva;
 
         return $this;
     }
